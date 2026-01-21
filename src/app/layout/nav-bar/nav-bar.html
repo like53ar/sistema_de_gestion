@@ -1,0 +1,12 @@
+<nav class="navbar">
+    <div class="logo">
+        <h1>Sabia</h1>
+    </div>
+    <ul class="nav-links">
+        <li *ngFor="let item of navItems">
+            <a [routerLink]="item.path" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                {{ item.label }}
+            </a>
+        </li>
+    </ul>
+</nav>

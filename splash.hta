@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<hta:application id="oHTA" 
+    applicationname="SabiaLoader" 
+    border="none" 
+    caption="no" 
+    showintaskbar="no" 
+    sysmenu="no" 
+    scroll="no"
+    contextmenu="no"/>
+<style>
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+        font-family: 'Segoe UI', sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        margin: 0;
+        padding: 20px;
+        border: 1px solid #333;
+        overflow: hidden;
+    }
+    h1 {
+        font-weight: 300;
+        letter-spacing: 2px;
+        margin: 0 0 10px 0;
+        font-size: 24px;
+        color: #e0e0e0;
+    }
+    p {
+        color: #8a6a4b;
+        font-size: 14px;
+    }
+    .loader {
+        margin-top: 15px;
+        width: 30px;
+        height: 30px;
+        border: 3px solid #333;
+        border-top: 3px solid #8a6a4b;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+<script>
+    // Ajustar tamaño y posición al centro
+    window.resizeTo(400, 200);
+    window.moveTo((screen.width - 400) / 2, (screen.height - 200) / 2);
+    
+    // Cerrar automáticamente después de 6 segundos
+    setTimeout(function(){
+        window.close();
+    }, 6000);
+</script>
+</head>
+<body>
+    <h1>SABIA</h1>
+    <p>Iniciando Sistema...</p>
+    <div class="loader"></div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<div class="container fade-in">
+    <div class="card zen-form-card">
+        <h2>Gestión de Clientes</h2>
+
+        <form class="zen-form">
+            <div class="form-group">
+                <label for="cuit">CUIT/CUIL</label>
+                <div class="input-wrapper">
+                    <input type="text" id="cuit" placeholder="XX-XXXXXXX-X" class="zen-input" [(ngModel)]="cuit"
+                        name="cuit" (blur)="onCuitBlur()">
+                    <span class="loader-mini" *ngIf="loading"></span>
+                </div>
+                <small *ngIf="notFound" class="text-warning">No encontrado en padrón local. Ingrese manual.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="denominacion">Denominación</label>
+                <input type="text" id="denominacion" placeholder="Nombre o Razón Social" class="zen-input"
+                    [(ngModel)]="denominacion" name="denominacion">
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="zen-btn">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>

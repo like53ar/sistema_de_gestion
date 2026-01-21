@@ -1,0 +1,37 @@
+/* Submenu Styles */
+.submenu-section {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--zen-border);
+}
+
+.submenu-section h3 {
+    font-size: 1.2rem;
+    color: var(--zen-text-secondary);
+    margin-bottom: 12px;
+}
+
+.zen-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.zen-list li {
+    margin-bottom: 8px;
+}
+
+.zen-list a {
+    display: block;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background-color: var(--zen-bg-element);
+    color: var(--zen-text-primary);
+    transition: all 0.2s ease;
+
+    &:hover {
+        background-color: var(--zen-accent-secondary);
+        color: white;
+        transform: translateX(4px);
+    }
+}
