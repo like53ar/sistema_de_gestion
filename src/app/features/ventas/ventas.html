@@ -3,6 +3,17 @@
         <h2>Módulo de Ventas</h2>
         <p>Gestión de facturación, clientes y pedidos.</p>
 
+        <div *ngIf="loading$ | async" class="loading-state">
+            <p>Cargando datos del estado centralizado...</p>
+        </div>
+
+        <div *ngIf="(clientes$ | async) as clientes" class="store-preview">
+            <h3>Vista previa de Clientes (NgRx Store)</h3>
+            <ul class="zen-list">
+                <li *ngFor="let cliente of clientes">{{ cliente.name }}</li>
+            </ul>
+        </div>
+
         <div class="submenu-section">
             <h3>Archivos Generales</h3>
             <ul class="zen-list">
@@ -13,4 +24,5 @@
             </ul>
         </div>
     </div>
+    <router-outlet></router-outlet>
 </div>

@@ -1,10 +1,5 @@
 import { Routes } from '@angular/router';
 import { MainLayout } from './layout/main-layout/main-layout';
-import { Ventas } from './modules/ventas/ventas';
-import { Tesoreria } from './modules/tesoreria/tesoreria';
-import { Proveedores } from './modules/proveedores/proveedores';
-import { Contabilidad } from './modules/contabilidad/contabilidad';
-import { Sueldos } from './modules/sueldos/sueldos';
 
 export const routes: Routes = [
     {
@@ -13,22 +8,32 @@ export const routes: Routes = [
         children: [
             { path: '', redirectTo: 'ventas', pathMatch: 'full' },
 
-            // Ventas Module
+            // Feature Modules (Lazy Loaded)
             {
                 path: 'ventas',
-                children: [
-                    { path: '', title: 'Ventas - Sabia', component: Ventas },
-                    { path: 'clientes', title: 'Clientes - Ventas', loadComponent: () => import('./modules/ventas/components/clientes/clientes').then(m => m.Clientes) },
-                    { path: 'productos', title: 'Productos - Ventas', loadComponent: () => import('./modules/ventas/components/productos/productos').then(m => m.Productos) },
-                    { path: 'vendedores', title: 'Vendedores - Ventas', loadComponent: () => import('./modules/ventas/components/vendedores/vendedores').then(m => m.Vendedores) },
-                    { path: 'zonas', title: 'Zonas - Ventas', loadComponent: () => import('./modules/ventas/components/zonas/zonas').then(m => m.Zonas) },
-                ]
+                loadChildren: () => import('./features/ventas/ventas.routes').then(m => m.VENTAS_ROUTES)
             },
-
-            { path: 'tesoreria', title: 'Tesorería - Sabia', component: Tesoreria },
-            { path: 'proveedores', title: 'Proveedores - Sabia', component: Proveedores },
-            { path: 'contabilidad', title: 'Contabilidad - Sabia', component: Contabilidad },
-            { path: 'sueldos', title: 'Sueldos - Sabia', component: Sueldos },
+            {
+                path: 'compras',
+                loadChildren: () => import('./features/proveedores/compras.routes').then(m => m.COMPRAS_ROUTES)
+            },
+            {
+                path: 'contabilidad',
+                loadChildren: () => import('./features/contabilidad/contabilidad.routes').then(m => m.CONTABILIDAD_ROUTES)
+            },
+            {
+                path: 'tesoreria',
+                loadChildren: () => import('./features/tesoreria/tesoreria.routes').then(m => m.TESORERIA_ROUTES)
+            },
+            {
+                path: 'inventario',
+                loadChildren: () => import('./features/inventario/inventario.routes').then(m => m.INVENTARIO_ROUTES)
+            },
+            {
+                path: 'sueldos',
+                title: 'Sueldos - Sabia',
+                loadComponent: () => import('./features/sueldos/sueldos').then(m => m.Sueldos)
+            },
         ]
     },
     { path: '**', redirectTo: '' }

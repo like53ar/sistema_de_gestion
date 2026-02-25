@@ -12,9 +12,10 @@ import { CommonModule } from '@angular/common';
 export class NavBar {
   navItems = [
     { label: 'Ventas', path: '/ventas' },
+    { label: 'Compras', path: '/compras' },
     { label: 'Tesorería', path: '/tesoreria' },
-    { label: 'Proveedores', path: '/proveedores' },
     { label: 'Contabilidad', path: '/contabilidad' },
+    { label: 'Inventario', path: '/inventario' },
     { label: 'Sueldos', path: '/sueldos' },
   ];
 }

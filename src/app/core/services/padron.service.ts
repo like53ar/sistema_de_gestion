@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { delay, Observable, of } from 'rxjs';
 
-export interface PadronData {
-    cuit: string;
-    denominacion: string;
-}
+import { PadronData } from '../../models/padron.model';
 
 @Injectable({
     providedIn: 'root'
