@@ -1,27 +1,205 @@
 <div class="container fade-in">
     <div class="card zen-form-card">
-        <h2>Gestión de Clientes</h2>
+        <h2>Nuevo Registro de Cliente</h2>
 
-        <form class="zen-form">
-            <div class="form-group">
-                <label for="cuit">CUIT/CUIL</label>
-                <div class="input-wrapper">
-                    <input type="text" id="cuit" placeholder="XX-XXXXXXX-X" class="zen-input" [(ngModel)]="cuit"
-                        name="cuit" (blur)="onCuitBlur()">
-                    <span class="loader-mini" *ngIf="loading"></span>
+        <div class="tabs-container">
+            <div class="tabs-header">
+                <button class="tab-btn" [class.active]="currentTab === 1" (click)="setTab(1)">Datos Generales</button>
+                <button class="tab-btn" [class.active]="currentTab === 2" (click)="setTab(2)">Datos Impositivos</button>
+                <button class="tab-btn" [class.active]="currentTab === 3" (click)="setTab(3)">Datos Comerciales</button>
+                <button class="tab-btn" [class.active]="currentTab === 4" (click)="setTab(4)">Entregas / Notas</button>
+            </div>
+
+            <form class="zen-form" (ngSubmit)="onSubmit()">
+                <!-- SOLAPA 1: DATOS GENERALES -->
+                <div class="tab-content" *ngIf="currentTab === 1">
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label for="codigo">Código</label>
+                            <input type="text" id="codigo" placeholder="ID Cliente" class="zen-input"
+                                [(ngModel)]="cliente.codigo" name="codigo">
+                        </div>
+                        <div class="form-group flex-2">
+                            <label for="cuit_lookup">CUIT (Búsqueda)</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="cuit_lookup" placeholder="XX-XXXXXXX-X" class="zen-input"
+                                    [(ngModel)]="cliente.cuit" name="cuit_lookup" (blur)="onCuitBlur()">
+                                <span class="loader-mini" *ngIf="loading"></span>
+                            </div>
+                            <small *ngIf="notFound" class="text-warning">No encontrado en padrón local.</small>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="razonSocial">Razón Social</label>
+                        <input type="text" id="razonSocial" placeholder="Nombre legal completo" class="zen-input"
+                            [(ngModel)]="cliente.razonSocial" name="razonSocial">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombreFantasia">Nombre de Fantasía</label>
+                        <input type="text" id="nombreFantasia" placeholder="Nombre comercial" class="zen-input"
+                            [(ngModel)]="cliente.nombreFantasia" name="nombreFantasia">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group flex-3">
+                            <label for="domicilio">Calle</label>
+                            <input type="text" id="domicilio" placeholder="Domicilio" class="zen-input"
+                                [(ngModel)]="cliente.domicilio" name="domicilio">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="numero">Número</label>
+                            <input type="text" id="numero" placeholder="123" class="zen-input"
+                                [(ngModel)]="cliente.numero" name="numero">
+                        </div>
+                        <div class="form-group flex-1">
+                            <label for="piso">Piso/Depto</label>
+                            <input type="text" id="piso" placeholder="1A" class="zen-input" [(ngModel)]="cliente.piso"
+                                name="piso">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="localidad">Localidad</label>
+                            <input type="text" id="localidad" placeholder="Ciudad" class="zen-input"
+                                [(ngModel)]="cliente.localidad" name="localidad">
+                        </div>
+                        <div class="form-group">
+                            <label for="provincia">Provincia</label>
+                            <input type="text" id="provincia" placeholder="Provincia" class="zen-input"
+                                [(ngModel)]="cliente.provincia" name="provincia">
+                        </div>
+                        <div class="form-group">
+                            <label for="cp">Cód. Postal</label>
+                            <input type="text" id="cp" placeholder="B1600" class="zen-input"
+                                [(ngModel)]="cliente.codigoPostal" name="cp">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="telefonos">Teléfonos</label>
+                            <input type="tel" id="telefonos" placeholder="4555-5555" class="zen-input"
+                                [(ngModel)]="cliente.telefonos" name="telefonos">
+                        </div>
+                        <div class="form-group">
+                            <label for="emails">Correo Electrónico</label>
+                            <input type="email" id="emails" placeholder="mail@ejemplo.com" class="zen-input"
+                                [(ngModel)]="cliente.emails" name="emails">
+                        </div>
+                    </div>
                 </div>
-                <small *ngIf="notFound" class="text-warning">No encontrado en padrón local. Ingrese manual.</small>
-            </div>
 
-            <div class="form-group">
-                <label for="denominacion">Denominación</label>
-                <input type="text" id="denominacion" placeholder="Nombre o Razón Social" class="zen-input"
-                    [(ngModel)]="denominacion" name="denominacion">
-            </div>
+                <!-- SOLAPA 2: DATOS IMPOSITIVOS -->
+                <div class="tab-content" *ngIf="currentTab === 2">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tipoDoc">Tipo de Documento</label>
+                            <select id="tipoDoc" class="zen-input" [(ngModel)]="cliente.tipoDocumento" name="tipoDoc">
+                                <option value="CUIT">CUIT</option>
+                                <option value="CUIL">CUIL</option>
+                                <option value="DNI">DNI</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cuit_val">Número de Documento</label>
+                            <input type="text" id="cuit_val" placeholder="XX-XXXXXXXX-X" class="zen-input"
+                                [(ngModel)]="cliente.cuit" name="cuit_val">
+                        </div>
+                    </div>
 
-            <div class="form-actions">
-                <button type="submit" class="zen-btn">Guardar</button>
-            </div>
-        </form>
+                    <div class="form-group">
+                        <label for="catIva">Categoría de IVA</label>
+                        <select id="catIva" class="zen-input" [(ngModel)]="cliente.categoriaIva" name="catIva">
+                            <option value="RI">Responsable Inscripto</option>
+                            <option value="MO">Monotributista</option>
+                            <option value="CF">Consumidor Final</option>
+                            <option value="EX">Exento</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="iibb">Ingresos Brutos (Nro. Inscripción)</label>
+                            <input type="text" id="iibb" placeholder="901-XXXXXXXX-X" class="zen-input"
+                                [(ngModel)]="cliente.ingresosBrutos" name="iibb">
+                        </div>
+                        <div class="form-group">
+                            <label for="regimenIb">Tipo de Régimen</label>
+                            <select id="regimenIb" class="zen-input" [(ngModel)]="cliente.regimenIb" name="regimenIb">
+                                <option value="LOCAL">Local</option>
+                                <option value="CONVENIO">Convenio Multilateral</option>
+                                <option value="NO">No Inscripto</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SOLAPA 3: DATOS COMERCIALES -->
+                <div class="tab-content" *ngIf="currentTab === 3">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="condVenta">Condición de Venta</label>
+                            <select id="condVenta" class="zen-input" [(ngModel)]="cliente.condicionVenta"
+                                name="condVenta">
+                                <option value="CONTADO">Contado</option>
+                                <option value="CC30">Cuenta Corriente 30 días</option>
+                                <option value="CC60">Cuenta Corriente 60 días</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="listaPrecios">Lista de Precios</label>
+                            <select id="listaPrecios" class="zen-input" [(ngModel)]="cliente.listaPrecios"
+                                name="listaPrecios">
+                                <option value="LISTA1">Lista General</option>
+                                <option value="MAYORISTA">Mayorista</option>
+                                <option value="GREMIO">Gremio</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="limite">Límite de Crédito</label>
+                        <input type="number" id="limite" placeholder="0.00" class="zen-input"
+                            [(ngModel)]="cliente.limiteCredito" name="limite">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vendedor">Vendedor</label>
+                            <input type="text" id="vendedor" placeholder="Asignar vendedor" class="zen-input"
+                                [(ngModel)]="cliente.vendedor" name="vendedor">
+                        </div>
+                        <div class="form-group">
+                            <label for="zona">Zona / Región</label>
+                            <input type="text" id="zona" placeholder="Ej. Norte, CABA" class="zen-input"
+                                [(ngModel)]="cliente.zona" name="zona">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SOLAPA 4: ENTREGAS Y OBSERVACIONES -->
+                <div class="tab-content" *ngIf="currentTab === 4">
+                    <div class="form-group">
+                        <label for="entregas">Direcciones de Entrega Alternativas</label>
+                        <textarea id="entregas" rows="4" placeholder="Cargar otros domicilios de envío..."
+                            class="zen-input" [(ngModel)]="cliente.direccionesEntrega" name="entregas"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notas">Observaciones Internas</label>
+                        <textarea id="notas" rows="6" placeholder="Notas sobre el manejo de la cuenta..."
+                            class="zen-input" [(ngModel)]="cliente.notas" name="notas"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <span class="step-indicator">Paso {{currentTab}} de 4</span>
+                    <button type="submit" class="zen-btn">Guardar Cliente</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
