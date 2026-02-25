@@ -1,59 +1,68 @@
-# SistemaDeGestion
+# SABIA - Sistema de Gestión ERP
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.1.
+![SABIA Logo](https://raw.githubusercontent.com/placeholder/logo.png) <!-- Reemplazar con logo real si existe -->
 
-## Development server
+**SABIA** es una solución integral de planificación de recursos empresariales (ERP) diseñada para optimizar los procesos de negocio a través de una arquitectura moderna, modular y escalable.
 
-To start a local development server, run:
+Desarrollado y creado por **Fabian A. Correa**.
 
-```bash
-ng serve
-```
+---
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 🚀 Características Principales
 
-## Code scaffolding
+El sistema está organizado en módulos funcionales independientes que cubren las áreas críticas de la gestión empresarial:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- **📈 Ventas**: Gestión completa de facturación, clientes, pedidos y seguimiento comercial.
+- **🛒 Compras**: Control de proveedores, órdenes de compra y gestión de gastos.
+- **💰 Tesorería**: Administración de flujo de caja, cuentas bancarias y movimientos financieros.
+- **📑 Contabilidad**: Registro de asientos contables, balances y estados financieros automáticos.
+- **📦 Inventario**: Gestión de stock, depósitos, movimientos de mercadería y valorización.
+- **👥 Sueldos**: Liquidación de haberes y administración de recursos humanos.
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 🛠️ Arquitectura Técnica
 
-```bash
-ng generate --help
-```
+El sistema utiliza las últimas tecnologías y patrones de diseño para asegurar un rendimiento óptimo y facilidad de mantenimiento:
 
-## Building
+### Frontend
+- **Framework**: [Angular](https://angular.io/) (Arquitectura Standalone).
+- **Gestión de Estado**: [NgRx](https://ngrx.io/) (Flujo de datos reactivo y predecible).
+- **Asincronía**: [RxJS](https://rxjs.dev/) (Programación reactiva).
+- **Estilos**: Vanilla CSS con variables modernas y diseño premium (Glassmorphism / Dark Mode).
 
-To build the project run:
+### Organización del Proyecto
+Siguiendo el patrón de modularización por funcionalidad:
+- `/src/app/core`: Servicios globales, guards e interceptores (Singletons).
+- `/src/app/shared`: Componentes UI, directivas y pipes reutilizables.
+- `/src/app/features`: Módulos de negocio cargados mediante **Lazy Loading**.
+- `/src/app/layout`: Estructura global (NavBar, Sidebar, MainLayout).
+- `/src/app/models`: Definiciones de tipos e interfaces TypeScript centralizadas.
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## ⚡ Instalación y Arranque
 
-## Running unit tests
+### Pre-requisitos
+- [Node.js](https://nodejs.org/) (versión LTS recomendada).
+- [Angular CLI](https://angular.io/cli) instalado globalmente (`npm install -g @angular/cli`).
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### Instrucciones de Inicio
+Para un inicio profesional y simplificado, el sistema cuenta con un sistema de arranque silencioso:
 
-```bash
-ng test
-```
+1. Clona el repositorio.
+2. Ejecuta `npm install` para instalar las dependencias.
+3. Haz doble clic en **`iniciar_sistema.bat`**.
 
-## Running end-to-end tests
+> [!NOTE]
+> El arranque silencioso iniciará el servidor en segundo plano, mostrará un **Splash Screen** con branding y abrirá automáticamente tu navegador en `http://localhost:4200` una vez que el sistema esté listo.
 
-For end-to-end (e2e) testing, run:
+---
 
-```bash
-ng e2e
-```
+## ✒️ Autor
+* **Fabian A. Correa** - *Creador y Desarrollador Principal*
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 📄 Licencia
+Este proyecto es propiedad privada. Todos los derechos reservados.
