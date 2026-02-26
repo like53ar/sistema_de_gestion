@@ -3,9 +3,7 @@
         <h2>Módulo de Ventas</h2>
         <p>Gestión de facturación, clientes y pedidos.</p>
 
-        <div *ngIf="loading$ | async" class="loading-state">
-            <p>Cargando datos del estado centralizado...</p>
-        </div>
+        <app-skeleton *ngIf="loading$ | async" type="list" [rows]="5"></app-skeleton>
 
         <div *ngIf="(clientes$ | async) as clientes" class="store-preview">
             <h3>Vista previa de Clientes (NgRx Store)</h3>
@@ -17,11 +15,12 @@
         <div class="submenu-section">
             <h3>Archivos Generales</h3>
             <ul class="zen-list">
-                <li><a routerLink="clientes">Clientes</a></li>
-                <li><a routerLink="productos">Productos</a></li>
-                <li><a routerLink="vendedores">Vendedores</a></li>
-                <li><a routerLink="zonas">Zonas</a></li>
-                <li><a routerLink="lista-precios">Lista de Precios</a></li>
+                <li><a routerLink="clientes" appTooltip="Gestión del padrón de clientes">Clientes</a></li>
+                <li><a routerLink="productos" appTooltip="Gestión del catálogo de productos">Productos</a></li>
+                <li><a routerLink="vendedores" appTooltip="Administración de vendedores">Vendedores</a></li>
+                <li><a routerLink="zonas" appTooltip="Zonas de distribución">Zonas</a></li>
+                <li><a routerLink="lista-precios" appTooltip="Mantenimiento de listas de precios">Lista de Precios</a>
+                </li>
             </ul>
         </div>
     </div>

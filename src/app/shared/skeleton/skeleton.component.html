@@ -15,4 +15,9 @@
     <ng-container *ngIf="type === 'list'">
         <div class="skeleton__list-item shimmer" *ngFor="let r of rowArray"></div>
     </ng-container>
+
+    <!-- Text skeleton -->
+    <ng-container *ngIf="type === 'text'">
+        <div class="skeleton__text-block shimmer" [style.height]="height"></div>
+    </ng-container>
 </div>

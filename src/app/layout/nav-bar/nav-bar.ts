@@ -1,21 +1,22 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { TooltipDirective } from '../../shared/tooltip/tooltip.directive';
 
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink, RouterLinkActive, TooltipDirective],
   templateUrl: './nav-bar.html',
   styleUrl: './nav-bar.scss',
 })
 export class NavBar {
   navItems = [
-    { label: 'Ventas', path: '/ventas' },
-    { label: 'Compras', path: '/compras' },
-    { label: 'Tesorería', path: '/tesoreria' },
-    { label: 'Contabilidad', path: '/contabilidad' },
-    { label: 'Inventario', path: '/inventario' },
-    { label: 'Sueldos', path: '/sueldos' },
+    { label: 'Ventas', path: '/ventas', tooltip: 'Facturación, clientes y pedidos' },
+    { label: 'Compras', path: '/compras', tooltip: 'Órdenes de compra y proveedores' },
+    { label: 'Tesorería', path: '/tesoreria', tooltip: 'Caja, bancos y movimientos' },
+    { label: 'Contabilidad', path: '/contabilidad', tooltip: 'Asientos, mayor y balances' },
+    { label: 'Inventario', path: '/inventario', tooltip: 'Stock, depósitos y movimientos' },
+    { label: 'Sueldos', path: '/sueldos', tooltip: 'Liquidación de haberes y recibos' },
   ];
 }

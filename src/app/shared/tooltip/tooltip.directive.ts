@@ -23,8 +23,23 @@ export class TooltipDirective {
         const rect = this.el.nativeElement.getBoundingClientRect();
         const tipRect = this.tooltipEl!.getBoundingClientRect();
 
-        this.renderer.setStyle(this.tooltipEl, 'top', `${rect.top - tipRect.height - 8 + window.scrollY}px`);
-        this.renderer.setStyle(this.tooltipEl, 'left', `${rect.left + (rect.width / 2) - (tipRect.width / 2) + window.scrollX}px`);
+        let topPosition = rect.top - tipRect.height - 8;
+        let leftPosition = rect.left + (rect.width / 2) - (tipRect.width / 2);
+
+        // If there is not enough space above, position it below the element
+        if (topPosition < 0) {
+            topPosition = rect.bottom + 8;
+        }
+
+        // Keep it within screen bounds horizontally
+        if (leftPosition < 8) {
+            leftPosition = 8;
+        } else if (leftPosition + tipRect.width > window.innerWidth - 8) {
+            leftPosition = window.innerWidth - tipRect.width - 8;
+        }
+
+        this.renderer.setStyle(this.tooltipEl, 'top', `${topPosition + window.scrollY}px`);
+        this.renderer.setStyle(this.tooltipEl, 'left', `${leftPosition + window.scrollX}px`);
         this.renderer.setStyle(this.tooltipEl, 'opacity', '1');
     }
 

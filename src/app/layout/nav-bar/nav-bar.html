@@ -4,7 +4,8 @@
     </div>
     <ul class="nav-links">
         <li *ngFor="let item of navItems">
-            <a [routerLink]="item.path" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <a [routerLink]="item.path" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                [appTooltip]="item.tooltip">
                 {{ item.label }}
             </a>
         </li>

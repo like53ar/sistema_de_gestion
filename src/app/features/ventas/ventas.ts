@@ -4,10 +4,12 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { VentasActions } from './store/ventas.actions';
 import { selectAllClientes, selectVentasLoading } from './store/ventas.selectors';
+import { SkeletonComponent } from '../../shared/skeleton/skeleton.component';
+import { TooltipDirective } from '../../shared/tooltip/tooltip.directive';
 
 @Component({
   selector: 'app-ventas',
-  imports: [RouterLink, RouterOutlet, CommonModule],
+  imports: [RouterLink, RouterOutlet, CommonModule, SkeletonComponent, TooltipDirective],
   templateUrl: './ventas.html',
   styleUrl: './ventas.scss',
 })

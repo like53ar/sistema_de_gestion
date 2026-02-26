@@ -14,6 +14,12 @@ export class BreadcrumbService {
     breadcrumbs$ = this.breadcrumbsSubject.asObservable();
 
     constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+        // Initial build only if navigation already happened
+        if (this.router.navigated) {
+            const initialCrumbs = this.buildBreadcrumbs(this.activatedRoute.root);
+            this.breadcrumbsSubject.next(initialCrumbs);
+        }
+
         this.router.events
             .pipe(filter(e => e instanceof NavigationEnd))
             .subscribe(() => {
@@ -31,11 +37,16 @@ export class BreadcrumbService {
         if (!children.length) return crumbs;
 
         for (const child of children) {
-            const segments = child.snapshot.url.map(s => s.path);
+            const snapshot = child.snapshot;
+            if (!snapshot || !snapshot.url) {
+                return this.buildBreadcrumbs(child, url, crumbs);
+            }
+
+            const segments = snapshot.url.map(s => s.path);
             if (!segments.length) return this.buildBreadcrumbs(child, url, crumbs);
 
             const fullUrl = `${url}/${segments.join('/')}`;
-            const label = child.snapshot.data['breadcrumb'];
+            const label = snapshot.data['breadcrumb'];
             if (label) crumbs.push({ label, url: fullUrl });
 
             return this.buildBreadcrumbs(child, fullUrl, crumbs);

@@ -23,7 +23,8 @@
                             <label for="cuit_lookup">CUIT (Búsqueda)</label>
                             <div class="input-wrapper">
                                 <input type="text" id="cuit_lookup" placeholder="XX-XXXXXXX-X" class="zen-input"
-                                    [(ngModel)]="cliente.cuit" name="cuit_lookup" (blur)="onCuitBlur()">
+                                    [(ngModel)]="cliente.cuit" name="cuit_lookup" (blur)="onCuitBlur()"
+                                    appTooltip="Ingrese el CUIT y presione Tab para buscar">
                                 <span class="loader-mini" *ngIf="loading"></span>
                             </div>
                             <small *ngIf="notFound" class="text-warning">No encontrado en padrón local.</small>
@@ -32,20 +33,23 @@
 
                     <div class="form-group">
                         <label for="razonSocial">Razón Social</label>
-                        <input type="text" id="razonSocial" placeholder="Nombre legal completo" class="zen-input"
-                            [(ngModel)]="cliente.razonSocial" name="razonSocial">
+                        <app-skeleton *ngIf="loading" type="text" height="42px"></app-skeleton>
+                        <input *ngIf="!loading" type="text" id="razonSocial" placeholder="Nombre legal completo"
+                            class="zen-input" [(ngModel)]="cliente.razonSocial" name="razonSocial">
                     </div>
 
                     <div class="form-group">
                         <label for="nombreFantasia">Nombre de Fantasía</label>
-                        <input type="text" id="nombreFantasia" placeholder="Nombre comercial" class="zen-input"
-                            [(ngModel)]="cliente.nombreFantasia" name="nombreFantasia">
+                        <app-skeleton *ngIf="loading" type="text" height="42px"></app-skeleton>
+                        <input *ngIf="!loading" type="text" id="nombreFantasia" placeholder="Nombre comercial"
+                            class="zen-input" [(ngModel)]="cliente.nombreFantasia" name="nombreFantasia">
                     </div>
 
                     <div class="form-row">
                         <div class="form-group flex-3">
                             <label for="domicilio">Calle</label>
-                            <input type="text" id="domicilio" placeholder="Domicilio" class="zen-input"
+                            <app-skeleton *ngIf="loading" type="text" height="42px"></app-skeleton>
+                            <input *ngIf="!loading" type="text" id="domicilio" placeholder="Domicilio" class="zen-input"
                                 [(ngModel)]="cliente.domicilio" name="domicilio">
                         </div>
                         <div class="form-group flex-1">
@@ -197,7 +201,15 @@
 
                 <div class="form-actions">
                     <span class="step-indicator">Paso {{currentTab}} de 4</span>
-                    <button type="submit" class="zen-btn">Guardar Cliente</button>
+                    <button type="button" class="zen-btn secondary" (click)="onReset()"
+                        appTooltip="Descarta todos los cambios y limpia el formulario">
+                        Limpiar
+                    </button>
+                    <button type="submit" class="zen-btn" [disabled]="saving"
+                        appTooltip="Guarda el cliente en el sistema">
+                        <span *ngIf="saving">Guardando...</span>
+                        <span *ngIf="!saving">Guardar Cliente</span>
+                    </button>
                 </div>
             </form>
         </div>
