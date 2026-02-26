@@ -103,8 +103,8 @@ export class Clientes {
 
   onReset() {
     this.confirmService.confirm(
-      '¿Desea descartar todos los cambios y limpiar el formulario?',
-      { title: 'Limpiar Formulario', confirmText: 'Sí, limpiar', cancelText: 'Cancelar', danger: true }
+      '¿Confirma que desea descartar todos los cambios y restablecer este formulario?',
+      { title: 'Restablecer Formulario', confirmText: 'Sí, restablecer', cancelText: 'Conservar cambios', danger: true }
     ).subscribe(confirmed => {
       if (confirmed) {
         this.cliente = { ...this.defaultCliente };
