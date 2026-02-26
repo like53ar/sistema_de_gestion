@@ -328,3 +328,38 @@ select.zen-input {
     border-bottom: none;
   }
 }
+
+/* Tooltip */
+.zen-tooltip {
+  position: absolute;
+  background-color: #2c2c2c;
+  color: var(--zen-text-primary);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  padding: 5px 10px;
+  border-radius: var(--zen-radius-sm);
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 9998;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  border: 1px solid var(--zen-border);
+  box-shadow: var(--zen-shadow-sm);
+}
+
+/* Utility */
+.fade-in {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

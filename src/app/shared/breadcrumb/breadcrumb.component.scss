@@ -1,0 +1,42 @@
+.breadcrumb {
+    padding: 10px var(--zen-spacing-lg);
+    background-color: var(--zen-bg-primary);
+    border-bottom: 1px solid var(--zen-border);
+
+    &__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.85rem;
+    }
+
+    &__link {
+        color: var(--zen-text-secondary);
+        text-decoration: none;
+        transition: color 0.2s;
+
+        &:hover {
+            color: var(--zen-accent-primary);
+        }
+    }
+
+    &__separator {
+        color: var(--zen-text-muted);
+        user-select: none;
+    }
+
+    &__current {
+        color: var(--zen-accent-primary);
+        font-weight: 500;
+    }
+}

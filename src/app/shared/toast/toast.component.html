@@ -1,0 +1,7 @@
+<div class="toast-container">
+    <div *ngFor="let toast of toasts" class="toast toast--{{ toast.type }}" (click)="dismiss(toast.id)">
+        <span class="toast__icon">{{ iconFor(toast.type) }}</span>
+        <span class="toast__message">{{ toast.message }}</span>
+        <button class="toast__close" (click)="dismiss(toast.id)">✕</button>
+    </div>
+</div>

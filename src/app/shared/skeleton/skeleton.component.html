@@ -1,0 +1,18 @@
+<div class="skeleton" [ngClass]="'skeleton--' + type">
+    <!-- Card skeleton -->
+    <ng-container *ngIf="type === 'card'">
+        <div class="skeleton__title shimmer"></div>
+        <div class="skeleton__text shimmer" *ngFor="let r of rowArray"></div>
+    </ng-container>
+
+    <!-- Table skeleton -->
+    <ng-container *ngIf="type === 'table'">
+        <div class="skeleton__table-header shimmer"></div>
+        <div class="skeleton__table-row shimmer" *ngFor="let r of rowArray"></div>
+    </ng-container>
+
+    <!-- List skeleton -->
+    <ng-container *ngIf="type === 'list'">
+        <div class="skeleton__list-item shimmer" *ngFor="let r of rowArray"></div>
+    </ng-container>
+</div>

@@ -1,0 +1,58 @@
+/* Shimmer animation */
+@keyframes shimmer {
+    0% {
+        background-position: -400px 0;
+    }
+
+    100% {
+        background-position: 400px 0;
+    }
+}
+
+.shimmer {
+    background: linear-gradient(90deg,
+            var(--zen-bg-secondary) 25%,
+            var(--zen-bg-element) 50%,
+            var(--zen-bg-secondary) 75%);
+    background-size: 800px 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: var(--zen-radius-sm);
+}
+
+.skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: var(--zen-spacing-lg);
+
+    &__title {
+        height: 28px;
+        width: 40%;
+    }
+
+    &__text {
+        height: 14px;
+        width: 90%;
+
+        &:nth-child(even) {
+            width: 75%;
+        }
+    }
+
+    &__table-header {
+        height: 40px;
+        width: 100%;
+        border-radius: var(--zen-radius-md);
+    }
+
+    &__table-row {
+        height: 48px;
+        width: 100%;
+    }
+
+    &__list-item {
+        height: 44px;
+        width: 100%;
+        border-radius: var(--zen-radius-sm);
+    }
+}

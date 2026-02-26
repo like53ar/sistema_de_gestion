@@ -1,0 +1,14 @@
+<div class="confirm-overlay" *ngIf="state.visible" (click)="cancel()">
+    <div class="confirm-dialog" (click)="$event.stopPropagation()">
+        <h3 class="confirm-dialog__title">{{ state.options.title || 'Confirmar acción' }}</h3>
+        <p class="confirm-dialog__message">{{ state.message }}</p>
+        <div class="confirm-dialog__actions">
+            <button class="zen-btn secondary" (click)="cancel()">
+                {{ state.options.cancelText || 'Cancelar' }}
+            </button>
+            <button class="zen-btn" [class.danger]="state.options.danger" (click)="confirm()">
+                {{ state.options.confirmText || 'Confirmar' }}
+            </button>
+        </div>
+    </div>
+</div>
