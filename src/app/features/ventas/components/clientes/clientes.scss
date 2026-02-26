@@ -59,77 +59,7 @@
     animation: fadeIn 0.3s ease-out;
 }
 
-.form-row {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
 
-    .form-group {
-        flex: 1;
-        min-width: 200px;
-    }
-
-    .flex-1 {
-        flex: 1;
-    }
-
-    .flex-2 {
-        flex: 2;
-    }
-
-    .flex-3 {
-        flex: 3;
-    }
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 12px;
-}
-
-label {
-    color: var(--zen-text-secondary);
-    font-size: 0.85rem;
-    font-weight: 600;
-}
-
-.zen-input {
-    background-color: var(--zen-bg-element);
-    border: 1px solid var(--zen-border);
-    border-radius: 6px;
-    padding: 10px 14px;
-    color: var(--zen-text-primary);
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
-    width: 100%;
-
-    &:focus {
-        outline: none;
-        border-color: var(--zen-accent-primary);
-        box-shadow: 0 0 0 2px rgba(138, 106, 75, 0.15);
-    }
-
-    &::placeholder {
-        color: var(--zen-text-muted);
-    }
-}
-
-textarea.zen-input {
-    resize: vertical;
-    min-height: 80px;
-}
-
-select.zen-input {
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238a6a4b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
-}
 
 .form-actions {
     margin-top: 32px;
@@ -145,26 +75,7 @@ select.zen-input {
     font-size: 0.85rem;
 }
 
-.zen-btn {
-    background-color: var(--zen-accent-primary);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 12px 24px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
 
-    &:hover {
-        background-color: var(--zen-accent-hover);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(138, 106, 75, 0.2);
-    }
-
-    &:active {
-        transform: translateY(0);
-    }
-}
 
 .input-wrapper {
     position: relative;
@@ -209,12 +120,5 @@ select.zen-input {
 
     100% {
         transform: rotate(360deg);
-    }
-}
-
-@media (max-width: 600px) {
-    .form-row {
-        flex-direction: column;
-        gap: 0;
     }
 }

@@ -18,6 +18,7 @@ export const VENTAS_ROUTES: Routes = [
             { path: 'productos', title: 'Productos - Ventas', loadComponent: () => import('./components/productos/productos').then(m => m.Productos) },
             { path: 'vendedores', title: 'Vendedores - Ventas', loadComponent: () => import('./components/vendedores/vendedores').then(m => m.Vendedores) },
             { path: 'zonas', title: 'Zonas - Ventas', loadComponent: () => import('./components/zonas/zonas').then(m => m.Zonas) },
+            { path: 'lista-precios', title: 'Lista de Precios - Ventas', loadComponent: () => import('./components/lista-precios/lista-precios').then(m => m.ListaPrecios) }
         ]
     }
 ];
