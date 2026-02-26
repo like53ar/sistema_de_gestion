@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TooltipDirective } from '../../shared/tooltip/tooltip.directive';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -19,4 +20,10 @@ export class NavBar {
     { label: 'Inventario', path: '/inventario', tooltip: 'Stock, depósitos y movimientos' },
     { label: 'Sueldos', path: '/sueldos', tooltip: 'Liquidación de haberes y recibos' },
   ];
+
+  constructor(public authService: AuthService) { }
+
+  logout() {
+    this.authService.logout();
+  }
 }

@@ -1,0 +1,35 @@
+<div class="login-container fade-in">
+    <div class="login-card card">
+        <div class="login-header">
+            <h1>Sabia</h1>
+            <p>Sistema de Gestión Integral</p>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="zen-form">
+            <div class="form-group">
+                <label for="username">Usuario</label>
+                <input type="text" id="username" formControlName="username" class="zen-input"
+                    [ngClass]="{ 'is-invalid': f['username'].errors && f['username'].touched }">
+                <small *ngIf="f['username'].errors && f['username'].touched" class="text-error">El usuario es
+                    requerido</small>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" formControlName="password" class="zen-input"
+                    [ngClass]="{ 'is-invalid': f['password'].errors && f['password'].touched }">
+                <small *ngIf="f['password'].errors && f['password'].touched" class="text-error">La contraseña es
+                    requerida</small>
+            </div>
+
+            <div *ngIf="error" class="login-error text-error">
+                {{ error }}
+            </div>
+
+            <button type="submit" [disabled]="loading || loginForm.invalid" class="zen-btn login-btn">
+                <span *ngIf="loading" class="loader-mini btn-loader"></span>
+                <span *ngIf="!loading">Ingresar al Sistema</span>
+            </button>
+        </form>
+    </div>
+</div>

@@ -10,4 +10,9 @@
             </a>
         </li>
     </ul>
+
+    <div class="user-actions" *ngIf="authService.currentUser$ | async as user">
+        <span class="user-name" [appTooltip]="user.roles.join(', ')">{{ user.name }}</span>
+        <button class="zen-btn secondary small" (click)="logout()" appTooltip="Cerrar sesión">Salir</button>
+    </div>
 </nav>

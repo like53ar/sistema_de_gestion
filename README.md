@@ -21,6 +21,26 @@ El sistema está organizado en módulos funcionales independientes que cubren la
 
 ---
 
+## ✨ UI/UX y Mejoras de Usabilidad
+
+- **Breadcrumbs Contextuales**: Navegación guiada adaptativa según la ruta que indica la posición actual en el ecosistema.
+- **Micro-interacciones completas**: Uso de **Tooltips** direccionales anti-desbordamiento, animaciones sutiles (*Fade In*) e indicadores de carga y progreso.
+- **Skeletons (*Shimmer Effect*)**: Barras y bloques de carga en múltiples formatos (`list`, `text`, `table`, `card`) para mejorar la percepción de velocidad en llamadas asíncronas.
+- **Notificaciones (Toast Alerts) & Confirmaciones**: Sistema centralizado de avisos (Success, Warning, Info, Error) y diálogos modales para prevenir borrado o pérdida accidental de información (Ej. limpiar formulario de clientes).
+
+---
+
+## 🔒 Seguridad y Autenticación
+
+El sistema cuenta con un modelo de seguridad robusto a nivel de frontend diseñado para consumir APIs modernas:
+- **Autenticación con JWT**: Manejo seguro del *Access Token* y *Refresh Token*.
+- **Renovación Silenciosa (Refresh)**: El **Interceptor HTTP** intercepta respuestas `401 Unauthorized`, solicita automáticamente un nuevo par de tokens detrás de escena y reintenta la solicitud fallida (sin interrumpir el flujo de usuario).
+- **Control de Acceso (Guards)**: 
+  - `authGuard`: Protege todo el ERP verificando la sesión activa y redirigiendo a la pantalla de `/login` nativa (con `returnUrl` para que al ingresar retorne a la sección deseada).
+  - `roleGuard`: Restricción granular y escalable protegida por rutas. Valida activamente que el usuario contenga los permisos (ej. `ADMIN`, `COMPRAS`, `VENTAS`) para poder acceder a los módulos de negocio configurados mediante *Lazy Loading*.
+
+---
+
 ## 🛠️ Arquitectura Técnica
 
 El sistema utiliza las últimas tecnologías y patrones de diseño para asegurar un rendimiento óptimo y facilidad de mantenimiento:

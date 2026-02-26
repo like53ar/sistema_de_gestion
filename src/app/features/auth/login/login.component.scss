@@ -1,0 +1,91 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--zen-bg-primary);
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: var(--zen-spacing-xl);
+    background-color: var(--zen-bg-secondary);
+    border-top: 4px solid var(--zen-accent-primary);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: var(--zen-spacing-xl);
+
+    h1 {
+        color: var(--zen-accent-primary);
+        font-size: 2.5rem;
+        margin-bottom: var(--zen-spacing-xs);
+        letter-spacing: 1px;
+    }
+
+    p {
+        color: var(--zen-text-secondary);
+        font-size: 0.95rem;
+        margin: 0;
+    }
+}
+
+.form-group {
+    margin-bottom: var(--zen-spacing-lg);
+
+    label {
+        display: block;
+        margin-bottom: var(--zen-spacing-xs);
+        color: var(--zen-text-secondary);
+        font-weight: 500;
+    }
+
+    .is-invalid {
+        border-color: var(--zen-error);
+    }
+}
+
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 1.1rem;
+    margin-top: var(--zen-spacing-md);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-error {
+    color: var(--zen-error);
+    font-size: 0.85rem;
+    display: block;
+    margin-top: 4px;
+}
+
+.login-error {
+    text-align: center;
+    margin-bottom: var(--zen-spacing-md);
+    background-color: rgba(244, 67, 54, 0.1);
+    padding: 10px;
+    border-radius: var(--zen-radius-sm);
+    border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+.btn-loader {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border: 3px solid rgba(18, 18, 18, 0.3);
+    border-radius: 50%;
+    border-top-color: #121212;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
