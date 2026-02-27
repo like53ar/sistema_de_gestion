@@ -12,12 +12,12 @@ Desarrollado y creado por **Fabian A. Correa**.
 
 El sistema está organizado en módulos funcionales independientes que cubren las áreas críticas de la gestión empresarial:
 
-- **📈 Ventas**: Gestión completa de facturación, clientes, pedidos y seguimiento comercial.
-- **🛒 Compras**: Control de proveedores, órdenes de compra y gestión de gastos.
-- **💰 Tesorería**: Administración de flujo de caja, cuentas bancarias y movimientos financieros.
-- **📑 Contabilidad**: Registro de asientos contables, balances y estados financieros automáticos.
-- **📦 Inventario**: Gestión de stock, depósitos, movimientos de mercadería y valorización.
-- **👥 Sueldos**: Liquidación de haberes y administración de recursos humanos.
+- **📈 Ventas**: Gestión completa de facturación, clientes, productos, vendedores, listas de precios y zonas de distribución.
+- **🛒 Compras**: Control de órdenes de compra, registro de facturas, recepción de mercadería, gestión de proveedores y seguimiento de pagos.
+- **💰 Tesorería**: Administración de arqueo de caja, bancos, cobros y pagos, conciliaciones bancarias, flujo proyectado y movimientos en efectivo.
+- **📑 Contabilidad**: Registro de plan de cuentas jerárquico, asientos contables, libro mayor, balances y estados de resultados, organizados por periodos.
+- **📦 Inventario**: Gestión integral de artículos, control de stock min/max, tracking de movimientos, ajustes por merma/sobrante, valorización y alertas de reposición.
+- **👥 Sueldos**: Administración de recursos humanos con control de legajos, cálculo y liquidación de haberes, seguimiento de asistencias, obligaciones legales (Aportes/Retenciones) y su integración final al módulo contable.
 
 ---
 

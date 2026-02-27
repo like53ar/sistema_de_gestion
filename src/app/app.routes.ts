@@ -27,7 +27,7 @@ export const routes: Routes = [
                 path: 'compras',
                 data: { breadcrumb: 'Compras', roles: ['ADMIN', 'COMPRAS'] },
                 canActivate: [roleGuard],
-                loadChildren: () => import('./features/proveedores/compras.routes').then(m => m.COMPRAS_ROUTES)
+                loadChildren: () => import('./features/compras/compras.routes').then(m => m.COMPRAS_ROUTES)
             },
             {
                 path: 'contabilidad',
@@ -52,7 +52,7 @@ export const routes: Routes = [
                 title: 'Sueldos - Sabia',
                 data: { breadcrumb: 'Sueldos', roles: ['ADMIN', 'RRHH'] },
                 canActivate: [roleGuard],
-                loadComponent: () => import('./features/sueldos/sueldos').then(m => m.Sueldos)
+                loadChildren: () => import('./features/sueldos/sueldos.routes').then(m => m.SUELDOS_ROUTES)
             },
         ]
     },

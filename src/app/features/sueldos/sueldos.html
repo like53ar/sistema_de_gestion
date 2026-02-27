@@ -1,1 +1,22 @@
-<p>sueldos works!</p>
+<div class="container">
+    <div class="card">
+        <h2>Módulo de Sueldos / RRHH</h2>
+        <p>Administración de personal, liquidaciones y normativas legales.</p>
+
+        <div class="submenu-section">
+            <h3>Operaciones de Recursos Humanos</h3>
+            <ul class="zen-list">
+                <li><a routerLink="gestion-legajos" appTooltip="Altas, bajas y expedientes">Gestión de Legajos</a></li>
+                <li><a routerLink="liquidacion-haberes" appTooltip="Cálculo de sueldos y recibos">Liquidación de
+                        Haberes</a></li>
+                <li><a routerLink="control-asistencia" appTooltip="Ausencias, licencias y horas extras">Control de
+                        Asistencia y Novedades</a></li>
+                <li><a routerLink="obligaciones-legales" appTooltip="Aportes, contribuciones y retenciones">Obligaciones
+                        Legales y Reportes</a></li>
+                <li><a routerLink="integracion-contable" appTooltip="Exportación de asientos de sueldos">Integración
+                        Contable</a></li>
+            </ul>
+        </div>
+    </div>
+    <router-outlet></router-outlet>
+</div>

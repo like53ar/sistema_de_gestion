@@ -1,6 +1,23 @@
 <div class="container">
     <div class="card">
         <h2>Módulo de Tesorería</h2>
-        <p>Control de caja, bancos y movimientos financieros.</p>
+        <p>Gestión de flujo de caja, bancos, cobros y pagos.</p>
+
+        <div class="submenu-section">
+            <h3>Operaciones Financieras</h3>
+            <ul class="zen-list">
+                <li><a routerLink="arqueo-caja" appTooltip="Control y cierre de caja">Arqueo de caja</a></li>
+                <li><a routerLink="gestion-bancos" appTooltip="Administración de cuentas bancarias">Gestión de
+                        bancos</a></li>
+                <li><a routerLink="cobros-pagos" appTooltip="Ingresos y egresos">Cobros y pagos</a></li>
+                <li><a routerLink="conciliacion-bancaria" appTooltip="Control contra extractos bancarios">Conciliación
+                        bancaria</a></li>
+                <li><a routerLink="flujo-caja" appTooltip="Proyección de ingresos y egresos">Flujo de caja
+                        proyectado</a></li>
+                <li><a routerLink="movimientos-efectivo" appTooltip="Registro de ingresos y salidas">Movimientos de
+                        efectivo</a></li>
+            </ul>
+        </div>
     </div>
+    <router-outlet></router-outlet>
 </div>

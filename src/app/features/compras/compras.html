@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="card">
+        <h2>Módulo de Compras</h2>
+        <p>Gestión de abastecimiento, proveedores y pagos.</p>
+
+        <div class="submenu-section">
+            <h3>Operaciones y Consultas</h3>
+            <ul class="zen-list">
+                <li><a routerLink="ordenes-compra" appTooltip="Creación y seguimiento de órdenes">Órdenes de compra</a>
+                </li>
+                <li><a routerLink="registro-compras" appTooltip="Ingreso de facturas de proveedores">Registro de
+                        compras</a></li>
+                <li><a routerLink="recepcion-mercaderia" appTooltip="Control de ingreso de stock">Recepción de
+                        mercadería</a></li>
+                <li><a routerLink="gestion-proveedores" appTooltip="ABM y consulta de proveedores">Gestión de
+                        proveedores</a></li>
+                <li><a routerLink="seguimiento-pagos" appTooltip="Pagos realizados y pendientes">Seguimiento de pagos a
+                        proveedores</a></li>
+            </ul>
+        </div>
+    </div>
+    <router-outlet></router-outlet>
+</div>

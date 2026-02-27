@@ -1,1 +1,23 @@
-<p>contabilidad works!</p>
+<div class="container">
+    <div class="card">
+        <h2>Módulo de Contabilidad</h2>
+        <p>Gestión de cuentas, asientos, mayores y reportes financieros.</p>
+
+        <div class="submenu-section">
+            <h3>Gestión y Reportes</h3>
+            <ul class="zen-list">
+                <li><a routerLink="plan-cuentas" appTooltip="Estructura jerárquica de cuentas">Plan de cuentas
+                        jerárquico</a></li>
+                <li><a routerLink="asientos-contables" appTooltip="Registro de comprobantes y asientos">Registro de
+                        asientos contables</a></li>
+                <li><a routerLink="libro-mayor" appTooltip="Consulta del libro diario y mayor">Libro mayor</a></li>
+                <li><a routerLink="balance-general" appTooltip="Balance de sumas y saldos">Balance general</a></li>
+                <li><a routerLink="estado-resultados" appTooltip="Estado de resultados y reportes">Estado de
+                        resultados</a></li>
+                <li><a routerLink="periodos-contables" appTooltip="Gestión del ejercicio económico">Períodos
+                        contables</a></li>
+            </ul>
+        </div>
+    </div>
+    <router-outlet></router-outlet>
+</div>

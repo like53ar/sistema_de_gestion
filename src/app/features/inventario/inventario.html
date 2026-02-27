@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="card">
+        <h2>Módulo de Inventario</h2>
+        <p>Gestión de productos, control de stock y depósitos.</p>
+
+        <div class="submenu-section">
+            <h3>Operaciones de Depósito</h3>
+            <ul class="zen-list">
+                <li><a routerLink="gestion-productos" appTooltip="Alta, baja y modificación de productos">Gestión de
+                        productos (CRUD)</a></li>
+                <li><a routerLink="control-stock" appTooltip="Parámetros de stock mínimo y máximo">Control de stock con
+                        mínimos/máximos</a></li>
+                <li><a routerLink="movimientos-inventario" appTooltip="Ingresos, egresos y transferencias">Movimientos
+                        de inventario</a></li>
+                <li><a routerLink="ajustes-stock" appTooltip="Sobrantes, faltantes y mermas">Ajustes de stock</a></li>
+                <li><a routerLink="valorizacion-inventario" appTooltip="Costo de mercadería y valuación">Valorización de
+                        inventario</a></li>
+                <li><a routerLink="alertas-reposicion" appTooltip="Avisos de rotura de stock">Alertas de reposición</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <router-outlet></router-outlet>
+</div>
