@@ -1,0 +1,231 @@
+.reports-grid {
+    display: flex;
+    gap: 24px;
+    margin-top: 24px;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
+
+    .report-section {
+        flex: 1;
+        background: rgba(0, 0, 0, 0.02);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+        padding: 30px;
+        text-align: center;
+        transition: transform 0.2s, box-shadow 0.2s;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .section-desc {
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+            color: #666;
+            min-height: 45px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+
+            button {
+                min-width: 120px;
+            }
+        }
+    }
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.d-none {
+    display: none !important;
+}
+
+/* Vista por pantalla A4 */
+.a4-container {
+    background: #525659;
+    /* típico fondo de visor PDF */
+    padding: 40px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .a4-actions {
+        margin-bottom: 20px;
+        display: flex;
+        gap: 16px;
+
+        button {
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+    }
+
+    .a4-page {
+        background: #fff;
+        width: 210mm;
+        min-height: 297mm;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        padding: 20mm;
+        box-sizing: border-box;
+        color: #000;
+        margin: 0 auto;
+        position: relative;
+    }
+}
+
+/* Estructura oculta solo para la función de impresión directa */
+.print-only-area {
+    display: none;
+}
+
+/* Print Styles */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    /* Si estamos en modo Pantalla A4, mostramos el a4-page y sus hijos */
+    .a4-container .a4-page,
+    .a4-container .a4-page * {
+        visibility: visible;
+    }
+
+    /* Si imprimimos desde los botones principales (print-only-area), lo mostramos */
+    .print-only-area,
+    .print-only-area * {
+        visibility: visible;
+    }
+
+    /* Reset de fondo y márgenes para el documento de impresión */
+    @page {
+        size: A4;
+        margin: 20mm;
+    }
+
+    body,
+    html {
+        background: transparent !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .a4-container {
+        padding: 0;
+        background: transparent;
+    }
+
+    .a4-page {
+        margin: 0 !important;
+        box-shadow: none !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        padding: 0 !important;
+    }
+
+    .print-only-area {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+
+        .a4-page {
+            position: relative;
+        }
+    }
+}
+
+/* Generic Table Styles for A4 Page */
+.a4-header {
+    text-align: center;
+    border-bottom: 2px solid #000;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+
+    .a4-title {
+        margin: 0;
+        font-size: 24px;
+        color: #000;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .a4-subtitle {
+        margin: 5px 0 10px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .a4-date {
+        margin: 0;
+        color: #666;
+        font-size: 12px;
+    }
+}
+
+.a4-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+
+    th,
+    td {
+        border: 1px solid #000;
+        padding: 10px 12px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f5f5f5;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: 0.5px;
+    }
+
+    td {
+        vertical-align: middle;
+    }
+
+    tr:nth-child(even) {
+        background-color: #fafafa;
+    }
+}
+
+.a4-footer {
+    position: absolute;
+    bottom: 20mm;
+    left: 20mm;
+    right: 20mm;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #444;
+    border-top: 1px solid #000;
+    padding-top: 10px;
+
+    p {
+        margin: 0;
+    }
+}

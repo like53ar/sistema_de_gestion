@@ -13,6 +13,7 @@ import { AuthService } from '../../core/auth/auth.service';
 })
 export class NavBar {
   navItems = [
+    { label: 'Parámetros Generales', path: '/parametros', tooltip: 'Ajustes globales y padrones base' },
     { label: 'Ventas', path: '/ventas', tooltip: 'Facturación, clientes y pedidos' },
     { label: 'Compras', path: '/compras', tooltip: 'Órdenes de compra y proveedores' },
     { label: 'Tesorería', path: '/tesoreria', tooltip: 'Caja, bancos y movimientos' },

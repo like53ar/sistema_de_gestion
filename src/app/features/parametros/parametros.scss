@@ -1,0 +1,43 @@
+.submenu-section {
+    background: rgba(0, 0, 0, 0.01);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    padding: 20px;
+
+    h3 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+        color: #444;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        li {
+            a {
+                display: block;
+                padding: 10px 15px;
+                background: #fff;
+                border: 1px solid #eee;
+                border-radius: 6px;
+                text-decoration: none;
+                color: #333;
+                font-weight: 500;
+                transition: all 0.2s;
+
+                &:hover {
+                    border-color: #2196F3;
+                    color: #2196F3;
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 8px rgba(33, 150, 243, 0.15);
+                }
+            }
+        }
+    }
+}

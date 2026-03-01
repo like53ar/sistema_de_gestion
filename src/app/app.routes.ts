@@ -18,6 +18,12 @@ export const routes: Routes = [
 
             // Feature Modules (Lazy Loaded)
             {
+                path: 'parametros',
+                data: { breadcrumb: 'Parámetros Generales', roles: ['ADMIN'] },
+                canActivate: [roleGuard],
+                loadChildren: () => import('./features/parametros/parametros.routes').then(m => m.PARAMETROS_ROUTES)
+            },
+            {
                 path: 'ventas',
                 data: { breadcrumb: 'Ventas', roles: ['ADMIN', 'VENTAS'] },
                 canActivate: [roleGuard],

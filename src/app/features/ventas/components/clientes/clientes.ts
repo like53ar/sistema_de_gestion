@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PadronService } from '../../../../core/services/padron.service';
@@ -14,7 +14,7 @@ import { SkeletonComponent } from '../../../../shared/skeleton/skeleton.componen
   templateUrl: './clientes.html',
   styleUrl: './clientes.scss',
 })
-export class Clientes {
+export class Clientes implements OnInit {
   currentTab: number = 1;
   loading: boolean = false;
   notFound: boolean = false;
@@ -61,6 +61,17 @@ export class Clientes {
     private toastService: ToastService
   ) { }
 
+  ngOnInit() {
+    this.generateClientId();
+  }
+
+  generateClientId() {
+    // Se simula la obtención del próximo ID asegurando el formato XXXXX
+    const lastCount = parseInt(localStorage.getItem('cliente_counter') || '0', 10);
+    const nextCount = lastCount + 1;
+    this.cliente.codigo = nextCount.toString().padStart(5, '0');
+  }
+
   setTab(tabIndex: number) {
     this.currentTab = tabIndex;
   }
@@ -98,6 +109,19 @@ export class Clientes {
       this.saving = false;
       console.log('Cliente a guardar:', this.cliente);
       this.toastService.success(`Cliente "${this.cliente.razonSocial || this.cliente.codigo}" guardado correctamente.`);
+
+      // Simular incremento en base de datos
+      const codInt = parseInt(this.cliente.codigo, 10);
+      if (!isNaN(codInt)) {
+        const lastCount = parseInt(localStorage.getItem('cliente_counter') || '0', 10);
+        localStorage.setItem('cliente_counter', Math.max(lastCount, codInt).toString());
+      }
+
+      // Preparar próximo cliente
+      this.cliente = { ...this.defaultCliente };
+      this.generateClientId();
+      this.currentTab = 1;
+
     }, 600);
   }
 
@@ -108,6 +132,7 @@ export class Clientes {
     ).subscribe(confirmed => {
       if (confirmed) {
         this.cliente = { ...this.defaultCliente };
+        this.generateClientId(); // Restaurar el código generado
         this.currentTab = 1;
         this.notFound = false;
         this.toastService.info('Formulario limpiado.');

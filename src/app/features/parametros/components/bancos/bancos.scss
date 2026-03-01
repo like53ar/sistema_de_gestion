@@ -1,0 +1,53 @@
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h3 {
+        margin: 0 0 5px 0;
+        color: var(--zen-text-primary);
+    }
+
+    p {
+        margin: 0;
+        color: var(--zen-text-secondary);
+        font-size: 0.9rem;
+    }
+
+    .search-box {
+        width: 300px;
+    }
+}
+
+.table-container {
+    overflow-x: auto;
+    max-height: 60vh;
+    border-radius: var(--zen-radius-md);
+
+    /* Estilos base en styles.scss: .zen-table */
+    .zen-table {
+        thead th {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: rgba(194, 24, 91, 0.15);
+            /* Tonos rosado/magenta bancos */
+            color: #f48fb1;
+            border: 1px solid rgba(194, 24, 91, 0.3);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+    }
+}
+
+.text-center {
+    text-align: center !important;
+}

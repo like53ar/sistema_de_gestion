@@ -1,0 +1,31 @@
+<div class="card zen-form-card fade-in" style="margin-top: 20px;">
+    <div class="header-actions">
+        <div>
+            <h3>Administración de Bancos</h3>
+            <p>Padrón oficial de entidades bancarias habilitadas (BCRA).</p>
+        </div>
+        <div class="search-box">
+            <input type="text" class="zen-input" placeholder="Buscar por código o nombre..." [(ngModel)]="searchTerm">
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table class="zen-table">
+            <thead>
+                <tr>
+                    <th style="width: 15%;">Código (Nro. Cta.)</th>
+                    <th style="width: 85%;">Entidad Bancaria</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let b of bancosFiltrados">
+                    <td><span class="badge">{{ b.id }}</span></td>
+                    <td>{{ b.nombre }}</td>
+                </tr>
+                <tr *ngIf="bancosFiltrados.length === 0">
+                    <td colspan="2" class="text-center">No se encontraron entidades con ese criterio.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

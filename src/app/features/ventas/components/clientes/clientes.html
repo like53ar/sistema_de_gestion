@@ -17,7 +17,8 @@
                         <div class="form-group flex-1">
                             <label for="codigo">Código</label>
                             <input type="text" id="codigo" placeholder="ID Cliente" class="zen-input"
-                                [(ngModel)]="cliente.codigo" name="codigo">
+                                [(ngModel)]="cliente.codigo" name="codigo" readonly
+                                appTooltip="Generado automáticamente">
                         </div>
                         <div class="form-group flex-2">
                             <label for="cuit_lookup">CUIT (Búsqueda)</label>
