@@ -39,9 +39,9 @@ export class PadronService {
         }
 
         if (foundName) {
-            return of({ cuit: cuit, denominacion: foundName }).pipe(delay(500)); // Simular delay de red (0.5s)
+            return of({ cuit: cuit, denominacion: foundName }).pipe(delay(100)); // Simular delay mínimo de red (0.1s) para que no parezca roto, pero no interrumpa flujo
         }
 
-        return of(null).pipe(delay(500));
+        return of(null).pipe(delay(100));
     }
 }

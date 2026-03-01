@@ -73,8 +73,10 @@
                         </div>
                         <div class="form-group">
                             <label for="provincia">Provincia</label>
-                            <input type="text" id="provincia" placeholder="Provincia" class="zen-input"
-                                [(ngModel)]="cliente.provincia" name="provincia">
+                            <select id="provincia" class="zen-input" [(ngModel)]="cliente.provincia" name="provincia">
+                                <option value="" disabled selected>Seleccione provincia</option>
+                                <option *ngFor="let p of provinciasBD" [value]="p.nombre">{{ p.nombre }}</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="cp">Cód. Postal</label>

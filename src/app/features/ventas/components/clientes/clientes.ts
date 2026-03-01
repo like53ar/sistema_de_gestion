@@ -6,7 +6,7 @@ import { ConfirmDialogService } from '../../../../shared/confirm-dialog/confirm-
 import { ToastService } from '../../../../shared/toast/toast.service';
 import { TooltipDirective } from '../../../../shared/tooltip/tooltip.directive';
 import { SkeletonComponent } from '../../../../shared/skeleton/skeleton.component';
-
+import { Provincia, ProvinciaService } from '../../../../core/services/provincia.service';
 @Component({
   selector: 'app-clientes',
   standalone: true,
@@ -19,6 +19,7 @@ export class Clientes implements OnInit {
   loading: boolean = false;
   notFound: boolean = false;
   saving: boolean = false;
+  provinciasBD: Provincia[] = [];
 
   cliente = {
     // Solapa 1: Datos Generales
@@ -58,10 +59,14 @@ export class Clientes implements OnInit {
   constructor(
     private padronService: PadronService,
     private confirmService: ConfirmDialogService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private provinciaService: ProvinciaService
   ) { }
 
   ngOnInit() {
+    // Vaciado de tabla de clientes (reiniciando pruebas)
+    localStorage.removeItem('cliente_counter');
+    this.provinciasBD = this.provinciaService.getProvincias();
     this.generateClientId();
   }
 

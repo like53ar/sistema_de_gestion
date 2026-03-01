@@ -313,7 +313,8 @@ select.zen-input {
   }
 
   th {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: #181818;
+    /* Opaque background to prevent text overlap on scroll */
     font-family: var(--font-heading);
     font-weight: 500;
     color: var(--zen-accent-primary);

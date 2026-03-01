@@ -13,10 +13,7 @@ export class VentasEffects {
             ofType(VentasActions.loadClientes),
             delay(1000), // Simulate network
             map(() => VentasActions.loadClientesSuccess({
-                clientes: [
-                    { id: 1, name: 'Google Argentina' },
-                    { id: 2, name: 'MercadoLibre' }
-                ]
+                clientes: [] // Vaciamos la tabla de clientes para empezar a probar limpios
             })),
             catchError(error => of(VentasActions.loadVentasFailure({ error })))
         )
