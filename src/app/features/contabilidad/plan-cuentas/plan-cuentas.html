@@ -1,1 +1,135 @@
-<p>plan-cuentas works!</p>
+<div class="container fade-in">
+    <div class="header-actions">
+        <h2 class="page-title">📊 Plan de Cuentas Jerárquico</h2>
+        <div class="utilidades">
+            <button class="zen-btn secondary" (click)="expandAll()">🌳 Expandir Todo</button>
+            <button class="zen-btn secondary" (click)="collapseAll()">🌳 Contraer Todo</button>
+            <button class="zen-btn secondary" (click)="exportPlan()">⚙️ Exportar CSV</button>
+            <button class="zen-btn" (click)="openAddModal(null)">📝 Nueva Cuenta Raíz</button>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="form-group flex-row align-center search-bar">
+            <label for="search">Buscar Cuenta:</label>
+            <input type="text" id="search" class="zen-input flex-1" [ngModel]="searchTerm()"
+                (ngModelChange)="searchTerm.set($event)" placeholder="Ej. 1.1.01 o Caja">
+        </div>
+    </div>
+
+    <div class="tree-container card">
+        <ul class="zen-tree">
+            <!-- Recursive node template -->
+            <ng-template #treeNode let-cuenta="cuenta">
+                <div class="node-content" [class.imputable]="cuenta.imputable">
+                    <span class="tree-toggle" (click)="toggleExpand(cuenta)">
+                        @if(!cuenta.imputable) {
+                        <span>{{ cuenta.expanded ? '▼' : '▶' }}</span>
+                        } @else {
+                        <span class="dot">•</span>
+                        }
+                    </span>
+
+                    <div class="node-info">
+                        <strong class="codigo">{{cuenta.codigo}}</strong>
+                        <span class="nombre">{{cuenta.nombre}}</span>
+                        <span class="badge" [ngClass]="cuenta.tipo.toLowerCase()">{{cuenta.tipo}}</span>
+
+                        @if(cuenta.imputable) {
+                        <span class="badge imputable-badge">Imputable</span>
+                        }
+                    </div>
+
+                    <div class="node-actions">
+                        @if(!cuenta.imputable) {
+                        <button class="icon-btn" appTooltip="Agregar subcuenta"
+                            (click)="openAddModal(cuenta.id)">➕</button>
+                        }
+                        <button class="icon-btn edit" appTooltip="Editar cuenta"
+                            (click)="openEditModal(cuenta)">✏️</button>
+                        <button class="icon-btn delete" appTooltip="Eliminar cuenta"
+                            (click)="deleteAccount(cuenta.id)">🗑️</button>
+                    </div>
+                </div>
+
+                @if(cuenta.expanded && !cuenta.imputable && cuenta.hijos?.length) {
+                <ul class="zen-tree nested">
+                    @for(hijo of cuenta.hijos; track hijo.id) {
+                    <li>
+                        <ng-container *ngTemplateOutlet="treeNode; context:{ cuenta: hijo }"></ng-container>
+                    </li>
+                    }
+                </ul>
+                }
+            </ng-template>
+
+            @for(rootNode of filteredCuentas(); track rootNode.id) {
+            <li>
+                <ng-container *ngTemplateOutlet="treeNode; context:{ cuenta: rootNode }"></ng-container>
+            </li>
+            }
+
+            @if(filteredCuentas().length === 0) {
+            <div class="empty-state">No se encontraron cuentas para su búsqueda.</div>
+            }
+        </ul>
+    </div>
+
+    <!-- Modal Gestión de Cuenta -->
+    @if(isModalOpen()) {
+    <div class="zen-modal-overlay">
+        <div class="zen-modal card fade-in">
+            <h3 class="modal-title">{{ modalMode() === 'create' ? 'Nueva Cuenta' : 'Editar Cuenta' }}</h3>
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label>Padre (Opcional)</label>
+                    <select class="zen-input" [ngModel]="selectedParentId()" disabled>
+                        <option [ngValue]="null">--- Cuenta Raíz ---</option>
+                        @for(p of flatCuentasPadre(); track p.id) {
+                        <option [ngValue]="p.id">
+                            {{p.codigo}} - {{p.nombre}}
+                        </option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label>Código</label>
+                    <input type="text" class="zen-input" [(ngModel)]="currentAccount().codigo" placeholder="Ej: 1.1">
+                </div>
+                <div class="form-group flex-2">
+                    <label>Nombre</label>
+                    <input type="text" class="zen-input" [(ngModel)]="currentAccount().nombre"
+                        placeholder="Nombre de la cuenta">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group flex-1">
+                    <label>Tipo</label>
+                    <select class="zen-input" [(ngModel)]="currentAccount().tipo"
+                        [disabled]="modalMode() === 'create' && selectedParentId() !== null">
+                        <option value="Activo">Activo</option>
+                        <option value="Pasivo">Pasivo</option>
+                        <option value="Patrimonio">Patrimonio Neto</option>
+                        <option value="Ingresos">Ingresos</option>
+                        <option value="Egresos">Egresos</option>
+                    </select>
+                </div>
+                <div class="form-group flex-row align-center checkbox-group" style="padding-top: 28px;">
+                    <input type="checkbox" id="imputable" [(ngModel)]="currentAccount().imputable">
+                    <label for="imputable" style="margin-left: 8px;">Es Imputable (Recibe Asientos)</label>
+                </div>
+            </div>
+
+            <div class="modal-actions" style="margin-top: 24px;">
+                <button class="zen-btn secondary" (click)="closeModal()">Cancelar</button>
+                <button class="zen-btn" (click)="saveAccount()">Guardar Cuenta</button>
+            </div>
+        </div>
+    </div>
+    }
+</div>
