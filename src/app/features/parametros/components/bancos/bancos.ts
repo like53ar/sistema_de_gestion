@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TooltipDirective } from '../../../../shared/tooltip/tooltip.directive';
@@ -16,6 +17,12 @@ export interface Banco {
   styleUrl: './bancos.scss'
 })
 export class Bancos {
+  constructor(private router: Router, private route: ActivatedRoute) { }
+
+  closeModal() {
+    this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
   bancosBD: Banco[] = [
     { id: '007', nombre: 'BANCO DE GALICIA Y BUENOS AIRES S.A.U.' },
     { id: '011', nombre: 'BANCO DE LA NACIÓN ARGENTINA' },

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TooltipDirective } from '../../../../shared/tooltip/tooltip.directive';
@@ -16,6 +17,12 @@ export interface Moneda {
   styleUrl: './monedas.scss'
 })
 export class Monedas {
+  constructor(private router: Router, private route: ActivatedRoute) { }
+
+  closeModal() {
+    this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
   monedasBD: Moneda[] = [
     { codigo: '000', nombre: 'OTRAS MONEDAS' },
     { codigo: 'PES', nombre: 'PESOS' },

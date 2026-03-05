@@ -364,3 +364,84 @@ select.zen-input {
     transform: translateY(0);
   }
 }
+
+/* Modal Overlay for Routed Components */
+.route-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  padding: var(--zen-spacing-md);
+  box-sizing: border-box;
+}
+
+.route-modal-content {
+  background-color: var(--zen-bg-secondary);
+  border-radius: var(--zen-radius-md);
+  box-shadow: var(--zen-shadow-lg);
+  border: 1px solid var(--zen-border);
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Variantes de anchos para el modal */
+.route-modal-content.md {
+  max-width: 600px;
+}
+
+.route-modal-content.lg {
+  max-width: 900px;
+}
+
+.route-modal-content.xl {
+  max-width: 1200px;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: var(--zen-spacing-md);
+  right: var(--zen-spacing-md);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--zen-border-light);
+  color: var(--zen-text-secondary);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: var(--zen-error);
+    color: #fff;
+    border-color: var(--zen-error);
+    transform: scale(1.1);
+  }
+}
+
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}

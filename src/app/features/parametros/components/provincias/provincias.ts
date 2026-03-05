@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TooltipDirective } from '../../../../shared/tooltip/tooltip.directive';
@@ -15,7 +16,15 @@ export class Provincias implements OnInit {
   provinciasBD: Provincia[] = [];
   searchTerm: string = '';
 
-  constructor(private provinciaService: ProvinciaService) { }
+  constructor(
+    private provinciaService: ProvinciaService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
+
+  closeModal() {
+    this.router.navigate(['../'], { relativeTo: this.route });
+  }
 
   ngOnInit() {
     this.provinciasBD = this.provinciaService.getProvincias();

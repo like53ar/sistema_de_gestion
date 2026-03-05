@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -15,6 +16,12 @@ export interface Pais {
   styleUrl: './paises.scss'
 })
 export class Paises {
+  constructor(private router: Router, private route: ActivatedRoute) { }
+
+  closeModal() {
+    this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
   paisesBD: Pais[] = [
     { id: '301', nombre: 'AFGANISTAN' },
     { id: '401', nombre: 'ALBANIA' },
@@ -293,8 +300,8 @@ export class Paises {
   searchTerm: string = '';
 
   get paisesFiltrados(): Pais[] {
-    return this.paisesBD.filter(p => 
-      p.nombre.toLowerCase().includes(this.searchTerm.toLowerCase()) || 
+    return this.paisesBD.filter(p =>
+      p.nombre.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
       p.id.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }

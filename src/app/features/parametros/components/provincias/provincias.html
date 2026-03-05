@@ -1,31 +1,37 @@
-<div class="card zen-form-card fade-in" style="margin-top: 20px;">
-    <div class="header-actions">
-        <div>
-            <h3>Administración de Provincias</h3>
-            <p>Padrón oficial de provincias para uso en todo el sistema.</p>
-        </div>
-        <div class="search-box">
-            <input type="text" class="zen-input" placeholder="Buscar por código o nombre..." [(ngModel)]="searchTerm">
-        </div>
-    </div>
+<div class="route-modal-overlay" (click)="closeModal()">
+    <div class="route-modal-content lg" (click)="$event.stopPropagation()">
+        <button class="modal-close-btn" (click)="closeModal()">&times;</button>
+        <div class="card zen-form-card fade-in" style="box-shadow: none; border: none; margin-top: 0;">
+            <div class="header-actions">
+                <div>
+                    <h3>Administración de Provincias</h3>
+                    <p>Padrón oficial de provincias para uso en todo el sistema.</p>
+                </div>
+                <div class="search-box">
+                    <input type="text" class="zen-input" placeholder="Buscar por código o nombre..."
+                        [(ngModel)]="searchTerm">
+                </div>
+            </div>
 
-    <div class="table-container">
-        <table class="zen-table">
-            <thead>
-                <tr>
-                    <th style="width: 15%;">Código</th>
-                    <th style="width: 85%;">Nombre de Provincia</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let prov of provinciasFiltradas">
-                    <td><span class="badge">{{ prov.id }}</span></td>
-                    <td>{{ prov.nombre }}</td>
-                </tr>
-                <tr *ngIf="provinciasFiltradas.length === 0">
-                    <td colspan="2" class="text-center">No se encontraron provincias con ese criterio.</td>
-                </tr>
-            </tbody>
-        </table>
+            <div class="table-container">
+                <table class="zen-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">Código</th>
+                            <th style="width: 85%;">Nombre de Provincia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let prov of provinciasFiltradas">
+                            <td><span class="badge">{{ prov.id }}</span></td>
+                            <td>{{ prov.nombre }}</td>
+                        </tr>
+                        <tr *ngIf="provinciasFiltradas.length === 0">
+                            <td colspan="2" class="text-center">No se encontraron provincias con ese criterio.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,31 +1,37 @@
-<div class="card zen-form-card fade-in" style="margin-top: 20px;">
-    <div class="header-actions">
-        <div>
-            <h3>Administración de Monedas</h3>
-            <p>Padrón oficial de monedas y cotizaciones.</p>
-        </div>
-        <div class="search-box">
-            <input type="text" class="zen-input" placeholder="Buscar por código o moneda..." [(ngModel)]="searchTerm">
-        </div>
-    </div>
+<div class="route-modal-overlay" (click)="closeModal()">
+    <div class="route-modal-content lg" (click)="$event.stopPropagation()">
+        <button class="modal-close-btn" (click)="closeModal()">&times;</button>
+        <div class="card zen-form-card fade-in" style="box-shadow: none; border: none; margin-top: 0;">
+            <div class="header-actions">
+                <div>
+                    <h3>Administración de Monedas</h3>
+                    <p>Padrón oficial de monedas y cotizaciones.</p>
+                </div>
+                <div class="search-box">
+                    <input type="text" class="zen-input" placeholder="Buscar por código o moneda..."
+                        [(ngModel)]="searchTerm">
+                </div>
+            </div>
 
-    <div class="table-container">
-        <table class="zen-table">
-            <thead>
-                <tr>
-                    <th style="width: 15%;">Código</th>
-                    <th style="width: 85%;">Moneda</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let m of monedasFiltradas">
-                    <td><span class="badge">{{ m.codigo }}</span></td>
-                    <td>{{ m.nombre }}</td>
-                </tr>
-                <tr *ngIf="monedasFiltradas.length === 0">
-                    <td colspan="2" class="text-center">No se encontraron monedas con ese criterio.</td>
-                </tr>
-            </tbody>
-        </table>
+            <div class="table-container">
+                <table class="zen-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">Código</th>
+                            <th style="width: 85%;">Moneda</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let m of monedasFiltradas">
+                            <td><span class="badge">{{ m.codigo }}</span></td>
+                            <td>{{ m.nombre }}</td>
+                        </tr>
+                        <tr *ngIf="monedasFiltradas.length === 0">
+                            <td colspan="2" class="text-center">No se encontraron monedas con ese criterio.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PadronService } from '../../../../core/services/padron.service';
@@ -60,8 +61,14 @@ export class Clientes implements OnInit {
     private padronService: PadronService,
     private confirmService: ConfirmDialogService,
     private toastService: ToastService,
-    private provinciaService: ProvinciaService
+    private provinciaService: ProvinciaService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
+
+  closeModal() {
+    this.router.navigate(['../'], { relativeTo: this.route });
+  }
 
   ngOnInit() {
     // Vaciado de tabla de clientes (reiniciando pruebas)
