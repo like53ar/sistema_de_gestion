@@ -12,7 +12,7 @@ Desarrollado y creado por **Fabian A. Correa**.
 
 El sistema está organizado en módulos funcionales independientes que cubren las áreas críticas de la gestión empresarial:
 
-- **⚙️ Parámetros Generales**: Padrón centralizado de datos maestros del sistema, incluyendo tablas oficiales de **Provincias**, **Países**, **Bancos** y **Monedas** (con códigos alfanuméricos estandarizados).
+- **⚙️ Parámetros Generales**: Padrón centralizado de datos maestros del sistema, incluyendo tablas oficiales de **Provincias**, **Países**, **Bancos** y **Monedas**. Además, incorpora la nueva sección de **Parámetros de Módulos** (*Ventas, Compras, Tesorería, Contables, Inventario y Sueldos*) con ventanas emergentes (Pop-ups XL adaptativos) y almacenamiento temporal en servicios de datos en frontend vinculados al formulario real con *Two-way Binding*.
 - **📈 Ventas**: Gestión completa de facturación, clientes (con ID automático), informes exportables, productos, vendedores, listas de precios y zonas de distribución.
 - **🛒 Compras**: Control de órdenes de compra, registro de facturas, recepción de mercadería, gestión de proveedores y seguimiento de pagos.
 - **💰 Tesorería**: Administración de arqueo de caja, bancos, cobros y pagos, conciliaciones bancarias, flujo proyectado y movimientos en efectivo.

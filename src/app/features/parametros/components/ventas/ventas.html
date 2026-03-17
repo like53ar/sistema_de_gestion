@@ -1,0 +1,166 @@
+<div class="route-modal-overlay" (click)="closeModal()">
+    <div class="route-modal-content xl" (click)="$event.stopPropagation()">
+        <button class="modal-close-btn" (click)="closeModal()">&times;</button>
+        
+        <div class="card zen-form-card fade-in ventas-modal" style="box-shadow: none; border: none; margin-top: 0;">
+            
+            <div class="modal-header">
+                <div class="title-row">
+                    <h2>⚙️ Parámetros de Ventas</h2>
+                    <div class="header-actions">
+                        <button class="zen-btn" (click)="guardar()" style="margin-right: 15px;">💾 Aceptar</button>
+                        <button class="zen-btn secondary">Historial</button>
+                        <button class="zen-btn secondary">Ayuda</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="zen-tabs">
+                <button *ngFor="let tab of tabs" 
+                        class="tab-btn" 
+                        [class.active]="activeTab === tab"
+                        (click)="setTab(tab)">
+                    {{ tab }}
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <ng-container *ngIf="activeTab === 'Principal'">
+                    <!-- Empresa Group -->
+                    <div class="section-group">
+                        <div class="fieldset-title">Empresa</div>
+                        
+                        <div class="form-row">
+                            <div class="form-group" style="flex: 2; max-width: 50%;">
+                                <label>Razón social</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.razonSocial">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group" style="flex: 1; max-width: 40%;">
+                                <label>Nro. de identificación tributaria</label>
+                                <div class="input-group">
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.nroIdentificacionTributaria">
+                                    <button class="zen-btn secondary group-addon">Actualizar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Inicio de actividades</label>
+                                <input type="date" class="zen-input" [(ngModel)]="formData.inicioActividades">
+                            </div>
+                            <div class="form-group" style="flex: 2; max-width: 40%;">
+                                <label>Nro. de ingresos brutos</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.nroIngresosBrutos">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Domicilio Group -->
+                    <div class="section-group">
+                        <div class="fieldset-title">Domicilio</div>
+                        
+                        <div class="form-row">
+                            <div class="form-group flex-2">
+                                <label>Calle</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.calle">
+                            </div>
+                            <div class="form-group flex-1">
+                                <label>Número</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.numero">
+                            </div>
+                            <div class="form-group flex-1">
+                                <label>Piso</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.piso">
+                            </div>
+                            <div class="form-group flex-1">
+                                <label>Departamento</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.departamento">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group flex-1">
+                                <label>Sector</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.sector">
+                            </div>
+                            <div class="form-group flex-1">
+                                <label>Torre</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.torre">
+                            </div>
+                            <div class="form-group flex-1">
+                                <label>Manzana</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.manzana">
+                            </div>
+                            <div class="form-group flex-2">
+                                <label>Localidad</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.localidad">
+                            </div>
+                            <div class="form-group flex-1">
+                                <label>Código postal</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.codigoPostal">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group flex-1">
+                                <label>Código de provincia</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.codigoProvincia" style="min-width: 140px; padding-right: 14px; background-image: none; cursor: pointer;">
+                                        <option value="">--</option>
+                                        <option *ngFor="let p of provincias" [value]="p.id">{{ p.id }} - {{ p.nombre }}</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">+</button>
+                                    <button class="zen-btn group-addon addon-multiple">⋮</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-2">
+                                <label>Descripción</label>
+                                <input type="text" class="zen-input readonly-input" [value]="getProvinciaNombre()" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Siglas Group -->
+                    <div class="section-group">
+                        <div class="fieldset-title">Siglas y leyendas</div>
+                        
+                        <div class="form-row">
+                            <div class="form-group flex-1">
+                                <label>Sigla para la identificación tributaria</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.siglaIdentificacionTributaria">
+                            </div>
+                            <div class="form-group flex-1">
+                                <label>Sigla para el subdiario de IVA</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.siglaSubdiarioIva">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group flex-1">
+                                <label>Leyenda para moneda corriente</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.leyendaMonedaCorriente">
+                            </div>
+                            <div class="form-group flex-1">
+                                <label>Leyenda para moneda extranjera</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.leyendaMonedaExtranjera">
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="activeTab !== 'Principal'">
+                    <div style="padding: 40px; text-align: center; color: var(--zen-text-muted);">
+                        <div style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;">🚧</div>
+                        <h3>Contenido de {{ activeTab }}</h3>
+                        <p>Esta sección se encuentra en desarrollo.</p>
+                    </div>
+                </ng-container>
+            </div>
+            
+        </div>
+    </div>
+</div>
