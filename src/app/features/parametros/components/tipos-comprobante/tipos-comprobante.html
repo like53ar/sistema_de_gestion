@@ -1,0 +1,59 @@
+<div class="route-modal-overlay" (click)="closeModal()">
+    <div class="route-modal-content lg" (click)="$event.stopPropagation()">
+        <button class="modal-close-btn" (click)="closeModal()">&times;</button>
+        <div class="card zen-form-card fade-in" style="box-shadow: none; border: none; margin-top: 0;">
+            <div class="header-actions">
+                <div>
+                    <h3>Tipos de Comprobante</h3>
+                    <p>Tabla paramétrica con la denominación de los comprobantes del sistema.</p>
+                </div>
+                <div class="search-box">
+                    <input type="text" class="zen-input" placeholder="Buscar por código o denominación..."
+                        [(ngModel)]="searchTerm">
+                    <button class="zen-btn" (click)="toggleAgregar()">+ Agregar</button>
+                </div>
+            </div>
+
+            <!-- Formulario de agregar nuevo código -->
+            <div *ngIf="mostrandoFormulario" class="add-form-container section-group" style="padding: 15px; background: rgba(0,0,0,0.02); border-radius: 8px; margin-bottom: 20px;">
+                <div class="form-row">
+                    <div class="form-group flex-1" style="max-width: 25%;">
+                        <label>Código Alfanumérico</label>
+                        <input type="text" class="zen-input" [(ngModel)]="nuevoCodigo" maxlength="3" placeholder="Ej: 001" (blur)="formatearCodigo()" (keyup.enter)="agregarCodigo()">
+                    </div>
+                    <div class="form-group flex-2">
+                        <label>Denominación</label>
+                        <input type="text" class="zen-input" [(ngModel)]="nuevaDenominacion" placeholder="Ej: FACTURAS A" (keyup.enter)="agregarCodigo()" style="text-transform: uppercase;">
+                    </div>
+                    <div class="form-group" style="align-self: flex-end; display: flex; gap: 10px;">
+                        <button class="zen-btn" (click)="agregarCodigo()" [disabled]="!esValido()">Guardar</button>
+                        <button class="zen-btn secondary" (click)="toggleAgregar()">Cancelar</button>
+                    </div>
+                </div>
+                <div *ngIf="errorMsg" class="error-message" style="color: #e74c3c; font-size: 0.9rem; margin-top: -10px;">
+                    {{ errorMsg }}
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="zen-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">Código</th>
+                            <th style="width: 80%;">Denominación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of tiposFiltrados">
+                            <td><span class="badge">{{ c.codigo }}</span></td>
+                            <td>{{ c.denominacion }}</td>
+                        </tr>
+                        <tr *ngIf="tiposFiltrados.length === 0">
+                            <td colspan="2" class="text-center">No se encontraron tipos con ese criterio.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

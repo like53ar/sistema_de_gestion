@@ -152,7 +152,193 @@
                     </div>
                 </ng-container>
 
-                <ng-container *ngIf="activeTab !== 'Principal'">
+                <ng-container *ngIf="activeTab === 'Impuestos'">
+                    <!-- Impuestos para fletes e intereses -->
+                    <div class="section-group">
+                        <div class="fieldset-title">Impuestos para fletes e intereses</div>
+                        
+                        <div class="form-row">
+                            <div class="form-group flex-1" style="max-width: 30%;">
+                                <label>Código de IVA</label>
+                                <div class="input-group">
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.codigoIva">
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    <button class="zen-btn group-addon addon-multiple">+</button>
+                                    <button class="zen-btn group-addon addon-multiple">⋮</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-2">
+                                <label>Descripción</label>
+                                <input type="text" class="zen-input readonly-input" [(ngModel)]="formData.descCodigoIva" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group flex-1" style="max-width: 30%;">
+                                <label>Código de percepción de IVA</label>
+                                <div class="input-group">
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.codigoPercepcionIva">
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    <button class="zen-btn group-addon addon-multiple">+</button>
+                                    <button class="zen-btn group-addon addon-multiple">⋮</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-2">
+                                <label>Descripción</label>
+                                <input type="text" class="zen-input readonly-input" [(ngModel)]="formData.descCodigoPercepcionIva" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group flex-1">
+                                <label>Base de cálculo del IVA de los intereses</label>
+                                <select class="zen-input" [(ngModel)]="formData.baseCalculoIvaIntereses" style="padding-right: 30px; cursor: pointer;">
+                                    <option value=""></option>
+                                    <option value="Sobre los intereses de los importes gravados">Sobre los intereses de los importes gravados</option>
+                                    <option value="Otra">Otra</option>
+                                </select>
+                            </div>
+                            <div class="form-group flex-1">
+                                <label>Base de cálculo del IVA del flete</label>
+                                <select class="zen-input" [(ngModel)]="formData.baseCalculoIvaFlete" style="padding-right: 30px; cursor: pointer;">
+                                    <option value=""></option>
+                                    <option value="Sobre los fletes de los importes gravados">Sobre los fletes de los importes gravados</option>
+                                    <option value="Otra">Otra</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row" style="margin-top: 15px;">
+                            <div class="form-group" style="flex: none; width: 100%;">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.calcularInteresesSegunIvaArticulos">
+                                    Calcular intereses según IVA de artículos
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- IVA Simple - fletes e intereses -->
+                    <div class="section-group">
+                        <div class="fieldset-title">IVA Simple - fletes e intereses</div>
+                        
+                        <div class="form-row">
+                            <div class="form-group flex-1" style="max-width: 30%;">
+                                <label>Código de clasificación - Fletes</label>
+                                <div class="input-group">
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.codigoClasificacionFletes">
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    <button class="zen-btn group-addon addon-multiple">⋮</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-2">
+                                <label>Descripción</label>
+                                <input type="text" class="zen-input readonly-input" [(ngModel)]="formData.descCodigoClasificacionFletes" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group flex-1" style="max-width: 30%;">
+                                <label>Código de actividad económica - Fletes</label>
+                                <div class="input-group">
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.codigoActividadEconomicaFletes">
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    <button class="zen-btn group-addon addon-multiple">+</button>
+                                    <button class="zen-btn group-addon addon-multiple">⋮</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-2">
+                                <label>Descripción</label>
+                                <input type="text" class="zen-input readonly-input" [(ngModel)]="formData.descCodigoActividadEconomicaFletes" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group flex-1" style="max-width: 30%;">
+                                <label>Código de clasificación - Intereses</label>
+                                <div class="input-group">
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.codigoClasificacionIntereses">
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    <button class="zen-btn group-addon addon-multiple">⋮</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-2">
+                                <label>Descripción</label>
+                                <input type="text" class="zen-input readonly-input" [(ngModel)]="formData.descCodigoClasificacionIntereses" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group flex-1" style="max-width: 30%;">
+                                <label>Código de actividad económica - Intereses</label>
+                                <div class="input-group">
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.codigoActividadEconomicaIntereses">
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    <button class="zen-btn group-addon addon-multiple">+</button>
+                                    <button class="zen-btn group-addon addon-multiple">⋮</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-2">
+                                <label>Descripción</label>
+                                <input type="text" class="zen-input readonly-input" [(ngModel)]="formData.descCodigoActividadEconomicaIntereses" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Valores por defecto -->
+                    <div class="section-group">
+                        <div class="fieldset-title">Valores por defecto para el cálculo de impuestos en el alta de clientes</div>
+                        
+                        <div class="form-row" style="margin-bottom: 20px;">
+                            <div class="form-group flex-1" style="max-width: 45%;">
+                                <label>Código de categoría de IVA</label>
+                                <div class="input-group">
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.codigoCategoriaIva">
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    <button class="zen-btn group-addon addon-multiple">⋮</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-2">
+                                <label>Descripción</label>
+                                <input type="text" class="zen-input readonly-input" [(ngModel)]="formData.descCodigoCategoriaIva" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row-checkboxes">
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.calculaPercepcionIva">
+                                Calcula percepción de IVA
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.liquidaImpuestosInternos">
+                                Liquida impuestos internos
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.discriminaImpuestosInternos">
+                                Discrimina impuestos internos
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.calculaPercepcionImpuestosInternos">
+                                Calcula percepción de impuestos internos
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.liquidaIvaLiberado">
+                                Liquida IVA liberado
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.liquidaPercepcionIngresosBrutos">
+                                Liquida percepción de ingresos brutos
+                            </label>
+                        </div>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="activeTab !== 'Principal' && activeTab !== 'Impuestos'">
                     <div style="padding: 40px; text-align: center; color: var(--zen-text-muted);">
                         <div style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;">🚧</div>
                         <h3>Contenido de {{ activeTab }}</h3>

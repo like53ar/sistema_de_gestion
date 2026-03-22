@@ -1,3 +1,13 @@
+.zen-form-card {
+    h2 {
+        color: var(--zen-accent-secondary);
+        margin-top: 0;
+    }
+    > p {
+        color: var(--zen-text-secondary);
+    }
+}
+
 .parametros-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -16,7 +26,7 @@
         margin-top: 0;
         margin-bottom: 15px;
         font-size: 1.1rem;
-        color: #444;
+        color: var(--zen-text-primary);
     }
 
     ul {
@@ -31,19 +41,20 @@
             a {
                 display: block;
                 padding: 10px 15px;
-                background: #fff;
-                border: 1px solid #eee;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid var(--zen-border, rgba(255,255,255,0.1));
                 border-radius: 6px;
                 text-decoration: none;
-                color: #333;
+                color: var(--zen-text-primary);
                 font-weight: 500;
                 transition: all 0.2s;
 
                 &:hover {
-                    border-color: #2196F3;
-                    color: #2196F3;
+                    border-color: var(--zen-accent-primary);
+                    color: var(--zen-accent-primary);
+                    background: rgba(255, 255, 255, 0.1);
                     transform: translateY(-2px);
-                    box-shadow: 0 4px 8px rgba(33, 150, 243, 0.15);
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
                 }
             }
         }

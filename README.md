@@ -12,7 +12,7 @@ Desarrollado y creado por **Fabian A. Correa**.
 
 El sistema está organizado en módulos funcionales independientes que cubren las áreas críticas de la gestión empresarial:
 
-- **⚙️ Parámetros Generales**: Padrón centralizado de datos maestros del sistema, incluyendo tablas oficiales de **Provincias**, **Países**, **Bancos** y **Monedas**. Además, incorpora la nueva sección de **Parámetros de Módulos** (*Ventas, Compras, Tesorería, Contables, Inventario y Sueldos*) con ventanas emergentes (Pop-ups XL adaptativos) y almacenamiento temporal en servicios de datos en frontend vinculados al formulario real con *Two-way Binding*.
+- **⚙️ Parámetros Generales**: Padrón centralizado de datos maestros del sistema, incluyendo tablas oficiales de **Provincias**, **Países**, **Bancos**, **Monedas**, **Códigos de IVA**, **Tipos de Comprobantes** y **Tipos de Documento**. Además, incorpora validaciones dinámicas con formato inteligente para códigos alfanuméricos. Junto con esto, cuenta con la sección de **Parámetros de Módulos** (*Ventas, Compras, Tesorería, Contables, Inventario y Sueldos*) con ventanas emergentes (Pop-ups XL adaptativos) y almacenamiento temporal con *Two-way Binding*.
 - **📈 Ventas**: Gestión completa de facturación, clientes (con ID automático), informes exportables, productos, vendedores, listas de precios y zonas de distribución.
 - **🛒 Compras**: Control de órdenes de compra, registro de facturas, recepción de mercadería, gestión de proveedores y seguimiento de pagos.
 - **💰 Tesorería**: Administración de arqueo de caja, bancos, cobros y pagos, conciliaciones bancarias, flujo proyectado y movimientos en efectivo.
@@ -69,14 +69,15 @@ Siguiendo el patrón de modularización por funcionalidad:
 - [Angular CLI](https://angular.io/cli) instalado globalmente (`npm install -g @angular/cli`).
 
 ### Instrucciones de Inicio
-Para un inicio profesional y simplificado, el sistema cuenta con un sistema de arranque silencioso:
+Para un inicio profesional y simplificado, el sistema cuenta con un motor de arranque estático ultrarrápido:
 
 1. Clona el repositorio.
-2. Ejecuta `npm install` para instalar las dependencias.
-3. Haz doble clic en **`iniciar_sistema.bat`**.
+2. Ejecuta `npm install` (y asegúrate de instalar local o globalmente el paquete estático, ej. `npm install serve`).
+3. Ejecuta `npm run build` para pre-compilar el proyecto en modo producción (`dist/`).
+4. Usa el acceso directo apuntado a **`iniciar_silencioso.vbs`** en tu escritorio.
 
 > [!NOTE]
-> El arranque silencioso iniciará el servidor en segundo plano, mostrará un **Splash Screen** con branding y abrirá automáticamente tu navegador en `http://localhost:4200` una vez que el sistema esté listo.
+> El arranque silencioso levanta un micro-servidor de producción en segundo plano matando cualquier otra instancia vieja e inicializa tu navegador velozmente hacia `http://localhost:4200` casi de inmediato y completamente sin consolas (modo "fantasma").
 
 ---
 

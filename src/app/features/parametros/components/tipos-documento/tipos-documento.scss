@@ -16,16 +16,21 @@
     }
 
     .search-box {
-        width: 300px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .zen-input {
+            width: 300px;
+        }
     }
 }
 
 .table-container {
     overflow-x: auto;
-    max-height: 60vh;
+    max-height: 55vh;
     border-radius: var(--zen-radius-md);
 
-    /* Estilos base en styles.scss: .zen-table */
     .zen-table {
         thead th {
             position: sticky;

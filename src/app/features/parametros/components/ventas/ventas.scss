@@ -163,3 +163,28 @@
     pointer-events: none;
     color: var(--zen-text-muted);
 }
+
+.form-row-checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.9rem;
+        color: var(--zen-text-secondary);
+        cursor: pointer;
+        
+        input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--zen-accent-primary);
+            cursor: pointer;
+            margin: 0;
+            margin-right: 5px;
+        }
+    }
+}

@@ -16,7 +16,13 @@
     }
 
     .search-box {
-        width: 300px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .zen-input {
+            width: 300px;
+        }
     }
 }
 
@@ -25,12 +31,12 @@
     max-height: 60vh;
     border-radius: var(--zen-radius-md);
 
-    /* Estilos base en styles.scss: .zen-table */
     .zen-table {
         thead th {
             position: sticky;
             top: 0;
             z-index: 10;
+            /* El usuario dio una tabla azul oscura en el encabezado, pero usaremos thead genérico zen-table, o forzamos el azul si es preferible */
         }
 
         .badge {

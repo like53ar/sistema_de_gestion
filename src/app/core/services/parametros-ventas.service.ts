@@ -24,6 +24,35 @@ export interface ParametrosVentasData {
   siglaSubdiarioIva: string;
   leyendaMonedaCorriente: string;
   leyendaMonedaExtranjera: string;
+
+  // Impuestos - Fletes e Intereses
+  codigoIva: string;
+  descCodigoIva: string;
+  codigoPercepcionIva: string;
+  descCodigoPercepcionIva: string;
+  baseCalculoIvaIntereses: string;
+  baseCalculoIvaFlete: string;
+  calcularInteresesSegunIvaArticulos: boolean;
+
+  // IVA Simple - Fletes e Intereses
+  codigoClasificacionFletes: string;
+  descCodigoClasificacionFletes: string;
+  codigoActividadEconomicaFletes: string;
+  descCodigoActividadEconomicaFletes: string;
+  codigoClasificacionIntereses: string;
+  descCodigoClasificacionIntereses: string;
+  codigoActividadEconomicaIntereses: string;
+  descCodigoActividadEconomicaIntereses: string;
+
+  // Valores por defecto
+  codigoCategoriaIva: string;
+  descCodigoCategoriaIva: string;
+  calculaPercepcionIva: boolean;
+  liquidaImpuestosInternos: boolean;
+  discriminaImpuestosInternos: boolean;
+  calculaPercepcionImpuestosInternos: boolean;
+  liquidaIvaLiberado: boolean;
+  liquidaPercepcionIngresosBrutos: boolean;
 }
 
 @Injectable({
@@ -50,7 +79,33 @@ export class ParametrosVentasService {
     siglaIdentificacionTributaria: '',
     siglaSubdiarioIva: '',
     leyendaMonedaCorriente: '',
-    leyendaMonedaExtranjera: ''
+    leyendaMonedaExtranjera: '',
+
+    codigoIva: '',
+    descCodigoIva: '',
+    codigoPercepcionIva: '',
+    descCodigoPercepcionIva: '',
+    baseCalculoIvaIntereses: '',
+    baseCalculoIvaFlete: '',
+    calcularInteresesSegunIvaArticulos: false,
+
+    codigoClasificacionFletes: '',
+    descCodigoClasificacionFletes: '',
+    codigoActividadEconomicaFletes: '',
+    descCodigoActividadEconomicaFletes: '',
+    codigoClasificacionIntereses: '',
+    descCodigoClasificacionIntereses: '',
+    codigoActividadEconomicaIntereses: '',
+    descCodigoActividadEconomicaIntereses: '',
+
+    codigoCategoriaIva: '',
+    descCodigoCategoriaIva: '',
+    calculaPercepcionIva: false,
+    liquidaImpuestosInternos: false,
+    discriminaImpuestosInternos: false,
+    calculaPercepcionImpuestosInternos: false,
+    liquidaIvaLiberado: false,
+    liquidaPercepcionIngresosBrutos: false
   };
 
   constructor() { }
