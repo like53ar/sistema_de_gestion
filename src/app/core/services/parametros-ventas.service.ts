@@ -97,6 +97,39 @@ export interface ParametrosVentasData {
   longitudFamilia: number;
   longitudGrupo: number;
   longitudIndividuo: number;
+
+  // --- NUEVOS CAMPOS (TAB ARTÍCULOS) ---
+  // Stock
+  descargaStockAlFacturar: boolean;
+  ingresaArticulosEscalaMatriz: boolean;
+  muestraTodasCombinacionesMatriz: boolean;
+  
+  // Partidas
+  descargaPartidasNegativo: boolean;
+  permiteAltaPartidasFactura: boolean;
+  permiteAltaPartidasNotaCredito: boolean;
+
+  // Consulta de saldos
+  muestraPrecioArticulo: boolean;
+  muestraUnicamenteSaldoDeposito: boolean;
+
+  // Etiquetas
+  codigoModeloImpresionEtiquetas: string;
+  descModeloImpresionEtiquetas: string;
+  codigoListaPreciosEtiquetas: string;
+  descListaPreciosEtiquetas: string;
+  imprimeEtiquetasEmisionRemitos: string;
+
+  // Tango Tiendas
+  valorHabitualPublicacionTangoTiendas: string;
+
+  // Precios
+  guardarHistorialPrecios: boolean;
+  depurarHistorialPrecios: boolean;
+  mesesConservarPreciosHistoricos: number;
+
+  // Talonarios a excluir
+  talonariosExcluidosActualizacionPrecios: any[]; 
 }
 
 @Injectable({
@@ -181,7 +214,27 @@ export class ParametrosVentasService {
     fechaConversionClienteHabitual: '',
     longitudFamilia: 0,
     longitudGrupo: 0,
-    longitudIndividuo: 6
+    longitudIndividuo: 6,
+
+    // Inicialización de campos (Tab Artículos)
+    descargaStockAlFacturar: false,
+    ingresaArticulosEscalaMatriz: false,
+    muestraTodasCombinacionesMatriz: false,
+    descargaPartidasNegativo: false,
+    permiteAltaPartidasFactura: false,
+    permiteAltaPartidasNotaCredito: false,
+    muestraPrecioArticulo: false,
+    muestraUnicamenteSaldoDeposito: false,
+    codigoModeloImpresionEtiquetas: '',
+    descModeloImpresionEtiquetas: '',
+    codigoListaPreciosEtiquetas: '',
+    descListaPreciosEtiquetas: '',
+    imprimeEtiquetasEmisionRemitos: '',
+    valorHabitualPublicacionTangoTiendas: '',
+    guardarHistorialPrecios: false,
+    depurarHistorialPrecios: false,
+    mesesConservarPreciosHistoricos: 0,
+    talonariosExcluidosActualizacionPrecios: []
   };
 
   constructor() { }

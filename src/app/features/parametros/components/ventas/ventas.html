@@ -636,7 +636,181 @@
                     </div>
                 </ng-container>
 
-                <ng-container *ngIf="activeTab !== 'Principal' && activeTab !== 'Impuestos' && activeTab !== 'Clientes'">
+                <ng-container *ngIf="activeTab === 'Artículos'">
+                    <!-- Stock Group -->
+                    <div class="section-group">
+                        <div class="form-row-checkboxes">
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.descargaStockAlFacturar">
+                                Descarga stock al facturar
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.ingresaArticulosEscalaMatriz">
+                                Ingresa artículos con escala usando matriz durante la emisión del comprobante
+                            </label>
+                            <label class="checkbox-label" style="opacity: 0.8; margin-left: 20px;">
+                                <input type="checkbox" [(ngModel)]="formData.muestraTodasCombinacionesMatriz">
+                                Muestra todas las combinaciones de escala en la matriz
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Partidas Group -->
+                    <div class="section-group">
+                        <div class="fieldset-title">Partidas</div>
+                        <div class="form-row-checkboxes">
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.descargaPartidasNegativo">
+                                Descarga partidas en negativo
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.permiteAltaPartidasFactura">
+                                Permite alta de partidas desde factura
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.permiteAltaPartidasNotaCredito">
+                                Permite alta de partidas desde nota de crédito
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Consulta de saldos Group -->
+                    <div class="section-group">
+                        <div class="fieldset-title">Consulta de saldos de stock desde procesos</div>
+                        <div class="form-row-checkboxes">
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.muestraPrecioArticulo">
+                                Muestra precio del artículo
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.muestraUnicamenteSaldoDeposito: boolean">
+                                Muestra únicamente el saldo del depósito del comprobante
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Etiquetas Group -->
+                    <div class="section-group">
+                        <div class="fieldset-title">Etiquetas para artículos</div>
+                        
+                        <div class="form-row">
+                            <div class="form-group flex-1" style="max-width: 45%;">
+                                <label>Código de modelo de impresión</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.codigoModeloImpresionEtiquetas">
+                                        <option value="">&lt;Todos&gt;</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    <button class="zen-btn group-addon addon-multiple">⋮</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-2">
+                                <label>Descripción</label>
+                                <input type="text" class="zen-input readonly-input" [(ngModel)]="formData.descModeloImpresionEtiquetas" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group flex-1" style="max-width: 45%;">
+                                <label>Código de lista de precios</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.codigoListaPreciosEtiquetas">
+                                        <option value="">&lt;Todos&gt;</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    <button class="zen-btn group-addon addon-multiple">+</button>
+                                    <button class="zen-btn group-addon addon-multiple">⋮</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-2">
+                                <label>Descripción</label>
+                                <input type="text" class="zen-input readonly-input" [(ngModel)]="formData.descListaPreciosEtiquetas" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group" style="flex: 1; max-width: 45%;">
+                                <label>Imprime etiquetas en la emisión de remitos</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.imprimeEtiquetasEmisionRemitos">
+                                        <option value="">No imprime</option>
+                                        <option value="Imprime">Imprime</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tango Tiendas Group -->
+                    <div class="section-group">
+                        <div class="fieldset-title">Tango Tiendas</div>
+                        <div class="form-row">
+                            <div class="form-group" style="flex: 1; max-width: 45%;">
+                                <label>Valor habitual para publicación de artículos en Tango Tiendas</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.valorHabitualPublicacionTangoTiendas">
+                                        <option value="">Publica</option>
+                                        <option value="No publica">No publica</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Precios Group -->
+                    <div class="section-group">
+                        <div class="fieldset-title">Precios</div>
+                        <div class="form-row-checkboxes">
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.guardarHistorialPrecios">
+                                Guardar el historial de precios
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.depurarHistorialPrecios">
+                                Depurar el historial de precios
+                            </label>
+                        </div>
+                        <div class="form-row" style="margin-top: 15px;">
+                            <div class="form-group flex-1" style="max-width: 45%;">
+                                <label>Conservar los precios históricos por (en meses)</label>
+                                <input type="number" class="zen-input" [(ngModel)]="formData.mesesConservarPreciosHistoricos">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exclusiones Group -->
+                    <div class="section-group">
+                        <div class="fieldset-title">Talonarios de pedido a excluir de la actualización de precios</div>
+                        
+                        <div style="background-color: rgba(255,255,255,0.02); border: 1px solid var(--zen-border); border-radius: var(--zen-radius-sm); padding: 5px;">
+                            <div style="padding: 10px; border-bottom: 1px solid var(--zen-border); display: flex; justify-content: space-between; align-items: center;">
+                                <button class="zen-btn secondary sm">Nuevo</button>
+                                <button class="zen-btn secondary sm">Y</button>
+                            </div>
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+                                <thead>
+                                    <tr style="text-align: left; color: var(--zen-text-muted); border-bottom: 1px solid var(--zen-border);">
+                                        <th style="padding: 10px;">Talonario de pedidos</th>
+                                        <th style="padding: 10px;">Descripción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of formData.talonariosExcluidosActualizacionPrecios">
+                                        <td style="padding: 10px;">{{ item.codigo }}</td>
+                                        <td style="padding: 10px;">{{ item.descripcion }}</td>
+                                    </tr>
+                                    <tr *ngIf="formData.talonariosExcluidosActualizacionPrecios.length === 0">
+                                        <td colspan="2" style="padding: 30px; text-align: center; color: var(--zen-text-muted); opacity: 0.5;">No hay datos para mostrar</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="activeTab !== 'Principal' && activeTab !== 'Impuestos' && activeTab !== 'Clientes' && activeTab !== 'Artículos'">
                     <div style="padding: 40px; text-align: center; color: var(--zen-text-muted);">
                         <div style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;">🚧</div>
                         <h3>Contenido de {{ activeTab }}</h3>
