@@ -53,6 +53,50 @@ export interface ParametrosVentasData {
   calculaPercepcionImpuestosInternos: boolean;
   liquidaIvaLiberado: boolean;
   liquidaPercepcionIngresosBrutos: boolean;
+
+  // --- NUEVOS CAMPOS (TAB CLIENTES) ---
+  ingresoObligatorioCuit: boolean;
+  
+  // Clientes habituales
+  permiteAltaClientesDesdeProcesos: boolean;
+  codificacionAutomaticaClientes: boolean;
+  proximoCodigoCliente: string;
+  utilizaPrefijoCodificacion: string;
+  valorPrefijo: string;
+  duplicacionTipoNroDocumento: string;
+  asignacionNumeroPagoElectronico: string;
+
+  // Clientes habituales / ocasionales
+  codigoTipoDocumento: string;
+  descTipoDocumento: string;
+  actualizaInformacionAfip: string;
+  codigoProvinciaHabitual: string;
+  descProvinciaHabitual: string;
+  codigoCondicionVentaHabitual: string;
+  descCondicionVentaHabitual: string;
+  codigoZonaHabitual: string;
+  descZonaHabitual: string;
+
+  // Solo clientes ocasionales
+  codigoTipoOperacion: string;
+  descTipoOperacion: string;
+
+  // Control de clientes inhabilitados
+  controlFacturasCreditosDebitos: string;
+  controlPedidos: string;
+  controlRemitos: string;
+  controlCotizaciones: string;
+
+  // Clientes potenciales
+  codificacionAutomaticaClientesPotenciales: boolean;
+  proximoCodigoClientePotencial: string;
+  clasificaClientesPotencialesAltas: boolean;
+  fechaConversionClienteHabitual: string;
+
+  // Longitud de agrupaciones
+  longitudFamilia: number;
+  longitudGrupo: number;
+  longitudIndividuo: number;
 }
 
 @Injectable({
@@ -105,7 +149,39 @@ export class ParametrosVentasService {
     discriminaImpuestosInternos: false,
     calculaPercepcionImpuestosInternos: false,
     liquidaIvaLiberado: false,
-    liquidaPercepcionIngresosBrutos: false
+    liquidaPercepcionIngresosBrutos: false,
+
+    // Inicialización de nuevos campos (Vacíos por ahora)
+    ingresoObligatorioCuit: false,
+    permiteAltaClientesDesdeProcesos: false,
+    codificacionAutomaticaClientes: false,
+    proximoCodigoCliente: '',
+    utilizaPrefijoCodificacion: '',
+    valorPrefijo: '',
+    duplicacionTipoNroDocumento: '',
+    asignacionNumeroPagoElectronico: '',
+    codigoTipoDocumento: '',
+    descTipoDocumento: '',
+    actualizaInformacionAfip: '',
+    codigoProvinciaHabitual: '',
+    descProvinciaHabitual: '',
+    codigoCondicionVentaHabitual: '',
+    descCondicionVentaHabitual: '',
+    codigoZonaHabitual: '',
+    descZonaHabitual: '',
+    codigoTipoOperacion: '',
+    descTipoOperacion: '',
+    controlFacturasCreditosDebitos: '',
+    controlPedidos: '',
+    controlRemitos: '',
+    controlCotizaciones: '',
+    codificacionAutomaticaClientesPotenciales: false,
+    proximoCodigoClientePotencial: '',
+    clasificaClientesPotencialesAltas: false,
+    fechaConversionClienteHabitual: '',
+    longitudFamilia: 0,
+    longitudGrupo: 0,
+    longitudIndividuo: 6
   };
 
   constructor() { }

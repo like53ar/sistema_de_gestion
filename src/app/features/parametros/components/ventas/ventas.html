@@ -338,7 +338,305 @@
                     </div>
                 </ng-container>
 
-                <ng-container *ngIf="activeTab !== 'Principal' && activeTab !== 'Impuestos'">
+                <ng-container *ngIf="activeTab === 'Clientes'">
+                    <!-- General Group -->
+                    <div class="section-group">
+                        <div class="form-row-checkboxes">
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.ingresoObligatorioCuit">
+                                Ingreso obligatorio de CUIT
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Clientes habituales Group -->
+                    <div class="section-group">
+                        <div class="fieldset-title">Clientes habituales</div>
+                        
+                        <div class="form-row-checkboxes" style="margin-bottom: 15px;">
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.permiteAltaClientesDesdeProcesos">
+                                Permite alta de clientes desde procesos
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.codificacionAutomaticaClientes">
+                                Codificación automática de clientes
+                            </label>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group flex-1" style="max-width: 50%;">
+                                <label>Próximo código de cliente</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.proximoCodigoCliente">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group flex-1">
+                                <label>Utiliza prefijo para codificación</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.utilizaPrefijoCodificacion">
+                                        <option value="">No controla</option>
+                                        <option value="Si">Si</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-1">
+                                <label>Valor del prefijo</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.valorPrefijo">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group flex-1">
+                                <label>Duplicación de Tipo y Nro. de documento</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.duplicacionTipoNroDocumento">
+                                        <option value="">Control estricto (solo CUIT)</option>
+                                        <option value="No controla">No controla</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-1">
+                                <label>Asignación número pago electrónico</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.asignacionNumeroPagoElectronico">
+                                        <option value="">No propone valor</option>
+                                        <option value="Propone">Propone valor</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Clientes habituales / ocasionales Group -->
+                    <div class="section-group">
+                        <div class="fieldset-title">Clientes habituales / ocasionales</div>
+                        
+                        <div class="form-row">
+                            <div class="form-group flex-1" style="max-width: 40%;">
+                                <label>Código de tipo de documento</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.codigoTipoDocumento">
+                                        <option value="">--</option>
+                                        <option value="80">80</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    <button class="zen-btn group-addon addon-multiple">⋮</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-2">
+                                <label>Descripción</label>
+                                <input type="text" class="zen-input readonly-input" [(ngModel)]="formData.descTipoDocumento" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row" style="margin-bottom: 20px;">
+                            <div class="form-group" style="flex: 1; max-width: 50%;">
+                                <label>Actualiza información con AFIP</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.actualizaInformacionAfip">
+                                        <option value="">A pedido</option>
+                                        <option value="Siempre">Siempre</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group flex-1" style="max-width: 40%;">
+                                <label>Código de provincia habitual</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.codigoProvinciaHabitual">
+                                        <option value="">--</option>
+                                        <option *ngFor="let p of provincias" [value]="p.id">{{ p.id }}</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    <button class="zen-btn group-addon addon-multiple">+</button>
+                                    <button class="zen-btn group-addon addon-multiple">⋮</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-2">
+                                <label>Descripción</label>
+                                <input type="text" class="zen-input readonly-input" [(ngModel)]="formData.descProvinciaHabitual" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group flex-1" style="max-width: 40%;">
+                                <label>Código de condición de venta habitual</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.codigoCondicionVentaHabitual">
+                                        <option value="">--</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    <button class="zen-btn group-addon addon-multiple">+</button>
+                                    <button class="zen-btn group-addon addon-multiple">⋮</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-2">
+                                <label>Descripción</label>
+                                <input type="text" class="zen-input readonly-input" [(ngModel)]="formData.descCondicionVentaHabitual" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group flex-1" style="max-width: 40%;">
+                                <label>Código de zona habitual</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.codigoZonaHabitual">
+                                        <option value="">--</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    <button class="zen-btn group-addon addon-multiple">+</button>
+                                    <button class="zen-btn group-addon addon-multiple">⋮</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-2">
+                                <label>Descripción</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.descZonaHabitual">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Solo clientes ocasionales Group -->
+                    <div class="section-group">
+                        <div class="fieldset-title" style="color: var(--zen-accent-primary);">Solo clientes ocasionales - RG 3685 / 4597</div>
+                        
+                        <div class="form-row">
+                            <div class="form-group flex-1" style="max-width: 45%;">
+                                <label>Código de Tipo de operación</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.codigoTipoOperacion">
+                                        <option value="">0</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    <button class="zen-btn group-addon addon-multiple">⋮</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-2">
+                                <label>Descripción</label>
+                                <input type="text" class="zen-input readonly-input" [(ngModel)]="formData.descTipoOperacion" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Control de clientes inhabilitados Group -->
+                    <div class="section-group">
+                        <div class="fieldset-title">Control de clientes inhabilitados</div>
+                        
+                        <div class="form-row">
+                            <div class="form-group flex-1">
+                                <label>Facturas / créditos / débitos</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.controlFacturasCreditosDebitos">
+                                        <option value="">No permite operar</option>
+                                        <option value="Avisar">Avisar</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-1">
+                                <label>Pedidos</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.controlPedidos">
+                                        <option value="">Confirmar ante fechas posteriores</option>
+                                        <option value="No permite">No permite operar</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group flex-1">
+                                <label>Remitos</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.controlRemitos">
+                                        <option value="">No permite operar</option>
+                                        <option value="Avisar">Avisar</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                </div>
+                            </div>
+                            <div class="form-group flex-1">
+                                <label>Cotizaciones</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.controlCotizaciones">
+                                        <option value="">Confirmar ante fechas posteriores</option>
+                                        <option value="No permite">No permite operar</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Clientes potenciales Group -->
+                    <div class="section-group">
+                        <div class="fieldset-title">Clientes potenciales</div>
+                        
+                        <div class="form-row-checkboxes" style="margin-bottom: 15px;">
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.codificacionAutomaticaClientesPotenciales">
+                                Codificación automática de clientes potenciales
+                            </label>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group flex-1" style="max-width: 45%;">
+                                <label>Próximo código de cliente</label>
+                                <input type="text" class="zen-input" [(ngModel)]="formData.proximoCodigoClientePotencial">
+                            </div>
+                        </div>
+
+                        <div class="form-row-checkboxes" style="margin: 15px 0;">
+                            <label class="checkbox-label">
+                                <input type="checkbox" [(ngModel)]="formData.clasificaClientesPotencialesAltas">
+                                Clasifica clientes potenciales en altas
+                            </label>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group flex-1" style="max-width: 45%;">
+                                <label>Fecha de conversión a cliente habitual</label>
+                                <div class="input-group">
+                                    <select class="zen-input" [(ngModel)]="formData.fechaConversionClienteHabitual">
+                                        <option value="">Fecha del día</option>
+                                        <option value="Fija">Fecha fija</option>
+                                    </select>
+                                    <button class="zen-btn group-addon addon-multiple">▼</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Longitud de agrupaciones Group -->
+                    <div class="section-group">
+                        <div class="fieldset-title">Longitud de agrupaciones del cliente</div>
+                        
+                        <div class="form-row">
+                            <div class="form-group flex-1">
+                                <label>Longitud de familia</label>
+                                <input type="number" class="zen-input" [(ngModel)]="formData.longitudFamilia" style="text-align: right;">
+                            </div>
+                            <div class="form-group flex-1">
+                                <label>Longitud de grupo</label>
+                                <input type="number" class="zen-input" [(ngModel)]="formData.longitudGrupo" style="text-align: right;">
+                            </div>
+                            <div class="form-group flex-1">
+                                <label>Longitud de individuo</label>
+                                <input type="number" class="zen-input" [(ngModel)]="formData.longitudIndividuo" style="text-align: right;">
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="activeTab !== 'Principal' && activeTab !== 'Impuestos' && activeTab !== 'Clientes'">
                     <div style="padding: 40px; text-align: center; color: var(--zen-text-muted);">
                         <div style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;">🚧</div>
                         <h3>Contenido de {{ activeTab }}</h3>
