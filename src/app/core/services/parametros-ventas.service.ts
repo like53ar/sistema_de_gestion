@@ -179,6 +179,28 @@ export interface ParametrosVentasData {
   ubicacionArchivoRemotoShopping: string;
   utiliza5DigitosPuntoVenta: boolean;
   puntosVentaTerminalShopping: any[];
+
+  // --- NUEVOS CAMPOS (TAB COMPROBANTES -> SEÑAS) ---
+  utilizaFacturacionSenas: boolean;
+  respetaPreciosAlAplicarSena: boolean;
+  codigoIvaSena: string;
+  descIvaSena: string;
+  codigoPercIvaSena: string;
+  descPercIvaSena: string;
+  codigoImpuestoInternoSena: string;
+  descImpuestoInternoSena: string;
+  codigoPercImpuestoInternoSena: string;
+  descPercImpuestoInternoSena: string;
+  codigoImpuestoInternoAdicSena: string;
+  descImpuestoInternoAdicSena: string;
+  codigoPercImpuestoInternoAdicSena: string;
+  descPercImpuestoInternoAdicSena: string;
+  codigoPercIibdSena: string;
+  descPercIibdSena: string;
+  codigoPercIbBsAsSena: string;
+  descPercIbBsAsSena: string;
+  codigoPercNoCategSena: string;
+  descPercNoCategSena: string;
 }
 
 @Injectable({
@@ -332,7 +354,29 @@ export class ParametrosVentasService {
     ubicacionArchivoLocalShopping: '',
     ubicacionArchivoRemotoShopping: '',
     utiliza5DigitosPuntoVenta: false,
-    puntosVentaTerminalShopping: []
+    puntosVentaTerminalShopping: [],
+
+    // Inicialización de campos (Tab Comprobantes -> Señas)
+    utilizaFacturacionSenas: false,
+    respetaPreciosAlAplicarSena: false,
+    codigoIvaSena: '',
+    descIvaSena: '',
+    codigoPercIvaSena: '',
+    descPercIvaSena: '',
+    codigoImpuestoInternoSena: '',
+    descImpuestoInternoSena: '',
+    codigoPercImpuestoInternoSena: '',
+    descPercImpuestoInternoSena: '',
+    codigoImpuestoInternoAdicSena: '',
+    descImpuestoInternoAdicSena: '',
+    codigoPercImpuestoInternoAdicSena: '',
+    descPercImpuestoInternoAdicSena: '',
+    codigoPercIibdSena: '',
+    descPercIibdSena: '',
+    codigoPercIbBsAsSena: '',
+    descPercIbBsAsSena: '',
+    codigoPercNoCategSena: '',
+    descPercNoCategSena: ''
   };
 
   constructor() { }

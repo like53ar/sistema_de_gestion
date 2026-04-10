@@ -1235,7 +1235,124 @@
                         </div>
                     </ng-container>
 
-                    <ng-container *ngIf="activeSubTabComprobantes !== 'General' && activeSubTabComprobantes !== 'Transporte de bienes (COT)' && activeSubTabComprobantes !== 'Integración con shoppings'">
+                    <ng-container *ngIf="activeSubTabComprobantes === 'Señas'">
+                        <div class="section-group">
+                            <div class="form-row-checkboxes" style="margin-bottom: 20px;">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.utilizaFacturacionSenas">
+                                    Utiliza el sistema de facturación con señas
+                                </label>
+                                <label class="checkbox-label" style="margin-top: 10px;">
+                                    <input type="checkbox" [(ngModel)]="formData.respetaPreciosAlAplicarSena">
+                                    Respeta precios al aplicar la seña
+                                </label>
+                            </div>
+
+                            <!-- IVA Section -->
+                            <div class="form-row">
+                                <div class="form-group flex-1" style="max-width: 45%;">
+                                    <label>Código de IVA</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.codigoIvaSena">
+                                </div>
+                                <div class="form-group flex-2">
+                                    <label>Descripción</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.descIvaSena">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group flex-1" style="max-width: 45%;">
+                                    <label>Código de percepción de IVA</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.codigoPercIvaSena">
+                                </div>
+                                <div class="form-group flex-2">
+                                    <label>Descripción</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.descPercIvaSena">
+                                </div>
+                            </div>
+
+                            <!-- Impuestos Internos Section -->
+                            <div class="form-row">
+                                <div class="form-group flex-1" style="max-width: 45%;">
+                                    <label>Código de impuesto interno</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.codigoImpuestoInternoSena">
+                                </div>
+                                <div class="form-group flex-2">
+                                    <label>Descripción</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.descImpuestoInternoSena">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group flex-1" style="max-width: 45%;">
+                                    <label>Código de percepción de impuesto interno</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.codigoPercImpuestoInternoSena">
+                                </div>
+                                <div class="form-group flex-2">
+                                    <label>Descripción</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.descPercImpuestoInternoSena">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group flex-1" style="max-width: 45%;">
+                                    <label>Código de impuesto interno (adicional)</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.codigoImpuestoInternoAdicSena">
+                                </div>
+                                <div class="form-group flex-2">
+                                    <label>Descripción</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.descImpuestoInternoAdicSena">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group flex-1" style="max-width: 45%;">
+                                    <label>Código de percepción de impuesto interno (adicional)</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.codigoPercImpuestoInternoAdicSena">
+                                </div>
+                                <div class="form-group flex-2">
+                                    <label>Descripción</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.descPercImpuestoInternoAdicSena">
+                                </div>
+                            </div>
+
+                            <!-- IIBB Section -->
+                            <div class="form-row">
+                                <div class="form-group flex-1" style="max-width: 45%;">
+                                    <label>Código de percepción ingresos brutos</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.codigoPercIibdSena">
+                                </div>
+                                <div class="form-group flex-2">
+                                    <label>Descripción</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.descPercIibdSena">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group flex-1" style="max-width: 45%;">
+                                    <label>Código de percepción IB Bs.As. 59/98</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.codigoPercIbBsAsSena">
+                                </div>
+                                <div class="form-group flex-2">
+                                    <label>Descripción</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.descPercIbBsAsSena">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group flex-1" style="max-width: 45%;">
+                                    <label>Código de percepción no categorizado</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.codigoPercNoCategSena">
+                                </div>
+                                <div class="form-group flex-2">
+                                    <label>Descripción</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.descPercNoCategSena">
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="activeSubTabComprobantes !== 'General' && activeSubTabComprobantes !== 'Transporte de bienes (COT)' && activeSubTabComprobantes !== 'Integración con shoppings' && activeSubTabComprobantes !== 'Señas'">
                         <div style="padding: 40px; text-align: center; color: var(--zen-text-muted);">
                             <div style="font-size: 3rem; margin-bottom: 10px; opacity: 0.3;">📂</div>
                             <h3>{{ activeSubTabComprobantes }}</h3>
