@@ -246,6 +246,30 @@ export interface ParametrosVentasData {
   generaPedidosAprobadosCotiz: boolean;
   generaPedidosAutoProcesosCotiz: boolean;
   diasHabitualesEntregaDesdeCotiz: number;
+
+  // --- NUEVOS CAMPOS (TAB COMPROBANTES -> RECIBOS) ---
+  editaMonedaRecibo: string;
+  monedaRecibo: string;
+  ordenCargaDatosRecibo: string;
+  modoImputacionRecibo: string;
+  modoImputacionCobranzasMasivas: string;
+  modoImputacionNexoCobranzas: string;
+  seleccionAutoComprobantesImporte: string;
+  muestraPendientesRecibo: string;
+  criterioAsignacionRecibo: string;
+  incluyeNotasCreditoRecibo: boolean;
+  incluyeNotasDebitoRecibo: boolean;
+  asignacionIgualFechaRecibo: string;
+  codigoCuentaRedondeoRecibo: string;
+  descCuentaRedondeoRecibo: string;
+  sugiereIngresoDocumentosRecibo: boolean;
+  sugiereIngresoLeyendasRecibo: boolean;
+  permiteReimprimirRecibo: boolean;
+  leyenda1Recibo: string;
+  leyenda2Recibo: string;
+  leyenda3Recibo: string;
+  leyenda4Recibo: string;
+  leyenda5Recibo: string;
 }
 
 @Injectable({
@@ -466,7 +490,31 @@ export class ParametrosVentasService {
     imprimeAlGenerarCotiz: false,
     generaPedidosAprobadosCotiz: false,
     generaPedidosAutoProcesosCotiz: false,
-    diasHabitualesEntregaDesdeCotiz: 0
+    diasHabitualesEntregaDesdeCotiz: 0,
+
+    // Inicialización de campos (Tab Comprobantes -> Recibos)
+    editaMonedaRecibo: '',
+    monedaRecibo: '',
+    ordenCargaDatosRecibo: '',
+    modoImputacionRecibo: '',
+    modoImputacionCobranzasMasivas: '',
+    modoImputacionNexoCobranzas: '',
+    seleccionAutoComprobantesImporte: '',
+    muestraPendientesRecibo: '',
+    criterioAsignacionRecibo: '',
+    incluyeNotasCreditoRecibo: false,
+    incluyeNotasDebitoRecibo: false,
+    asignacionIgualFechaRecibo: '',
+    codigoCuentaRedondeoRecibo: '',
+    descCuentaRedondeoRecibo: '',
+    sugiereIngresoDocumentosRecibo: false,
+    sugiereIngresoLeyendasRecibo: false,
+    permiteReimprimirRecibo: false,
+    leyenda1Recibo: 'Leyenda 1',
+    leyenda2Recibo: 'Leyenda 2',
+    leyenda3Recibo: 'Leyenda 3',
+    leyenda4Recibo: 'Leyenda 4',
+    leyenda5Recibo: 'Leyenda 5'
   };
 
   constructor() { }
