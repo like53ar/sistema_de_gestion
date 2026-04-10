@@ -1352,7 +1352,187 @@
                         </div>
                     </ng-container>
 
-                    <ng-container *ngIf="activeSubTabComprobantes !== 'General' && activeSubTabComprobantes !== 'Transporte de bienes (COT)' && activeSubTabComprobantes !== 'Integración con shoppings' && activeSubTabComprobantes !== 'Señas'">
+                    <ng-container *ngIf="activeSubTabComprobantes === 'Pedidos'">
+                        <div class="section-group">
+                            <div class="form-row-checkboxes">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.mantienePedidosFacturadosYEntregados">
+                                    Mantiene pedidos facturados y entregados
+                                </label>
+                                <label class="checkbox-label" style="margin-top: 10px;">
+                                    <input type="checkbox" [(ngModel)]="formData.consultaAfipFacturaCredito">
+                                    Consulta a AFIP si el cliente debe generar factura de crédito
+                                </label>
+                            </div>
+
+                            <div class="fieldset-title" style="margin-top: 25px;">Aprobación de pedidos ingresados</div>
+                            <div class="form-row-checkboxes">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.apruebaPedidos">
+                                    Aprueba pedidos
+                                </label>
+                                <label class="checkbox-label" style="margin-top: 10px;">
+                                    <input type="checkbox" [(ngModel)]="formData.apruebaCondiciones">
+                                    Aprueba condiciones
+                                </label>
+                                <label class="checkbox-label" style="margin-top: 10px;">
+                                    <input type="checkbox" [(ngModel)]="formData.apruebaPreciosPedidos">
+                                    Aprueba precios
+                                </label>
+                                <label class="checkbox-label" style="margin-top: 10px;">
+                                    <input type="checkbox" [(ngModel)]="formData.apruebaCantidades">
+                                    Aprueba cantidades
+                                </label>
+                                <label class="checkbox-label" style="margin-top: 10px;">
+                                    <input type="checkbox" [(ngModel)]="formData.activaCantidadesAlAprobar">
+                                    Activa automáticamente las cantidades al aprobar
+                                </label>
+                            </div>
+
+                            <div class="fieldset-title" style="margin-top: 25px;">Planes de entrega</div>
+                            <div class="form-row-checkboxes">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.usaPlanesEntrega">
+                                    Usa planes de entrega
+                                </label>
+                            </div>
+                            <div class="form-row" style="margin-top: 15px;">
+                                <div class="form-group flex-1" style="max-width: 50%;">
+                                    <label>Cantidad habitual de días para la fecha de entrega</label>
+                                    <input type="number" class="zen-input" [(ngModel)]="formData.diasHabitualesFechaEntrega">
+                                </div>
+                            </div>
+
+                            <div class="fieldset-title" style="margin-top: 25px;">Pedidos de Tango Tiendas</div>
+                            <div class="form-row-checkboxes">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.generaPedidosAutomaticosTango">
+                                    Genera pedidos automáticos en base a órdenes de Tango Tiendas
+                                </label>
+                                <label class="checkbox-label" style="margin-top: 10px;">
+                                    <input type="checkbox" [(ngModel)]="formData.procesaOrdenesCanceladasTango">
+                                    Procesa automáticamente órdenes canceladas
+                                </label>
+                            </div>
+                            <div class="form-row" style="margin-top: 15px;">
+                                <div class="form-group flex-1">
+                                    <label>Código de motivo para pedidos</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.codigoMotivoPedidosTango">
+                                            <option value="">&lt;Todos&gt;</option>
+                                        </select>
+                                        <button class="zen-btn group-addon">▼</button>
+                                        <button class="zen-btn group-addon">+</button>
+                                        <button class="zen-btn group-addon">⋮</button>
+                                    </div>
+                                </div>
+                                <div class="form-group flex-2">
+                                    <label>Descripción</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.descMotivoPedidosTango">
+                                </div>
+                            </div>
+                            <div class="form-row-checkboxes" style="margin-top: 15px;">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.depurarRevisionPedidosTango">
+                                    Depurar revisión de pedidos de Tango Tiendas
+                                </label>
+                            </div>
+                            <div class="form-row" style="margin-top: 15px;">
+                                <div class="form-group flex-1" style="max-width: 50%;">
+                                    <label>Conserva los pedidos de Tango Tiendas por (meses)</label>
+                                    <input type="number" class="zen-input" [(ngModel)]="formData.conservaPedidosTangoMeses">
+                                </div>
+                            </div>
+
+                            <div class="fieldset-title" style="margin-top: 25px;">Facturación de pedidos</div>
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label>Código de RG 3685 / 4597 - Tipo de operación</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.codigoTipoOperacionRG3685">
+                                            <option value="">&lt;Todos&gt;</option>
+                                        </select>
+                                        <button class="zen-btn group-addon">▼</button>
+                                        <button class="zen-btn group-addon">⋮</button>
+                                    </div>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Descripción</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.descTipoOperacionRG3685">
+                                </div>
+                            </div>
+
+                            <div class="fieldset-title" style="margin-top: 25px;">Promociones</div>
+                            <div class="form-row">
+                                <div class="form-group flex-1" style="max-width: 50%;">
+                                    <label>Calcula promociones en pedidos</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.calculaPromocionesPedidos">
+                                            <option value="">Nunca</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 15px;">
+                                <div class="form-group flex-1" style="max-width: 50%;">
+                                    <label>Días de vigencia de promociones</label>
+                                    <input type="number" class="zen-input" [(ngModel)]="formData.diasVigenciaPromociones">
+                                </div>
+                            </div>
+
+                            <div class="fieldset-title" style="margin-top: 25px;">Actualización de precios</div>
+                            <div class="form-row-checkboxes">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.actualizaPreciosModelos">
+                                    Actualiza precios de los modelos
+                                </label>
+                                <label class="checkbox-label" style="margin-top: 10px;">
+                                    <input type="checkbox" [(ngModel)]="formData.actualizaPreciosNovedades">
+                                    Actualiza precios de las novedades
+                                </label>
+                            </div>
+
+                            <div class="fieldset-title" style="margin-top: 25px;">Información de criterios y selección de búsqueda de artículos</div>
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label>Tipo de búsqueda por defecto</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.tipoBusquedaArticuloDefecto">
+                                            <option value="">Comienza con</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    </div>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Campo de búsqueda predeterminado</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.campoBusquedaArticuloPredeterminado">
+                                            <option value="">Código</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 15px;">
+                                <div class="form-group flex-1">
+                                    <label>Agregar automáticamente si hay coincidencia</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.agregarAutoSiCoincidenciaArticulo">
+                                            <option value="">Todos</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    </div>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Cantidad de caracteres para coincidencia</label>
+                                    <input type="number" class="zen-input" [(ngModel)]="formData.cantCaracteresCoincidenciaArticulo">
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="activeSubTabComprobantes !== 'General' && activeSubTabComprobantes !== 'Transporte de bienes (COT)' && activeSubTabComprobantes !== 'Integración con shoppings' && activeSubTabComprobantes !== 'Señas' && activeSubTabComprobantes !== 'Pedidos'">
                         <div style="padding: 40px; text-align: center; color: var(--zen-text-muted);">
                             <div style="font-size: 3rem; margin-bottom: 10px; opacity: 0.3;">📂</div>
                             <h3>{{ activeSubTabComprobantes }}</h3>

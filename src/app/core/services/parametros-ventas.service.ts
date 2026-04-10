@@ -201,6 +201,33 @@ export interface ParametrosVentasData {
   descPercIbBsAsSena: string;
   codigoPercNoCategSena: string;
   descPercNoCategSena: string;
+
+  // --- NUEVOS CAMPOS (TAB COMPROBANTES -> PEDIDOS) ---
+  mantienePedidosFacturadosYEntregados: boolean;
+  consultaAfipFacturaCredito: boolean;
+  apruebaPedidos: boolean;
+  apruebaCondiciones: boolean;
+  apruebaPreciosPedidos: boolean;
+  apruebaCantidades: boolean;
+  activaCantidadesAlAprobar: boolean;
+  usaPlanesEntrega: boolean;
+  diasHabitualesFechaEntrega: number;
+  generaPedidosAutomaticosTango: boolean;
+  procesaOrdenesCanceladasTango: boolean;
+  codigoMotivoPedidosTango: string;
+  descMotivoPedidosTango: string;
+  depurarRevisionPedidosTango: boolean;
+  conservaPedidosTangoMeses: number;
+  codigoTipoOperacionRG3685: string;
+  descTipoOperacionRG3685: string;
+  calculaPromocionesPedidos: string;
+  diasVigenciaPromociones: number;
+  actualizaPreciosModelos: boolean;
+  actualizaPreciosNovedades: boolean;
+  tipoBusquedaArticuloDefecto: string;
+  campoBusquedaArticuloPredeterminado: string;
+  agregarAutoSiCoincidenciaArticulo: string;
+  cantCaracteresCoincidenciaArticulo: number;
 }
 
 @Injectable({
@@ -376,7 +403,34 @@ export class ParametrosVentasService {
     codigoPercIbBsAsSena: '',
     descPercIbBsAsSena: '',
     codigoPercNoCategSena: '',
-    descPercNoCategSena: ''
+    descPercNoCategSena: '',
+
+    // Inicialización de campos (Tab Comprobantes -> Pedidos)
+    mantienePedidosFacturadosYEntregados: false,
+    consultaAfipFacturaCredito: false,
+    apruebaPedidos: false,
+    apruebaCondiciones: false,
+    apruebaPreciosPedidos: false,
+    apruebaCantidades: false,
+    activaCantidadesAlAprobar: false,
+    usaPlanesEntrega: false,
+    diasHabitualesFechaEntrega: 0,
+    generaPedidosAutomaticosTango: false,
+    procesaOrdenesCanceladasTango: false,
+    codigoMotivoPedidosTango: '',
+    descMotivoPedidosTango: '',
+    depurarRevisionPedidosTango: false,
+    conservaPedidosTangoMeses: 0,
+    codigoTipoOperacionRG3685: '',
+    descTipoOperacionRG3685: '',
+    calculaPromocionesPedidos: '',
+    diasVigenciaPromociones: 0,
+    actualizaPreciosModelos: false,
+    actualizaPreciosNovedades: false,
+    tipoBusquedaArticuloDefecto: '',
+    campoBusquedaArticuloPredeterminado: '',
+    agregarAutoSiCoincidenciaArticulo: '',
+    cantCaracteresCoincidenciaArticulo: 0
   };
 
   constructor() { }
