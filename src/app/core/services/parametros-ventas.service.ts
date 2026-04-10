@@ -169,6 +169,16 @@ export interface ParametrosVentasData {
   importeMinimoSinImpuestos: number;
   versionRemito: string;
   cantidadTotalMinimaKilos: number;
+
+  // --- NUEVOS CAMPOS (TAB COMPROBANTES -> INTEGRACIÓN CON SHOPPINGS) ---
+  generaInformacionShoppings: string;
+  rubroLocalShopping: number;
+  nroContratoShopping: string;
+  nroLocalShopping: string;
+  ubicacionArchivoLocalShopping: string;
+  ubicacionArchivoRemotoShopping: string;
+  utiliza5DigitosPuntoVenta: boolean;
+  puntosVentaTerminalShopping: any[];
 }
 
 @Injectable({
@@ -312,7 +322,17 @@ export class ParametrosVentasService {
     editaImporteTotalConImpuestos: false,
     importeMinimoSinImpuestos: 0,
     versionRemito: '',
-    cantidadTotalMinimaKilos: 0
+    cantidadTotalMinimaKilos: 0,
+
+    // Inicialización de campos (Tab Comprobantes -> Integración con shoppings)
+    generaInformacionShoppings: '',
+    rubroLocalShopping: 0,
+    nroContratoShopping: '',
+    nroLocalShopping: '',
+    ubicacionArchivoLocalShopping: '',
+    ubicacionArchivoRemotoShopping: '',
+    utiliza5DigitosPuntoVenta: false,
+    puntosVentaTerminalShopping: []
   };
 
   constructor() { }
