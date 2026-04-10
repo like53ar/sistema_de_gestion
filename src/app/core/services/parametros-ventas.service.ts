@@ -159,6 +159,16 @@ export interface ParametrosVentasData {
   rg5616: boolean;
   pagoMismaMonedaComprobante: string;
   consideraDescuentoFlete: boolean;
+
+  // --- NUEVOS CAMPOS (TAB COMPROBANTES -> TRANSPORTE DE BIENES) ---
+  generaRemitosElectronicos: boolean;
+  plantaRemito: number;
+  puertaRemito: number;
+  editaCantidadTotalKilos: boolean;
+  editaImporteTotalConImpuestos: boolean;
+  importeMinimoSinImpuestos: number;
+  versionRemito: string;
+  cantidadTotalMinimaKilos: number;
 }
 
 @Injectable({
@@ -292,7 +302,17 @@ export class ParametrosVentasService {
     rg5614: false,
     rg5616: false,
     pagoMismaMonedaComprobante: '',
-    consideraDescuentoFlete: false
+    consideraDescuentoFlete: false,
+
+    // Inicialización de campos (Tab Comprobantes -> Transporte de bienes)
+    generaRemitosElectronicos: false,
+    plantaRemito: 0,
+    puertaRemito: 0,
+    editaCantidadTotalKilos: false,
+    editaImporteTotalConImpuestos: false,
+    importeMinimoSinImpuestos: 0,
+    versionRemito: '',
+    cantidadTotalMinimaKilos: 0
   };
 
   constructor() { }

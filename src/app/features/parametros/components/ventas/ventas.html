@@ -1095,7 +1095,66 @@
                         </div>
                     </ng-container>
 
-                    <ng-container *ngIf="activeSubTabComprobantes !== 'General'">
+                    <ng-container *ngIf="activeSubTabComprobantes === 'Transporte de bienes (COT)'">
+                        <div class="section-group">
+                            <div class="form-row-checkboxes" style="margin-bottom: 20px;">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.generaRemitosElectronicos">
+                                    Genera remitos electrónicos
+                                </label>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label>Planta</label>
+                                    <input type="number" class="zen-input" [(ngModel)]="formData.plantaRemito" style="text-align: right;">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Puerta</label>
+                                    <input type="number" class="zen-input" [(ngModel)]="formData.puertaRemito" style="text-align: right;">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <div class="form-row-checkboxes" style="margin-top: 10px;">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" [(ngModel)]="formData.editaCantidadTotalKilos">
+                                            Edita cantidad total de kilos
+                                        </label>
+                                    </div>
+                                    <div class="form-row-checkboxes" style="margin-top: 10px;">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" [(ngModel)]="formData.editaImporteTotalConImpuestos">
+                                            Edita importe total con impuestos
+                                        </label>
+                                    </div>
+                                    <div class="form-group" style="margin-top: 20px;">
+                                        <label>Versión</label>
+                                        <div class="input-group">
+                                            <select class="zen-input" [(ngModel)]="formData.versionRemito">
+                                                <option value="">Original</option>
+                                            </select>
+                                            <button class="zen-btn group-addon addon-multiple">▼</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group flex-1">
+                                    <div class="form-group">
+                                        <label>Importe mínimo sin impuestos</label>
+                                        <input type="number" class="zen-input" [(ngModel)]="formData.importeMinimoSinImpuestos" style="text-align: right;">
+                                    </div>
+                                    <div class="form-group" style="margin-top: 15px;">
+                                        <label>Cantidad total mínima de kilos</label>
+                                        <input type="number" class="zen-input" [(ngModel)]="formData.cantidadTotalMinimaKilos" style="text-align: right;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="activeSubTabComprobantes !== 'General' && activeSubTabComprobantes !== 'Transporte de bienes (COT)'">
                         <div style="padding: 40px; text-align: center; color: var(--zen-text-muted);">
                             <div style="font-size: 3rem; margin-bottom: 10px; opacity: 0.3;">📂</div>
                             <h3>{{ activeSubTabComprobantes }}</h3>
