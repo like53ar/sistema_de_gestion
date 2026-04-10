@@ -228,6 +228,24 @@ export interface ParametrosVentasData {
   campoBusquedaArticuloPredeterminado: string;
   agregarAutoSiCoincidenciaArticulo: string;
   cantCaracteresCoincidenciaArticulo: number;
+
+  // --- NUEVOS CAMPOS (TAB COMPROBANTES -> COTIZACIONES) ---
+  autorizaCotizaciones: boolean;
+  aceptaCotizaciones: boolean;
+  aplicaPermisosRestringirAccesoCotiz: boolean;
+  mantieneCotizacionesTransformadas: boolean;
+  diasVigenciaHabitualCotiz: number;
+  descFechaAdicional1Cotiz: string;
+  descFechaAdicional2Cotiz: string;
+  cantDiasFechaAdicional1Cotiz: number;
+  cantDiasFechaAdicional2Cotiz: number;
+  descClasificacion1Cotiz: string;
+  descClasificacion2Cotiz: string;
+  imprimeCotizacionesNoAutorizadas: boolean;
+  imprimeAlGenerarCotiz: boolean;
+  generaPedidosAprobadosCotiz: boolean;
+  generaPedidosAutoProcesosCotiz: boolean;
+  diasHabitualesEntregaDesdeCotiz: number;
 }
 
 @Injectable({
@@ -430,7 +448,25 @@ export class ParametrosVentasService {
     tipoBusquedaArticuloDefecto: '',
     campoBusquedaArticuloPredeterminado: '',
     agregarAutoSiCoincidenciaArticulo: '',
-    cantCaracteresCoincidenciaArticulo: 0
+    cantCaracteresCoincidenciaArticulo: 0,
+
+    // Inicialización de campos (Tab Comprobantes -> Cotizaciones)
+    autorizaCotizaciones: false,
+    aceptaCotizaciones: false,
+    aplicaPermisosRestringirAccesoCotiz: false,
+    mantieneCotizacionesTransformadas: false,
+    diasVigenciaHabitualCotiz: 0,
+    descFechaAdicional1Cotiz: '',
+    descFechaAdicional2Cotiz: '',
+    cantDiasFechaAdicional1Cotiz: 0,
+    cantDiasFechaAdicional2Cotiz: 0,
+    descClasificacion1Cotiz: '',
+    descClasificacion2Cotiz: '',
+    imprimeCotizacionesNoAutorizadas: false,
+    imprimeAlGenerarCotiz: false,
+    generaPedidosAprobadosCotiz: false,
+    generaPedidosAutoProcesosCotiz: false,
+    diasHabitualesEntregaDesdeCotiz: 0
   };
 
   constructor() { }

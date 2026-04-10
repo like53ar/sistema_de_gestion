@@ -1532,7 +1532,98 @@
                         </div>
                     </ng-container>
 
-                    <ng-container *ngIf="activeSubTabComprobantes !== 'General' && activeSubTabComprobantes !== 'Transporte de bienes (COT)' && activeSubTabComprobantes !== 'Integración con shoppings' && activeSubTabComprobantes !== 'Señas' && activeSubTabComprobantes !== 'Pedidos'">
+                    <ng-container *ngIf="activeSubTabComprobantes === 'Cotizaciones'">
+                        <div class="section-group">
+                            <div class="form-row-checkboxes">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.autorizaCotizaciones">
+                                    Autoriza cotizaciones
+                                </label>
+                                <label class="checkbox-label" style="margin-top: 10px;">
+                                    <input type="checkbox" [(ngModel)]="formData.aceptaCotizaciones">
+                                    Acepta cotizaciones
+                                </label>
+                                <label class="checkbox-label" style="margin-top: 10px;">
+                                    <input type="checkbox" [(ngModel)]="formData.aplicaPermisosRestringirAccesoCotiz">
+                                    Aplica permisos para restringir el acceso a cotizaciones
+                                </label>
+                                <label class="checkbox-label" style="margin-top: 10px;">
+                                    <input type="checkbox" [(ngModel)]="formData.mantieneCotizacionesTransformadas">
+                                    Mantiene cotizaciones transformadas en pedidos
+                                </label>
+                            </div>
+
+                            <div class="fieldset-title" style="margin-top: 25px;">Clasificaciones adicionales</div>
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label>Días de vigencia habitual para cotizaciones</label>
+                                    <input type="number" class="zen-input" [(ngModel)]="formData.diasVigenciaHabitualCotiz">
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 15px;">
+                                <div class="form-group flex-1">
+                                    <label>Descripción para fecha adicional 1</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.descFechaAdicional1Cotiz">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Descripción para fecha adicional 2</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.descFechaAdicional2Cotiz">
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 15px;">
+                                <div class="form-group flex-1">
+                                    <label>Cantidad de días para fecha adicional 1</label>
+                                    <input type="number" class="zen-input" [(ngModel)]="formData.cantDiasFechaAdicional1Cotiz">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Cantidad de días para fecha adicional 2</label>
+                                    <input type="number" class="zen-input" [(ngModel)]="formData.cantDiasFechaAdicional2Cotiz">
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 15px;">
+                                <div class="form-group flex-1">
+                                    <label>Descripción para clasificación 1</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.descClasificacion1Cotiz">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Descripción para clasificación 2</label>
+                                    <input type="text" class="zen-input" [(ngModel)]="formData.descClasificacion2Cotiz">
+                                </div>
+                            </div>
+
+                            <div class="fieldset-title" style="margin-top: 25px;">Emisión de cotizaciones</div>
+                            <div class="form-row-checkboxes">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.imprimeCotizacionesNoAutorizadas">
+                                    Imprime cotizaciones no autorizadas
+                                </label>
+                                <label class="checkbox-label" style="margin-top: 10px;">
+                                    <input type="checkbox" [(ngModel)]="formData.imprimeAlGenerarCotiz">
+                                    Imprime al generar
+                                </label>
+                            </div>
+
+                            <div class="fieldset-title" style="margin-top: 25px;">Generación de pedidos</div>
+                            <div class="form-row-checkboxes">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.generaPedidosAprobadosCotiz">
+                                    Genera pedidos aprobados
+                                </label>
+                                <label class="checkbox-label" style="margin-top: 10px;">
+                                    <input type="checkbox" [(ngModel)]="formData.generaPedidosAutoProcesosCotiz">
+                                    Genera pedidos automáticos desde procesos
+                                </label>
+                            </div>
+                            <div class="form-row" style="margin-top: 15px;">
+                                <div class="form-group flex-1" style="max-width: 50%;">
+                                    <label>Cantidad habitual de días para la fecha de entrega</label>
+                                    <input type="number" class="zen-input" [(ngModel)]="formData.diasHabitualesEntregaDesdeCotiz">
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="activeSubTabComprobantes !== 'General' && activeSubTabComprobantes !== 'Transporte de bienes (COT)' && activeSubTabComprobantes !== 'Integración con shoppings' && activeSubTabComprobantes !== 'Señas' && activeSubTabComprobantes !== 'Pedidos' && activeSubTabComprobantes !== 'Cotizaciones'">
                         <div style="padding: 40px; text-align: center; color: var(--zen-text-muted);">
                             <div style="font-size: 3rem; margin-bottom: 10px; opacity: 0.3;">📂</div>
                             <h3>{{ activeSubTabComprobantes }}</h3>
