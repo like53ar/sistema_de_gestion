@@ -130,6 +130,35 @@ export interface ParametrosVentasData {
 
   // Talonarios a excluir
   talonariosExcluidosActualizacionPrecios: any[]; 
+
+  // --- NUEVOS CAMPOS (TAB COMPROBANTES -> GENERAL) ---
+  actualizaInfoClienteAfip: string;
+  descAdicionalesCreditosDebitosPedidos: string;
+  metodoIngresoDescripciones: string;
+  editaObservaciones: string;
+  impuestoInternoFijo: string;
+  direccionEntrega: string;
+  percepcionesImporteFijo: string;
+  numeracionAutomaticaRemitos: boolean;
+  imprimeFacturasCreditoFacturacion: boolean;
+  proximoNumeroFacturaCredito: number;
+  modeloReciboAnulacionFacturasCredito: string;
+  trasladaVencimientoDiaHabil: boolean;
+  generaDiferenciasCambio: string;
+  fechaAsignarDiferenciasCambio: string;
+  motivoDiferenciasCambio: string;
+  descMotivoDiferenciasCambio: string;
+  generaAjusteCobroFechaAlt: string;
+  fechaAsignarAjusteCobroFechaAlt: string;
+  motivoAjusteCobroFechaAlt: string;
+  descMotivoAjusteCobroFechaAlt: string;
+  rg3572: boolean;
+  rg4520: boolean;
+  rg5003: boolean;
+  rg5614: boolean;
+  rg5616: boolean;
+  pagoMismaMonedaComprobante: string;
+  consideraDescuentoFlete: boolean;
 }
 
 @Injectable({
@@ -234,7 +263,36 @@ export class ParametrosVentasService {
     guardarHistorialPrecios: false,
     depurarHistorialPrecios: false,
     mesesConservarPreciosHistoricos: 0,
-    talonariosExcluidosActualizacionPrecios: []
+    talonariosExcluidosActualizacionPrecios: [],
+
+    // Inicialización de campos (Tab Comprobantes -> General)
+    actualizaInfoClienteAfip: '',
+    descAdicionalesCreditosDebitosPedidos: '',
+    metodoIngresoDescripciones: '',
+    editaObservaciones: '',
+    impuestoInternoFijo: '',
+    direccionEntrega: '',
+    percepcionesImporteFijo: '',
+    numeracionAutomaticaRemitos: false,
+    imprimeFacturasCreditoFacturacion: false,
+    proximoNumeroFacturaCredito: 0,
+    modeloReciboAnulacionFacturasCredito: '',
+    trasladaVencimientoDiaHabil: false,
+    generaDiferenciasCambio: '',
+    fechaAsignarDiferenciasCambio: '',
+    motivoDiferenciasCambio: '',
+    descMotivoDiferenciasCambio: '',
+    generaAjusteCobroFechaAlt: '',
+    fechaAsignarAjusteCobroFechaAlt: '',
+    motivoAjusteCobroFechaAlt: '',
+    descMotivoAjusteCobroFechaAlt: '',
+    rg3572: false,
+    rg4520: false,
+    rg5003: false,
+    rg5614: false,
+    rg5616: false,
+    pagoMismaMonedaComprobante: '',
+    consideraDescuentoFlete: false
   };
 
   constructor() { }

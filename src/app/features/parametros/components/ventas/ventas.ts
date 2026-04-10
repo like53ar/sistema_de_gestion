@@ -14,11 +14,18 @@ import { ParametrosVentasData, ParametrosVentasService } from '../../../../core/
 })
 export class ParametrosVentas implements OnInit {
   activeTab: string = 'Principal';
+  activeSubTabComprobantes: string = 'General';
 
   tabs: string[] = [
     'Principal', 'Impuestos', 'Clientes', 'Artículos', 'Comprobantes',
     'Controles', 'Comprobantes de referencia', 'Clasificación de comprobantes',
     'Comprobantes electrónicos', 'Padrones', 'Observaciones'
+  ];
+
+  comprobantesSubTabs: string[] = [
+    'General', 'Transporte de bienes (COT)', 'Integración con shoppings',
+    'Señas', 'Pedidos', 'Cotizaciones', 'Recibos', 'Intereses por mora',
+    'Facturas', 'Ticket de cambio'
   ];
 
   provincias: Provincia[] = [];

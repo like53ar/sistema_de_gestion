@@ -810,7 +810,301 @@
                     </div>
                 </ng-container>
 
-                <ng-container *ngIf="activeTab !== 'Principal' && activeTab !== 'Impuestos' && activeTab !== 'Clientes' && activeTab !== 'Artículos'">
+                <ng-container *ngIf="activeTab === 'Comprobantes'">
+                    <!-- Comprobantes Sub-tabs -->
+                    <div class="zen-tabs sub-tabs" style="margin-bottom: 20px; border-bottom: 1px solid var(--zen-border);">
+                        <button *ngFor="let sTab of comprobantesSubTabs"
+                                class="tab-btn sm"
+                                [class.active]="activeSubTabComprobantes === sTab"
+                                (click)="activeSubTabComprobantes = sTab"
+                                style="padding: 8px 15px; font-size: 0.85rem;">
+                            {{ sTab }}
+                        </button>
+                    </div>
+
+                    <ng-container *ngIf="activeSubTabComprobantes === 'General'">
+                        <!-- AFIP & Info Group -->
+                        <div class="section-group">
+                            <div class="form-row">
+                                <div class="form-group" style="flex: 1; max-width: 45%;">
+                                    <label>Actualiza información del cliente con AFIP</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.actualizaInfoClienteAfip">
+                                            <option value="">A pedido</option>
+                                            <option value="Siempre">Siempre</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label>Descripciones adicionales en créditos / débitos / pedidos automáticos</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.descAdicionalesCreditosDebitosPedidos">
+                                            <option value="">No permite</option>
+                                            <option value="Permite">Permite agregar líneas y editar las del artículo</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    </div>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Método de ingreso de descripciones</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.metodoIngresoDescripciones">
+                                            <option value="">Una columna</option>
+                                            <option value="Dos">Dos columnas (30 y 20 caracteres)</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label>Edita observaciones</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.editaObservaciones">
+                                            <option value="">No edita</option>
+                                            <option value="Solo a pedido">Solo a pedido</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    </div>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Impuesto interno fijo</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.impuestoInternoFijo">
+                                            <option value="">No edita</option>
+                                            <option value="Edita">Edita</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label>Dirección entrega</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.direccionEntrega">
+                                            <option value="">No edita</option>
+                                            <option value="Edita">Edita</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    </div>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Percepciones por importe fijo</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.percepcionesImporteFijo">
+                                            <option value="">No edita</option>
+                                            <option value="Edita siempre">Edita siempre</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Numeracion Group -->
+                        <div class="section-group">
+                            <div class="fieldset-title">Numeración</div>
+                            <div class="form-row-checkboxes">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.numeracionAutomaticaRemitos">
+                                    Numeración automática de remitos
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Facturas de Credito Group -->
+                        <div class="section-group">
+                            <div class="fieldset-title">Facturas de crédito</div>
+                            <div class="form-row-checkboxes" style="margin-bottom: 15px;">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.imprimeFacturasCreditoFacturacion">
+                                    Imprime facturas de crédito en facturación
+                                </label>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group flex-1" style="max-width: 45%;">
+                                    <label>Próximo número de factura de crédito</label>
+                                    <input type="number" class="zen-input" [(ngModel)]="formData.proximoNumeroFacturaCredito" style="text-align: right;">
+                                </div>
+                            </div>
+                            <div class="form-row" style="margin-top: 15px;">
+                                <div class="form-group flex-1" style="max-width: 45%;">
+                                    <label>Modelo de recibo para la anulación de facturas de crédito en cobranzas</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.modeloReciboAnulacionFacturasCredito">
+                                            <option value="">Recibo</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Vencimientos Group -->
+                        <div class="section-group">
+                            <div class="fieldset-title">Vencimientos que se registran en días sábado, domingo o feriado</div>
+                            <div class="form-row-checkboxes">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.trasladaVencimientoDiaHabil">
+                                    Traslada fecha de vencimiento al siguiente día hábil
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Diferencias de Cambio Group -->
+                        <div class="section-group">
+                            <div class="fieldset-title">Diferencias de cambio automáticas</div>
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label>Genera al cobrar o imputar comprobantes</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.generaDiferenciasCambio">
+                                            <option value="">No genera</option>
+                                            <option value="Con confirmación">Con confirmación</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    </div>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Fecha a asignar</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.fechaAsignarDiferenciasCambio">
+                                            <option value="">Del recibo</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group flex-1" style="max-width: 45%;">
+                                    <label>Código de motivo (sólo para N/C)</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.motivoDiferenciasCambio">
+                                            <option value="">&lt;Todos&gt;</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                        <button class="zen-btn group-addon addon-multiple">+</button>
+                                        <button class="zen-btn group-addon addon-multiple">⋮</button>
+                                    </div>
+                                </div>
+                                <div class="form-group flex-2">
+                                    <label>Descripción</label>
+                                    <input type="text" class="zen-input readonly-input" [(ngModel)]="formData.descMotivoDiferenciasCambio" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ajuste Cobro Group -->
+                        <div class="section-group">
+                            <div class="fieldset-title">Ajuste por cobro en fecha alternativa automáticos</div>
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label>Genera al cobrar o imputar comprobantes</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.generaAjusteCobroFechaAlt">
+                                            <option value="">No genera</option>
+                                            <option value="Con confirmación">Con confirmación</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    </div>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Fecha a asignar</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.fechaAsignarAjusteCobroFechaAlt">
+                                            <option value="">Del recibo</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group flex-1" style="max-width: 45%;">
+                                    <label>Código de motivo (sólo para N/C)</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.motivoAjusteCobroFechaAlt">
+                                            <option value="">&lt;Todos&gt;</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                        <button class="zen-btn group-addon addon-multiple">+</button>
+                                        <button class="zen-btn group-addon addon-multiple">⋮</button>
+                                    </div>
+                                </div>
+                                <div class="form-group flex-2">
+                                    <label>Descripción</label>
+                                    <input type="text" class="zen-input readonly-input" [(ngModel)]="formData.descMotivoAjusteCobroFechaAlt" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Resoluciones AFIP Group -->
+                        <div class="section-group">
+                            <div class="fieldset-title">Resoluciones AFIP</div>
+                            <div class="form-row-checkboxes">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.rg3572">
+                                    RG 3572 - Sujetos vinculados - Genera información de las operaciones de Ventas
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.rg4520">
+                                    RG 4520 - IVA - Genera información de las operaciones de Ventas clase 'A'
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.rg5003">
+                                    RG 5003 - Emisión de comprobantes 'A' a Monotributistas
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.rg5614">
+                                    RG 5614 - Ley de Transparencia Fiscal 27743/2024
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.rg5616">
+                                    RG 5616 - Emisión de comprobantes
+                                </label>
+                            </div>
+                            <div class="form-row" style="margin-top: 20px;">
+                                <div class="form-group flex-1" style="max-width: 45%;">
+                                    <label>Pago en la misma moneda del comprobante (valor defecto)</label>
+                                    <div class="input-group">
+                                        <select class="zen-input" [(ngModel)]="formData.pagoMismaMonedaComprobante">
+                                            <option value="">No</option>
+                                            <option value="Si">Si</option>
+                                        </select>
+                                        <button class="zen-btn group-addon addon-multiple">▼</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recargo por flete Group -->
+                        <div class="section-group">
+                            <div class="fieldset-title">Recargo por flete</div>
+                            <div class="form-row-checkboxes">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" [(ngModel)]="formData.consideraDescuentoFlete">
+                                    Considera el descuento general en la base de cálculo del flete
+                                </label>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="activeSubTabComprobantes !== 'General'">
+                        <div style="padding: 40px; text-align: center; color: var(--zen-text-muted);">
+                            <div style="font-size: 3rem; margin-bottom: 10px; opacity: 0.3;">📂</div>
+                            <h3>{{ activeSubTabComprobantes }}</h3>
+                            <p>Contenido interno de comprobantes en desarrollo.</p>
+                        </div>
+                    </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="activeTab !== 'Principal' && activeTab !== 'Impuestos' && activeTab !== 'Clientes' && activeTab !== 'Artículos' && activeTab !== 'Comprobantes'">
                     <div style="padding: 40px; text-align: center; color: var(--zen-text-muted);">
                         <div style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;">🚧</div>
                         <h3>Contenido de {{ activeTab }}</h3>
