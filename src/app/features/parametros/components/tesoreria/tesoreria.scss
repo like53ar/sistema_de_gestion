@@ -1,0 +1,120 @@
+.tesoreria-container {
+    padding: var(--zen-spacing-lg);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    margin-bottom: var(--zen-spacing-lg);
+    border-bottom: 1px solid var(--zen-border);
+    padding-bottom: var(--zen-spacing-md);
+
+    .title-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--zen-accent-primary);
+        }
+    }
+}
+
+.tesoreria-layout {
+    display: flex;
+    gap: var(--zen-spacing-lg);
+    flex: 1;
+    min-height: 400px;
+}
+
+.tesoreria-sidebar {
+    width: 250px;
+    border-right: 1px solid var(--zen-border);
+    padding-right: var(--zen-spacing-md);
+    overflow-y: auto;
+}
+
+.tesoreria-content {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.02);
+    border-radius: var(--zen-radius-md);
+    padding: var(--zen-spacing-lg);
+    border: 1px solid var(--zen-border);
+}
+
+/* Tree Menu Styles */
+.tree-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tree-item {
+    margin-bottom: 2px;
+}
+
+.tree-node {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: var(--zen-radius-sm);
+    transition: all 0.2s ease;
+    user-select: none;
+
+    &:hover {
+        background-color: var(--zen-bg-element);
+        color: var(--zen-accent-primary);
+    }
+
+    &.active {
+        background-color: rgba(200, 168, 130, 0.15);
+        color: var(--zen-accent-primary);
+        font-weight: 500;
+    }
+}
+
+.toggle-box {
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    border: 1px solid var(--zen-text-muted);
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: bold;
+    color: var(--zen-text-secondary);
+    
+    &:hover {
+        border-color: var(--zen-accent-primary);
+        color: var(--zen-accent-primary);
+    }
+}
+
+.no-toggle {
+    width: 24px;
+}
+
+.node-label {
+    font-size: 0.95rem;
+}
+
+.tree-children {
+    padding-left: 20px;
+    border-left: 1px dashed var(--zen-border);
+    margin-left: 8px;
+}
+
+.section-group {
+    background-color: var(--zen-bg-secondary);
+    padding: var(--zen-spacing-md);
+    border-radius: var(--zen-radius-sm);
+    border: 1px solid var(--zen-border);
+    margin-bottom: var(--zen-spacing-md);
+}

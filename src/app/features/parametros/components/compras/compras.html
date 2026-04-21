@@ -1,0 +1,67 @@
+<div class="route-modal-overlay" (click)="closeModal()">
+    <div class="route-modal-content lg" (click)="$event.stopPropagation()">
+        <button class="modal-close-btn" (click)="closeModal()">&times;</button>
+        
+        <div class="compras-container fade-in">
+            <div class="modal-header">
+                <div class="title-row">
+                    <h2>⚙️ Parámetros de Compras</h2>
+                    <div class="header-actions">
+                        <button class="zen-btn" (click)="guardar()">💾 Aceptar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="compras-layout">
+                <!-- Sidebar Tree Menu -->
+                <aside class="compras-sidebar">
+                    <div class="tree-menu">
+                        <ng-container *ngTemplateOutlet="recursiveMenu; context:{ $implicit: menuItems }"></ng-container>
+                    </div>
+                </aside>
+
+                <!-- Content Area -->
+                <main class="compras-content">
+                    <div class="empty-state" *ngIf="activeView === 'dashboard'">
+                        <div class="icon">🛒</div>
+                        <h3>Módulo de Compras</h3>
+                        <p>Seleccione una opción del menú lateral para configurar los parámetros del módulo.</p>
+                    </div>
+                    
+                    <div class="content-view" *ngIf="activeView !== 'dashboard'">
+                        <h3>{{ activeView | titlecase }}</h3>
+                        <div class="section-group">
+                            <p>Configuración para la sección seleccionada.</p>
+                            <!-- Placeholder for actual form fields based on activeView -->
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label>Descripción General</label>
+                                    <input type="text" class="zen-input" placeholder="Ingrese descripción...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recursive Menu Template -->
+<ng-template #recursiveMenu let-items>
+    <ul class="tree-list">
+        <li *ngFor="let item of items" class="tree-item">
+            <div class="tree-node" (click)="selectItem(item)" [class.active]="activeView === item.id">
+                <span class="toggle-box" *ngIf="item.children">
+                    {{ item.expanded ? '−' : '+' }}
+                </span>
+                <span class="no-toggle" *ngIf="!item.children"></span>
+                <span class="node-label">{{ item.label }}</span>
+            </div>
+            
+            <div class="tree-children" *ngIf="item.children && item.expanded">
+                <ng-container *ngTemplateOutlet="recursiveMenu; context:{ $implicit: item.children }"></ng-container>
+            </div>
+        </li>
+    </ul>
+</ng-template>

@@ -14,7 +14,12 @@ export const PARAMETROS_ROUTES: Routes = [
             { path: 'categorias-iva', title: 'Categorías de IVA - Parámetros', data: { breadcrumb: 'Categorías de IVA' }, loadComponent: () => import('./components/categorias-iva/categorias-iva').then(m => m.CategoriasIva) },
             { path: 'tipos-comprobante', title: 'Tipos de Comprobante - Parámetros', data: { breadcrumb: 'Tipos de Comprobante' }, loadComponent: () => import('./components/tipos-comprobante/tipos-comprobante').then(m => m.TiposComprobante) },
             { path: 'tipos-documento', title: 'Tipos de Documento - Parámetros', data: { breadcrumb: 'Tipos de Documento' }, loadComponent: () => import('./components/tipos-documento/tipos-documento').then(m => m.TiposDocumento) },
-            { path: 'ventas', title: 'Ventas - Parámetros', data: { breadcrumb: 'Ventas' }, loadComponent: () => import('./components/ventas/ventas').then(m => m.ParametrosVentas) }
+            { path: 'ventas', title: 'Ventas - Parámetros', data: { breadcrumb: 'Ventas' }, loadComponent: () => import('./components/ventas/ventas').then(m => m.ParametrosVentas) },
+            { path: 'compras', title: 'Compras - Parámetros', data: { breadcrumb: 'Compras' }, loadComponent: () => import('./components/compras/compras').then(m => m.ParametrosCompras) },
+            { path: 'tesoreria', title: 'Tesorería - Parámetros', data: { breadcrumb: 'Tesorería' }, loadComponent: () => import('./components/tesoreria/tesoreria').then(m => m.ParametrosTesoreria) },
+            { path: 'contabilidad', title: 'Contabilidad - Parámetros', data: { breadcrumb: 'Contabilidad' }, loadComponent: () => import('./components/contables/contables').then(m => m.ParametrosContables) },
+            { path: 'inventario', title: 'Inventario - Parámetros', data: { breadcrumb: 'Inventario' }, loadComponent: () => import('./components/inventario/inventario').then(m => m.ParametrosInventario) },
+            { path: 'sueldos', title: 'Sueldos - Parámetros', data: { breadcrumb: 'Sueldos' }, loadComponent: () => import('./components/sueldos/sueldos').then(m => m.ParametrosSueldos) }
         ]
     }
 ];
