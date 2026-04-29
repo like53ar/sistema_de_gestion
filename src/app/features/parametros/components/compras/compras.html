@@ -1102,95 +1102,63 @@
                         </div>
 
                         <!-- SUBRAMA: CLASIFICACIÓN -->
-                        <div class="tab-content clas-tab" *ngIf="activeView === 'prov-clasificacion'">
-
-                            <!-- Cabecera: Familia / Grupo / Individuo -->
-                            <div class="prov-section-title">Clasificación del Proveedor</div>
-
+                        <div class="tab-content" *ngIf="activeView === 'prov-clasificacion'">
+                            <div class="prov-section-title">Clasificación Seleccionada</div>
+                            
                             <div class="form-row-multi">
-                                <div class="form-group" style="width:200px">
+                                <div class="form-group flex-1">
                                     <label>Familia</label>
-                                    <input type="text" class="zen-input bg-gray"
-                                           [(ngModel)]="clasificacionData.familia"
-                                           readonly placeholder="Auto desde árbol">
+                                    <input type="text" class="zen-input bg-gray" [ngModel]="clasificacionSeleccionada.familia" readonly>
                                 </div>
-                                <div class="form-group" style="width:200px">
+                                <div class="form-group flex-1">
                                     <label>Grupo</label>
-                                    <input type="text" class="zen-input bg-gray"
-                                           [(ngModel)]="clasificacionData.grupo"
-                                           readonly placeholder="Auto desde árbol">
+                                    <input type="text" class="zen-input bg-gray" [ngModel]="clasificacionSeleccionada.grupo" readonly>
                                 </div>
                                 <div class="form-group flex-1">
                                     <label>Individuo</label>
-                                    <input type="text" class="zen-input bg-gray"
-                                           [(ngModel)]="clasificacionData.individuo"
-                                           readonly placeholder="Seleccioná un nodo hoja">
+                                    <input type="text" class="zen-input bg-gray" [ngModel]="clasificacionSeleccionada.individuo" readonly>
                                 </div>
                             </div>
 
-                            <!-- Barra de controles -->
-                            <div class="clas-toolbar">
-                                <button class="btn-art-filter" (click)="colapsarArbol()">
-                                    ▶ Colapsar todo
-                                </button>
-                                <button class="btn-art-filter" (click)="expandirArbol()">
-                                    ▼ Expandir todo
-                                </button>
-                                <!-- Búsqueda en tiempo real -->
-                                <div class="clas-search">
-                                    <span class="clas-search-icon">🔍</span>
-                                    <input type="text" class="zen-input clas-search-input"
-                                           [(ngModel)]="clasKeyword"
-                                           (input)="onClasSearch()"
-                                           placeholder="Buscar en árbol…">
+                            <div class="prov-section-title" style="margin-top:20px">Árbol Dinámico de Clasificación</div>
+                            
+                            <div class="art-toolbar" style="margin-bottom: 12px; margin-left: 0;">
+                                <div class="form-group" style="flex:1; margin-bottom: 0;">
+                                    <div class="input-group">
+                                        <span class="input-prefix" style="font-size: 1rem;">🔍</span>
+                                        <input type="text" class="zen-input with-prefix" 
+                                               [(ngModel)]="clasificacionSearchTerm" 
+                                               (input)="onClasificacionSearch()"
+                                               placeholder="Buscar clasificación...">
+                                    </div>
                                 </div>
+                                <button class="btn-art-filter" (click)="expandAllClasificacion()" style="margin-left: 10px;">
+                                    ➕ Expandir rama
+                                </button>
+                                <button class="btn-art-filter" (click)="collapseAllClasificacion()">
+                                    ➖ Colapsar rama
+                                </button>
                             </div>
 
-                            <!-- Árbol dinámico -->
-                            <div class="clas-tree-wrap">
-                                <ng-container *ngTemplateOutlet="clasTreeTpl; context:{ nodes: clasTreeFiltrado }">
-                                </ng-container>
+                            <div class="clasif-tree-wrap">
+                                <!-- Nodo Todos -->
+                                <div class="tree-node" style="padding-left: 5px; margin-bottom: 5px;">
+                                    <label class="zen-checkbox-label">
+                                        <input type="checkbox" class="zen-checkbox" 
+                                               [checked]="todosClasificacionChecked"
+                                               (change)="toggleTodosClasificacion($event)">
+                                        <span class="zen-checkbox-custom"></span>
+                                        <strong>Todos</strong>
+                                    </label>
+                                </div>
+                                
+                                <ng-container *ngTemplateOutlet="recursiveClasif; context:{ $implicit: clasificacionTree, level: 0 }"></ng-container>
                             </div>
-
-                        </div>
-
-                        <!-- Template recursivo del árbol de clasificación -->
-                        <ng-template #clasTreeTpl let-nodes="nodes">
-                            <ul class="clas-tree">
-                                <li *ngFor="let node of nodes" class="clas-node">
-                                    <div class="clas-node-row"
-                                         [class.highlighted]="clasKeyword && node.label.toLowerCase().includes(clasKeyword.toLowerCase())">
-                                        <!-- Toggle expand -->
-                                        <span class="clas-toggle"
-                                              *ngIf="node.children?.length"
-                                              (click)="node.expanded = !node.expanded">
-                                            {{ node.expanded ? '▼' : '▶' }}
-                                        </span>
-                                        <span class="clas-leaf-pad" *ngIf="!node.children?.length"></span>
-                                        <!-- Checkbox -->
-                                        <label class="clas-check-label"
-                                               (click)="onClasNodeClick(node)">
-                                            <span class="clas-checkbox"
-                                                  [class.checked]="node.checked"
-                                                  [class.indeterminate]="node.indeterminate">
-                                                <span *ngIf="node.checked">✓</span>
-                                                <span *ngIf="node.indeterminate && !node.checked">—</span>
-                                            </span>
-                                            <span class="clas-label">{{ node.label }}</span>
-                                        </label>
-                                    </div>
-                                    <!-- Hijos -->
-                                    <div *ngIf="node.expanded && node.children?.length">
-                                        <ng-container *ngTemplateOutlet="clasTreeTpl; context:{ nodes: node.children }">
-                                        </ng-container>
-                                    </div>
-                                </li>
-                            </ul>
-                        </ng-template>
-
-                        <!-- Barra inferior Continuar para Clasificación -->
-                        <div class="bottom-action-bar" *ngIf="activeView === 'prov-clasificacion'">
-                            <button class="btn-continuar" (click)="continuarClasificacion()">Continuar ▶</button>
+                            
+                            <!-- Barra inferior Continuar para Clasificación -->
+                            <div class="bottom-action-bar">
+                                <button class="btn-continuar" (click)="continuarClasificacion()">Continuar ▶</button>
+                            </div>
                         </div>
 
                         <!-- Resto de subramas: vacías por ahora -->
@@ -1200,8 +1168,7 @@
                                  && activeView !== 'prov-resoluciones'
                                  && activeView !== 'prov-comprobantes'
                                  && activeView !== 'prov-pagos'
-                                 && activeView !== 'prov-articulos'
-                                 && activeView !== 'prov-clasificacion'">
+                                 && activeView !== 'prov-articulos'">
                             <div class="empty-state">
                                 <div class="icon">📋</div>
                                 <h3>{{ activeView.replace('prov-', '') | titlecase }}</h3>
@@ -1230,6 +1197,37 @@
             
             <div class="tree-children" *ngIf="item.children && item.expanded">
                 <ng-container *ngTemplateOutlet="recursiveMenu; context:{ $implicit: item.children }"></ng-container>
+            </div>
+        </li>
+    </ul>
+</ng-template>
+
+<!-- Recursive Clasificacion Template -->
+<ng-template #recursiveClasif let-items let-level="level">
+    <ul class="tree-list">
+        <li *ngFor="let item of items" class="tree-item" [style.display]="item.hidden ? 'none' : 'block'">
+            <div class="tree-node" style="display:flex; align-items:center;">
+                <span class="toggle-box" *ngIf="item.children && item.children.length > 0" 
+                      (click)="toggleClasifExpand(item)">
+                    {{ item.expanded ? '−' : '+' }}
+                </span>
+                <span class="no-toggle" *ngIf="!item.children || item.children.length === 0"></span>
+                
+                <label class="zen-checkbox-label" style="margin:0; padding-top:2px;">
+                    <input type="checkbox" class="zen-checkbox" 
+                           [checked]="item.checked" 
+                           [indeterminate]="item.indeterminate"
+                           (change)="toggleClasifNode(item, $event)">
+                    <span class="zen-checkbox-custom"></span>
+                    <span class="node-label" 
+                          [class.clasif-match]="item.match"
+                          style="margin-left:5px; user-select:none; cursor:pointer;"
+                          (click)="selectClasificacion(item)">{{ item.label }}</span>
+                </label>
+            </div>
+            
+            <div class="tree-children" *ngIf="item.children && item.expanded">
+                <ng-container *ngTemplateOutlet="recursiveClasif; context:{ $implicit: item.children, level: level + 1 }"></ng-container>
             </div>
         </li>
     </ul>

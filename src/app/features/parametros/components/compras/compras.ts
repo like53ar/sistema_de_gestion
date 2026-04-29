@@ -100,16 +100,26 @@ export interface PagosData {
   habilitadoPagosMasivos: boolean;
 }
 
-// ── Árbol de Clasificación ─────────────────────────────────────────────────────
-export interface ClasNodo {
+// ── Modelo Clasificación ────────────────────────────────────────────────────────
+export interface ClasificacionNode {
   id: string;
   label: string;
-  checked: boolean;
-  indeterminate: boolean;
+  familia?: string;
+  grupo?: string;
+  individuo?: string;
+  children?: ClasificacionNode[];
   expanded?: boolean;
-  children?: ClasNodo[];
+  hidden?: boolean;
+  match?: boolean;
+  checked?: boolean;
+  indeterminate?: boolean;
 }
 
+export interface ClasificacionData {
+  familia: string;
+  grupo: string;
+  individuo: string;
+}
 interface MenuItem {
   id: string;
   label: string;
@@ -535,154 +545,185 @@ export class ParametrosCompras implements OnInit {
     this.aplicarFiltroArticulos();
   }
 
-  // ── Clasificación ──────────────────────────────────────────────────────────────
-  clasificacionData = { familia: '', grupo: '', individuo: '' };
-  clasKeyword = '';
-  clasTreeFiltrado: ClasNodo[] = [];
+  // ── Clasificación ─────────────────────────────────────────────────────────────
+  clasificacionSeleccionada: ClasificacionData = { familia: '', grupo: '', individuo: '' };
+  clasificacionSearchTerm = '';
+  todosClasificacionChecked = false;
 
-  /** Árbol maestro de clasificación */
-  readonly clasTree: ClasNodo[] = [
+  clasificacionTree: ClasificacionNode[] = [
     {
-      id: 'todos', label: 'Todos', checked: false, indeterminate: false,
-      expanded: true,
+      id: 'mercado', label: 'Mercado', familia: 'Mercado', expanded: true,
       children: [
         {
-          id: 'locales', label: 'Locales', checked: false, indeterminate: false,
-          expanded: false,
+          id: 'locales', label: 'Locales', familia: 'Mercado', grupo: 'Locales', expanded: true,
           children: [
-            { id: 'loc-mp', label: 'Materia Prima', checked: false, indeterminate: false, expanded: false,
-              children: [
-                { id: 'loc-mp-ferrosos',  label: 'Ferrosos',    checked: false, indeterminate: false },
-                { id: 'loc-mp-nferrosos', label: 'No Ferrosos', checked: false, indeterminate: false },
-                { id: 'loc-mp-plasticos', label: 'Plásticos',   checked: false, indeterminate: false },
-              ]
-            },
-            { id: 'loc-pt', label: 'Productos Terminados', checked: false, indeterminate: false, expanded: false,
-              children: [
-                { id: 'loc-pt-elec',  label: 'Electrónica',    checked: false, indeterminate: false },
-                { id: 'loc-pt-indus', label: 'Industrial',      checked: false, indeterminate: false },
-              ]
-            },
-            { id: 'loc-serv', label: 'Servicios', checked: false, indeterminate: false }
+            { id: 'minorista', label: 'Minorista', familia: 'Mercado', grupo: 'Locales', individuo: 'Minorista' },
+            { id: 'mayorista', label: 'Mayorista', familia: 'Mercado', grupo: 'Locales', individuo: 'Mayorista' }
           ]
         },
         {
-          id: 'exterior', label: 'Exterior', checked: false, indeterminate: false,
-          expanded: false,
+          id: 'exterior', label: 'Exterior', familia: 'Mercado', grupo: 'Exterior', expanded: true,
           children: [
-            { id: 'ext-imp', label: 'Importaciones', checked: false, indeterminate: false, expanded: false,
-              children: [
-                { id: 'ext-imp-asia',   label: 'Asia',   checked: false, indeterminate: false },
-                { id: 'ext-imp-europe', label: 'Europa', checked: false, indeterminate: false },
-                { id: 'ext-imp-latam',  label: 'LATAM',  checked: false, indeterminate: false },
-              ]
-            },
-            { id: 'ext-exp', label: 'Exportaciones', checked: false, indeterminate: false }
+            { id: 'mercosur', label: 'Mercosur', familia: 'Mercado', grupo: 'Exterior', individuo: 'Mercosur' },
+            { id: 'resto', label: 'Resto del Mundo', familia: 'Mercado', grupo: 'Exterior', individuo: 'Resto del Mundo' }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'rubro', label: 'Rubro', familia: 'Rubro', expanded: true,
+      children: [
+        {
+          id: 'materia-prima', label: 'Materia Prima', familia: 'Rubro', grupo: 'Materia Prima', expanded: true,
+          children: [
+            { id: 'metales', label: 'Metales', familia: 'Rubro', grupo: 'Materia Prima', individuo: 'Metales' },
+            { id: 'plasticos', label: 'Plásticos', familia: 'Rubro', grupo: 'Materia Prima', individuo: 'Plásticos' }
+          ]
+        },
+        {
+          id: 'servicios', label: 'Servicios', familia: 'Rubro', grupo: 'Servicios', expanded: true,
+          children: [
+            { id: 'logistica', label: 'Logística', familia: 'Rubro', grupo: 'Servicios', individuo: 'Logística' },
+            { id: 'consultoria', label: 'Consultoría', familia: 'Rubro', grupo: 'Servicios', individuo: 'Consultoría' }
           ]
         }
       ]
     }
   ];
 
-  private initClasTree() {
-    this.clasTreeFiltrado = this.clasTree;
+  toggleClasifExpand(node: ClasificacionNode) {
+    node.expanded = !node.expanded;
   }
 
-  /** Búsqueda en tiempo real — filtra mostrando nodos que coinciden y sus ancestros */
-  onClasSearch() {
-    if (!this.clasKeyword.trim()) {
-      this.clasTreeFiltrado = this.clasTree;
+  expandAllClasificacion(nodes: ClasificacionNode[] = this.clasificacionTree, expand = true) {
+    for (const n of nodes) {
+      n.expanded = expand;
+      if (n.children) this.expandAllClasificacion(n.children, expand);
+    }
+  }
+
+  collapseAllClasificacion() {
+    this.expandAllClasificacion(this.clasificacionTree, false);
+  }
+
+  onClasificacionSearch() {
+    const term = this.clasificacionSearchTerm.toLowerCase().trim();
+    if (!term) {
+      this.clearClasificacionSearch(this.clasificacionTree);
       return;
     }
-    const kw = this.clasKeyword.toLowerCase();
-    const filterNodes = (nodes: ClasNodo[]): ClasNodo[] =>
-      nodes.reduce<ClasNodo[]>((acc, n) => {
-        const childMatches = n.children ? filterNodes(n.children) : [];
-        if (n.label.toLowerCase().includes(kw) || childMatches.length) {
-          acc.push({ ...n, expanded: true, children: childMatches.length ? childMatches : n.children });
-        }
-        return acc;
-      }, []);
-    this.clasTreeFiltrado = filterNodes(this.clasTree);
+    this.filterClasificacionNode(this.clasificacionTree, term);
   }
 
-  /** Expande todos los nodos del árbol maestro */
-  expandirArbol() {
-    const expandAll = (nodes: ClasNodo[]) =>
-      nodes.forEach(n => { n.expanded = true; if (n.children) expandAll(n.children); });
-    expandAll(this.clasTree);
-    this.onClasSearch();
-  }
-
-  /** Colapsa todos los nodos del árbol maestro */
-  colapsarArbol() {
-    const collapseAll = (nodes: ClasNodo[]) =>
-      nodes.forEach(n => { n.expanded = false; if (n.children) collapseAll(n.children); });
-    collapseAll(this.clasTree);
-    this.onClasSearch();
-  }
-
-  /** Clic en nodo: cascade check + sincroniza cabecera Familia/Grupo/Individuo */
-  onClasNodeClick(node: ClasNodo) {
-    const newVal = !node.checked;
-    this.setCheckedRecursive(node, newVal);
-    this.updateParentStates(this.clasTree);
-    this.syncClasificacionHeader();
-  }
-
-  private setCheckedRecursive(node: ClasNodo, val: boolean) {
-    node.checked = val;
-    node.indeterminate = false;
-    if (node.children) node.children.forEach(c => this.setCheckedRecursive(c, val));
-  }
-
-  private updateParentStates(nodes: ClasNodo[]): boolean[] {
-    return nodes.map(n => {
-      if (!n.children?.length) return n.checked;
-      const childStates = this.updateParentStates(n.children);
-      const allChecked  = childStates.every(s => s);
-      const noneChecked = childStates.every(s => !s);
-      n.checked       = allChecked;
-      n.indeterminate = !allChecked && !noneChecked;
-      return n.checked;
-    });
-  }
-
-  /**
-   * Busca el primer nodo hoja seleccionado y reconstruye el path
-   * Familia = nivel 2, Grupo = nivel 3, Individuo = nivel 4 (hoja)
-   */
-  private syncClasificacionHeader() {
-    const findFirstLeaf = (nodes: ClasNodo[], depth = 0, path: string[] = [])
-      : { path: string[] } | null => {
-      for (const n of nodes) {
-        const newPath = [...path, n.label];
-        if (n.checked && !n.children?.length) return { path: newPath };
-        if (n.children) {
-          const found = findFirstLeaf(n.children, depth + 1, newPath);
-          if (found) return found;
-        }
-      }
-      return null;
-    };
-    const result = findFirstLeaf(this.clasTree[0]?.children ?? []);
-    if (result) {
-      this.clasificacionData.familia  = result.path[0] ?? '';
-      this.clasificacionData.grupo    = result.path[1] ?? '';
-      this.clasificacionData.individuo = result.path[2] ?? result.path[1] ?? '';
-    } else {
-      this.clasificacionData = { familia: '', grupo: '', individuo: '' };
+  private clearClasificacionSearch(nodes: ClasificacionNode[]) {
+    for (const n of nodes) {
+      n.hidden = false;
+      n.match = false;
+      if (n.children) this.clearClasificacionSearch(n.children);
     }
   }
 
-  guardarClasificacion() {
-    const key = 'prov_clasificacion_' + this.currentProveedor.numeroProveedor;
-    localStorage.setItem(key, JSON.stringify(this.clasificacionData));
-    alert('✅ Clasificación guardada correctamente.');
+  private filterClasificacionNode(nodes: ClasificacionNode[], term: string): boolean {
+    let anyVisible = false;
+    for (const n of nodes) {
+      const isMatch = n.label.toLowerCase().includes(term);
+      n.match = isMatch;
+      let childrenVisible = false;
+      if (n.children) {
+        childrenVisible = this.filterClasificacionNode(n.children, term);
+      }
+      n.hidden = !(isMatch || childrenVisible);
+      if (!n.hidden) anyVisible = true;
+      if (isMatch && n.children) {
+        this.expandAllClasificacion([n], true);
+      } else if (childrenVisible) {
+        n.expanded = true;
+      }
+    }
+    return anyVisible;
+  }
+
+  selectClasificacion(node: ClasificacionNode) {
+    this.clasificacionSeleccionada = {
+      familia: node.familia ?? '',
+      grupo: node.grupo ?? '',
+      individuo: node.individuo ?? ''
+    };
+  }
+
+  toggleClasifNode(node: ClasificacionNode, event: any) {
+    const checked = event.target.checked;
+    this.cascadeCheck(node, checked);
+    this.bubbleUpCheck(this.clasificacionTree);
+    this.checkTodosState();
+  }
+
+  private cascadeCheck(node: ClasificacionNode, checked: boolean) {
+    node.checked = checked;
+    node.indeterminate = false;
+    if (node.children) {
+      for (const child of node.children) {
+        this.cascadeCheck(child, checked);
+      }
+    }
+  }
+
+  private bubbleUpCheck(nodes: ClasificacionNode[]): { c: number, i: number, t: number } {
+    let checkedCount = 0;
+    let indetCount = 0;
+    let total = nodes.length;
+
+    for (const n of nodes) {
+      if (n.children && n.children.length > 0) {
+        const stats = this.bubbleUpCheck(n.children);
+        if (stats.c === stats.t && stats.t > 0) {
+          n.checked = true;
+          n.indeterminate = false;
+        } else if (stats.c > 0 || stats.i > 0) {
+          n.checked = false;
+          n.indeterminate = true;
+        } else {
+          n.checked = false;
+          n.indeterminate = false;
+        }
+      }
+      if (n.checked) checkedCount++;
+      if (n.indeterminate) indetCount++;
+    }
+    return { c: checkedCount, i: indetCount, t: total };
+  }
+
+  toggleTodosClasificacion(event: any) {
+    const checked = event.target.checked;
+    this.todosClasificacionChecked = checked;
+    for (const root of this.clasificacionTree) {
+      this.cascadeCheck(root, checked);
+    }
+  }
+
+  private checkTodosState() {
+    let allChecked = true;
+    let noneChecked = true;
+    for (const root of this.clasificacionTree) {
+      if (!root.checked) allChecked = false;
+      if (root.checked || root.indeterminate) noneChecked = false;
+    }
+    if (allChecked) {
+      this.todosClasificacionChecked = true;
+      // You might need an indeterminate state for 'Todos' as well if you want.
+    } else {
+      this.todosClasificacionChecked = false;
+    }
   }
 
   continuarClasificacion() {
-    this.guardarClasificacion();
+    // Guarda el estado de la clasificacion en el LocalStorage si quieres
+    const key = 'prov_clasificacion_' + this.currentProveedor.numeroProveedor;
+    localStorage.setItem(key, JSON.stringify({
+      seleccionada: this.clasificacionSeleccionada,
+      tree: this.clasificacionTree
+    }));
+    alert('✅ Datos de Clasificación guardados correctamente.');
     this.activeView = 'prov-sucursales';
   }
 
@@ -797,10 +838,7 @@ export class ParametrosCompras implements OnInit {
     this.formData = this.service.getParametros();
   }
 
-  ngOnInit() {
-    this.clasTreeFiltrado = this.clasTree;
-    this.aplicarFiltroArticulos();
-  }
+  ngOnInit() {}
 
   // ── Acciones subrama Principal ─────────────────────────────────────
 
