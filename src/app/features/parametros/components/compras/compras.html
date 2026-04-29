@@ -488,9 +488,90 @@
                             <button class="btn-continuar" (click)="continuarImpuestos()">Continuar ▶</button>
                         </div>
 
+                        <!-- SUBRAMA: RESOLUCIONES -->
+                        <div class="tab-content" *ngIf="activeView === 'prov-resoluciones'">
+
+                            <!-- Sección: DGI - CITI -->
+                            <div class="prov-section-title">
+                                DGI — CITI (Régimen Informativo de Compras y Ventas)
+                            </div>
+
+                            <!-- Aviso de validación cruzada con IVA -->
+                            <div class="citi-alert" *ngIf="impuestosData.codigoCategoriaIva === 'EX'">
+                                <span class="citi-alert-icon">⚠️</span>
+                                El proveedor está categorizado como <strong>Exento (EX)</strong>.
+                                Se sugiere usar el tipo de operación <strong>2 — Operaciones exentas</strong>.
+                            </div>
+
+                            <div class="form-row-multi" style="margin-top:14px">
+                                <div class="form-group" style="width:280px">
+                                    <label>Tipo de operación CITI</label>
+                                    <select class="zen-input zen-select"
+                                            [(ngModel)]="resolucionesData.tipoOperacionCiti"
+                                            (change)="onTipoOperacionCitiChange()">
+                                        <option value="">— Seleccionar —</option>
+                                        <option value="0">0 — Operaciones gravadas</option>
+                                        <option value="1">1 — Operaciones no gravadas</option>
+                                        <option value="2">2 — Operaciones exentas</option>
+                                        <option value="3">3 — Exportaciones a zona franca</option>
+                                        <option value="4">4 — Importaciones del exterior</option>
+                                        <option value="5">5 — Operaciones con no inscriptos</option>
+                                    </select>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Descripción de la operación</label>
+                                    <input type="text"
+                                           class="zen-input bg-gray"
+                                           [(ngModel)]="resolucionesData.descripcionTipoOperacion"
+                                           readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-row-multi" style="margin-top:14px">
+                                <div class="form-group" style="width:320px">
+                                    <label>Clasificación habitual (Libro IVA)</label>
+                                    <select class="zen-input zen-select"
+                                            [(ngModel)]="resolucionesData.clasificacionHabitual"
+                                            (change)="onClasificacionHabitualChange()">
+                                        <option value="">— Seleccionar —</option>
+                                        <option value="BCL">Compras de bienes en el mercado local</option>
+                                        <option value="GAS">Gastos y servicios contratados</option>
+                                        <option value="BUS">Bienes de uso</option>
+                                        <option value="IMP">Importaciones de bienes</option>
+                                        <option value="EXP">Exportaciones</option>
+                                        <option value="MAT">Materias primas e insumos</option>
+                                        <option value="OTR">Otros conceptos</option>
+                                    </select>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Descripción de la clasificación</label>
+                                    <input type="text"
+                                           class="zen-input bg-gray"
+                                           [(ngModel)]="resolucionesData.descripcionClasificacion"
+                                           readonly>
+                                </div>
+                            </div>
+
+                            <!-- Nota informativa -->
+                            <div class="citi-note" style="margin-top:18px">
+                                <span class="citi-note-icon">ℹ️</span>
+                                La <strong>Clasificación habitual</strong> se aplicará automáticamente a los
+                                comprobantes de este proveedor en el Libro de IVA Digital, evitando la
+                                clasificación manual factura por factura.
+                            </div>
+
+                        </div>
+
+                        <!-- Barra inferior Continuar para Resoluciones -->
+                        <div class="bottom-action-bar" *ngIf="activeView === 'prov-resoluciones'">
+                            <button class="btn-continuar" (click)="continuarResoluciones()">Continuar ▶</button>
+                        </div>
+
                         <!-- Resto de subramas: vacías por ahora -->
                         <div class="tab-content"
-                             *ngIf="activeView !== 'prov-principal' && activeView !== 'prov-impuestos'">
+                             *ngIf="activeView !== 'prov-principal'
+                                 && activeView !== 'prov-impuestos'
+                                 && activeView !== 'prov-resoluciones'">
                             <div class="empty-state">
                                 <div class="icon">📋</div>
                                 <h3>{{ activeView.replace('prov-', '') | titlecase }}</h3>

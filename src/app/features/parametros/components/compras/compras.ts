@@ -39,6 +39,14 @@ export interface ImpuestosData {
   cai: string;
   fechaVencimientoTalonario: string;
 }
+
+// ── Modelo Resoluciones (DGI-CITI) ────────────────────────────────────────
+export interface ResolucionesData {
+  tipoOperacionCiti: string;
+  descripcionTipoOperacion: string;
+  clasificacionHabitual: string;
+  descripcionClasificacion: string;
+}
 interface MenuItem {
   id: string;
   label: string;
@@ -152,6 +160,58 @@ export class ParametrosCompras implements OnInit {
   continuarImpuestos() {
     this.guardarImpuestos();
     this.activeView = 'prov-resoluciones';
+  }
+
+  // ── Resoluciones (DGI-CITI) ────────────────────────────────────────────
+  resolucionesData: ResolucionesData = {
+    tipoOperacionCiti: '',
+    descripcionTipoOperacion: '',
+    clasificacionHabitual: '',
+    descripcionClasificacion: ''
+  };
+
+  private readonly citiDescMap: Record<string, string> = {
+    '0': 'Operaciones gravadas',
+    '1': 'Operaciones no gravadas',
+    '2': 'Operaciones exentas',
+    '3': 'Exportaciones a zona franca',
+    '4': 'Importaciones del exterior',
+    '5': 'Operaciones con no inscriptos'
+  };
+
+  private readonly clasificacionDescMap: Record<string, string> = {
+    'BCL': 'Compras de bienes en el mercado local',
+    'GAS': 'Gastos y servicios contratados',
+    'BUS': 'Bienes de uso',
+    'IMP': 'Importaciones de bienes',
+    'EXP': 'Exportaciones',
+    'MAT': 'Materias primas e insumos',
+    'OTR': 'Otros conceptos'
+  };
+
+  /** Autocompleta descripción al seleccionar Tipo de Operación CITI */
+  onTipoOperacionCitiChange() {
+    this.resolucionesData.descripcionTipoOperacion =
+      this.citiDescMap[this.resolucionesData.tipoOperacionCiti] ?? '';
+  }
+
+  /** Autocompleta descripción al seleccionar Clasificación habitual */
+  onClasificacionHabitualChange() {
+    this.resolucionesData.descripcionClasificacion =
+      this.clasificacionDescMap[this.resolucionesData.clasificacionHabitual] ?? '';
+  }
+
+  /** Guarda resoluciones en localStorage */
+  guardarResoluciones() {
+    const key = 'prov_resoluciones_' + this.currentProveedor.numeroProveedor;
+    localStorage.setItem(key, JSON.stringify(this.resolucionesData));
+    alert('✅ Datos de Resoluciones guardados correctamente.');
+  }
+
+  /** Continuar desde Resoluciones → Comprobantes */
+  continuarResoluciones() {
+    this.guardarResoluciones();
+    this.activeView = 'prov-comprobantes';
   }
 
   menuItems: MenuItem[] = [

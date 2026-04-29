@@ -652,3 +652,37 @@
         border-color: var(--zen-accent-primary, #c8a882);
     }
 }
+
+/* ── Alertas y notas informativas (Resoluciones / CITI) ───────────────────── */
+.citi-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    background: rgba(255, 193, 7, 0.08);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 5px;
+    color: #ffd54f;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    margin-top: 8px;
+
+    .citi-alert-icon { font-size: 1rem; flex-shrink: 0; }
+    strong { color: #ffe082; }
+}
+
+.citi-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    background: rgba(100, 181, 246, 0.07);
+    border: 1px solid rgba(100, 181, 246, 0.22);
+    border-radius: 5px;
+    color: rgba(200, 220, 255, 0.75);
+    font-size: 0.84rem;
+    line-height: 1.5;
+
+    .citi-note-icon { font-size: 1rem; flex-shrink: 0; }
+    strong { color: rgba(200, 220, 255, 0.95); }
+}
