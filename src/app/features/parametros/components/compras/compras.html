@@ -26,10 +26,257 @@
                             <h3>Configuración Principal</h3>
                             <span class="badge">Sistema</span>
                         </div>
-                        <p>Define los parámetros básicos que rigen el comportamiento global del módulo de compras.</p>
-                        <div class="empty-content-state">
-                            <div class="icon">⚙️</div>
-                            <p>Configure los campos de auditoría y comportamiento principal aquí.</p>
+                        
+                        <div class="form-grid">
+                            <!-- Sección: Validación CUIT -->
+                            <div class="form-section">
+                                <div class="section-title">Validación de CUIT</div>
+                                <div class="checkbox-group">
+                                    <label class="zen-checkbox-label">
+                                        <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.cuit.obligatorio">
+                                        <span class="zen-checkbox-custom"></span>
+                                        Ingreso obligatorio de CUIT
+                                    </label>
+                                    <label class="zen-checkbox-label">
+                                        <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.cuit.obtieneDatosFiscales">
+                                        <span class="zen-checkbox-custom"></span>
+                                        Obtiene automáticamente datos fiscales
+                                    </label>
+                                    <label class="zen-checkbox-label">
+                                        <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.cuit.actualizaDatosAfip">
+                                        <span class="zen-checkbox-custom"></span>
+                                        Actualiza automáticamente datos de la AFIP
+                                    </label>
+                                </div>
+                                <div class="form-group mt-15">
+                                    <label>Verifica CUIT limitadas (RG AFIP 3832/16)</label>
+                                    <select class="zen-input" [(ngModel)]="config.cuit.verificaLimitadas">
+                                        <option value="si_confirma">Siempre y confirma el ingreso</option>
+                                        <option value="no_controla">No controla</option>
+                                        <option value="solo_avisa">Solo avisa</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Sección: Proveedores habituales -->
+                            <div class="form-section">
+                                <div class="section-title">Proveedores Habituales</div>
+                                <label class="zen-checkbox-label">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.proveedores.codificacionAutomatica">
+                                    <span class="zen-checkbox-custom"></span>
+                                    Codificación automática de proveedores
+                                </label>
+                                <div class="form-row-multi mt-10">
+                                    <div class="form-group flex-1">
+                                        <label>Próximo código</label>
+                                        <input type="number" class="zen-input" [(ngModel)]="config.proveedores.proximoCodigo">
+                                    </div>
+                                    <div class="form-group flex-1">
+                                        <label>Utiliza prefijo</label>
+                                        <select class="zen-input" [(ngModel)]="config.proveedores.utilizaPrefijo">
+                                            <option value="no">No controla</option>
+                                            <option value="si">Si controla</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group flex-1">
+                                        <label>Valor prefijo</label>
+                                        <input type="text" class="zen-input" [disabled]="config.proveedores.utilizaPrefijo === 'no'" [(ngModel)]="config.proveedores.valorPrefijo">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Controles de Carga -->
+                            <div class="form-section">
+                                <div class="section-title">Controles de Carga y Duplicidad</div>
+                                <label class="zen-checkbox-label">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.controles.permiteAltaDesdeProcesos">
+                                    <span class="zen-checkbox-custom"></span>
+                                    Permite alta de proveedores desde procesos
+                                </label>
+                                <div class="form-group mt-15">
+                                    <label>Duplicación de Tipo y Nro. de documento</label>
+                                    <select class="zen-input" [(ngModel)]="config.controles.duplicacionDoc">
+                                        <option value="cuit_estricto">Control estricto (solo CUIT)</option>
+                                        <option value="todos">Control estricto (todos los tipos)</option>
+                                        <option value="aviso">Solo avisar duplicados</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Valores Habituales -->
+                            <div class="form-section">
+                                <div class="section-title">Habituales (Ocasionales)</div>
+                                <div class="form-row-multi">
+                                    <div class="form-group flex-1">
+                                        <label>Tipo Doc.</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.habituales.tipoDoc">
+                                    </div>
+                                    <div class="form-group flex-2">
+                                        <label>Descripción</label>
+                                        <input type="text" class="zen-input bg-gray" readonly [(ngModel)]="config.habituales.tipoDocDesc">
+                                    </div>
+                                </div>
+                                <div class="form-row-multi mt-10">
+                                    <div class="form-group flex-1">
+                                        <label>Cod. Prov.</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.habituales.provincia">
+                                    </div>
+                                    <div class="form-group flex-2">
+                                        <label>Descripción</label>
+                                        <input type="text" class="zen-input bg-gray" readonly [(ngModel)]="config.habituales.provinciaDesc">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- DGI-CITI -->
+                            <div class="form-section">
+                                <div class="section-title">DGI - CITI (Ocasionales)</div>
+                                <div class="form-group">
+                                    <label>Tipo de Operación</label>
+                                    <select class="zen-input" [(ngModel)]="config.habituales.tipoOperacionCiti">
+                                        <option value="0">Operación gravada</option>
+                                        <option value="1">No gravada</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Clasificación Compras</label>
+                                    <select class="zen-input" [(ngModel)]="config.habituales.clasificacionComprasCiti">
+                                        <option value="bs">Bienes y servicios</option>
+                                        <option value="otros">Otros</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- RG 3685 -->
+                            <div class="form-section">
+                                <div class="section-title">RG 3685 / 4597 (Ocasionales)</div>
+                                <div class="form-row-multi">
+                                    <div class="form-group flex-1">
+                                        <label>Tipo Op.</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.habituales.tipoOperacionAfip">
+                                    </div>
+                                    <div class="form-group flex-2">
+                                        <label>Descripción</label>
+                                        <input type="text" class="zen-input bg-gray" readonly [(ngModel)]="config.habituales.tipoOperacionAfipDesc">
+                                    </div>
+                                </div>
+                                <div class="form-row-multi mt-10">
+                                    <div class="form-group flex-1">
+                                        <label>Comp. AFIP</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.habituales.comprobanteAfip">
+                                    </div>
+                                    <div class="form-group flex-2">
+                                        <label>Descripción</label>
+                                        <input type="text" class="zen-input bg-gray" readonly [(ngModel)]="config.habituales.comprobanteAfipDesc">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Clasificar IVA -->
+                            <div class="form-section">
+                                <div class="section-title">Clasificar IVA en Ingreso</div>
+                                <div class="form-row-multi grid-2">
+                                    <div class="form-group">
+                                        <label>Facturas</label>
+                                        <select class="zen-input" [(ngModel)]="config.clasificacionIva.facturas">
+                                            <option value="oculta">Oculta</option>
+                                            <option value="visible">Visible</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Notas de Débito</label>
+                                        <select class="zen-input" [(ngModel)]="config.clasificacionIva.notasDebito">
+                                            <option value="oculta">Oculta</option>
+                                            <option value="visible">Visible</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Notas de Crédito</label>
+                                        <select class="zen-input" [(ngModel)]="config.clasificacionIva.notasCredito">
+                                            <option value="oculta">Oculta</option>
+                                            <option value="visible">Visible</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Despachos</label>
+                                        <select class="zen-input" [(ngModel)]="config.clasificacionIva.despachos">
+                                            <option value="oculta">Oculta</option>
+                                            <option value="visible">Visible</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Otras RG -->
+                            <div class="form-section">
+                                <div class="section-title">Otras Resoluciones</div>
+                                <label class="zen-checkbox-label">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.resoluciones.rg1361">
+                                    <span class="zen-checkbox-custom"></span>
+                                    RG 1361, 1547 y 3665
+                                </label>
+                                <label class="zen-checkbox-label mt-10">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.resoluciones.rg3572">
+                                    <span class="zen-checkbox-custom"></span>
+                                    RG 3572 - Sujeto vinculado
+                                </label>
+                            </div>
+
+                            <!-- Siglas y Leyendas -->
+                            <div class="form-section">
+                                <div class="section-title">Siglas y Leyendas</div>
+                                <div class="form-row-multi grid-2">
+                                    <div class="form-group">
+                                        <label>Sigla ID Tributaria</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.leyendas.siglaIdentificacionTributaria">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Sigla Subdiario IVA</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.leyendas.siglaSubdiarioIva">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Moneda Corriente</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.leyendas.leyendaMonedaCorriente">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Moneda Extranjera</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.leyendas.leyendaMonedaExtranjera">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Longitud Agrupaciones -->
+                            <div class="form-section">
+                                <div class="section-title">Longitud Agrupaciones</div>
+                                <div class="form-row-multi">
+                                    <div class="form-group flex-1">
+                                        <label>Familia</label>
+                                        <input type="number" class="zen-input" [(ngModel)]="config.agrupaciones.longFamilia">
+                                    </div>
+                                    <div class="form-group flex-1">
+                                        <label>Grupo</label>
+                                        <input type="number" class="zen-input" [(ngModel)]="config.agrupaciones.longGrupo">
+                                    </div>
+                                    <div class="form-group flex-1">
+                                        <label>Individuo</label>
+                                        <input type="number" class="zen-input" [(ngModel)]="config.agrupaciones.longIndividuo">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Precios -->
+                            <div class="form-section">
+                                <div class="section-title">Precios</div>
+                                <label class="zen-checkbox-label">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.precios.depuraSolicitudes">
+                                    <span class="zen-checkbox-custom"></span>
+                                    Depura solicitudes
+                                </label>
+                                <div class="form-group mt-15">
+                                    <label>Meses conservación</label>
+                                    <input type="number" class="zen-input" [disabled]="!config.precios.depuraSolicitudes" [(ngModel)]="config.precios.mesesConservacion">
+                                </div>
+                            </div>
                         </div>
                     </div>
 

@@ -1,16 +1,74 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-parametros-compras',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './compras.html',
   styleUrl: './compras.scss'
 })
 export class ParametrosCompras {
   activeTab: string = 'principal';
+
+  // Modelo de datos para la solapa Principal
+  config = {
+    cuit: {
+      obligatorio: true,
+      obtieneDatosFiscales: true,
+      actualizaDatosAfip: true,
+      verificaLimitadas: 'si_confirma' // Siempre y confirma el ingreso
+    },
+    proveedores: {
+      codificacionAutomatica: true,
+      proximoCodigo: 2166,
+      utilizaPrefijo: 'no',
+      valorPrefijo: ''
+    },
+    controles: {
+      permiteAltaDesdeProcesos: true,
+      duplicacionDoc: 'cuit_estricto'
+    },
+    habituales: {
+      tipoDoc: '80',
+      tipoDocDesc: 'C.U.I.T.',
+      provincia: '01',
+      provinciaDesc: 'Buenos Aires',
+      tipoOperacionCiti: '0', // Operación gravada
+      clasificacionComprasCiti: 'bs', // Bienes y servicios
+      tipoOperacionAfip: '0',
+      tipoOperacionAfipDesc: 'Operaciones gravadas',
+      comprobanteAfip: '001',
+      comprobanteAfipDesc: 'Facturas A'
+    },
+    clasificacionIva: {
+        facturas: 'oculta',
+        notasDebito: 'oculta',
+        notasCredito: 'oculta',
+        despachos: 'oculta'
+    },
+    resoluciones: {
+        rg1361: false,
+        rg3572: false
+    },
+    leyendas: {
+        siglaIdentificacionTributaria: 'C.U.I.T.',
+        siglaSubdiarioIva: 'I.V.A.',
+        leyendaMonedaCorriente: 'PESOS',
+        leyendaMonedaExtranjera: 'DOLARES'
+    },
+    agrupaciones: {
+        longFamilia: 1,
+        longGrupo: 2,
+        longIndividuo: 3
+    },
+    precios: {
+        depuraSolicitudes: false,
+        mesesConservacion: 0
+    }
+  };
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
