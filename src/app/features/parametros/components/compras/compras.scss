@@ -3,6 +3,8 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    max-height: calc(90vh - 60px); /* limita el alto total del modal */
+    overflow: hidden;
 }
 
 .modal-header {
@@ -27,7 +29,8 @@
     display: flex;
     gap: var(--zen-spacing-lg);
     flex: 1;
-    min-height: 400px;
+    min-height: 0;        /* permite que los hijos respeten el alto del padre */
+    overflow: hidden;
 }
 
 .compras-sidebar {
@@ -35,6 +38,7 @@
     border-right: 1px solid var(--zen-border);
     padding-right: var(--zen-spacing-md);
     overflow-y: auto;
+    flex-shrink: 0;
 }
 
 .compras-content {
@@ -45,6 +49,9 @@
     border-radius: var(--zen-radius-md);
     padding: var(--zen-spacing-lg);
     border: 1px solid var(--zen-border);
+    overflow-y: auto;   /* el contenido derecho scrollea si hay mucho */
+    min-height: 0;
+    align-items: flex-start; /* no estira los hijos al 100% de alto */
 }
 
 /* Tree Menu Styles */
@@ -151,9 +158,9 @@
 .proveedores-view {
     display: flex;
     flex-direction: column;
-    flex: 1 1 auto;
     width: 100%;
-    min-height: 400px;
+    /* Sin flex:1 — se ajusta al contenido, no al sidebar */
+    height: fit-content;
     /* Fondo ZEN: superficie oscura semitransparente */
     background: var(--zen-bg-secondary, #1e2432);
     border-radius: 6px;
@@ -231,8 +238,7 @@
 
 .tab-content {
     padding: 20px;
-    overflow-y: auto;
-    flex: 1;
+    /* Sin flex:1 — el contenido determina el alto */
 
     label {
         font-size: 0.85rem;
