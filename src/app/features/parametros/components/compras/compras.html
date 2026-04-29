@@ -480,11 +480,54 @@
                     </div>
 
                     <div *ngIf="activeTab === 'comprobantes'" class="tab-pane">
-                        <h3>Comprobantes</h3>
-                        <p>Control de numeración, letras autorizadas y tipos de comprobantes habilitados.</p>
-                        <div class="empty-content-state">
-                            <div class="icon">📄</div>
-                            <p>Configuración de documentos comerciales.</p>
+                        <div class="pane-header">
+                            <h3>Comprobantes</h3>
+                            <span class="badge">Documentos</span>
+                        </div>
+                        
+                        <!-- Sub-solapas de Comprobantes -->
+                        <div class="sub-tabs-container">
+                            <div class="sub-tabs-header">
+                                <div *ngFor="let subTab of subTabsComprobantes"
+                                     class="sub-tab-item"
+                                     [class.active]="activeSubTabComprobantes === subTab.id"
+                                     (click)="selectSubTabComprobantes(subTab.id)">
+                                    {{ subTab.label }}
+                                </div>
+                            </div>
+
+                            <div class="sub-tab-body">
+                                <div *ngIf="activeSubTabComprobantes === 'generales'" class="sub-tab-pane">
+                                    <div class="empty-content-state">
+                                        <div class="icon">📑</div>
+                                        <p>Configuración general de comprobantes pendiente.</p>
+                                    </div>
+                                </div>
+                                <div *ngIf="activeSubTabComprobantes === 'solicitudes'" class="sub-tab-pane">
+                                    <div class="empty-content-state">
+                                        <div class="icon">📝</div>
+                                        <p>Parámetros para Solicitudes de Compras pendientes.</p>
+                                    </div>
+                                </div>
+                                <div *ngIf="activeSubTabComprobantes === 'orden'" class="sub-tab-pane">
+                                    <div class="empty-content-state">
+                                        <div class="icon">🛒</div>
+                                        <p>Parámetros para Órdenes de Compra pendientes.</p>
+                                    </div>
+                                </div>
+                                <div *ngIf="activeSubTabComprobantes === 'pagos'" class="sub-tab-pane">
+                                    <div class="empty-content-state">
+                                        <div class="icon">💳</div>
+                                        <p>Configuración de Pagos y Remesas pendiente.</p>
+                                    </div>
+                                </div>
+                                <div *ngIf="activeSubTabComprobantes === 'ajustes'" class="sub-tab-pane">
+                                    <div class="empty-content-state">
+                                        <div class="icon">🔄</div>
+                                        <p>Comprobantes de Ajustes y Notas pendientes.</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

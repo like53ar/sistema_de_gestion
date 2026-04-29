@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class ParametrosCompras {
   activeTab: string = 'principal';
+  activeSubTabComprobantes: string = 'generales';
 
   // Modelo de datos para la solapa Principal
   config = {
@@ -116,8 +117,20 @@ export class ParametrosCompras {
     { id: 'clasificacion', label: 'Clasificacion de Comprobantes' }
   ];
 
+  subTabsComprobantes = [
+    { id: 'generales', label: 'Generales' },
+    { id: 'solicitudes', label: 'Solicitudes de Compras' },
+    { id: 'orden', label: 'Orden de Compra' },
+    { id: 'pagos', label: 'Pagos' },
+    { id: 'ajustes', label: 'Comprobantes de Ajustes' }
+  ];
+
   selectTab(id: string) {
     this.activeTab = id;
+  }
+
+  selectSubTabComprobantes(id: string) {
+    this.activeSubTabComprobantes = id;
   }
 
   close() {
