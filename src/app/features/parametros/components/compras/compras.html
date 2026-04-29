@@ -1,0 +1,79 @@
+<div class="params-container fade-in">
+    <div class="tabs-header">
+        <div *ngFor="let tab of tabs" 
+             class="tab-item" 
+             [class.active]="activeTab === tab.id"
+             (click)="selectTab(tab.id)">
+            {{ tab.label }}
+        </div>
+    </div>
+
+    <div class="tab-body">
+        <!-- Contenido de Solapas (Placeholders) -->
+        <div *ngIf="activeTab === 'principal'" class="tab-pane">
+            <div class="pane-header">
+                <h3>Configuración Principal</h3>
+                <span class="badge">Sistema</span>
+            </div>
+            <p>Define los parámetros básicos que rigen el comportamiento global del módulo de compras.</p>
+            <div class="empty-content-state">
+                <div class="icon">⚙️</div>
+                <p>Configure los campos de auditoría y comportamiento principal aquí.</p>
+            </div>
+        </div>
+
+        <div *ngIf="activeTab === 'impuestos'" class="tab-pane">
+            <h3>Impuestos</h3>
+            <p>Configuración de alícuotas habituales y tratamiento impositivo general para el módulo.</p>
+            <div class="empty-content-state">
+                <div class="icon">💰</div>
+                <p>Configuración impositiva pendiente.</p>
+            </div>
+        </div>
+
+        <div *ngIf="activeTab === 'retenciones'" class="tab-pane">
+            <h3>Retenciones</h3>
+            <p>Parámetros para el cálculo automático de retenciones de Ganancias, IVA e IIBB.</p>
+            <div class="empty-content-state">
+                <div class="icon">📝</div>
+                <p>Definición de regímenes de retención.</p>
+            </div>
+        </div>
+
+        <div *ngIf="activeTab === 'comprobantes'" class="tab-pane">
+            <h3>Comprobantes</h3>
+            <p>Control de numeración, letras autorizadas y tipos de comprobantes habilitados.</p>
+            <div class="empty-content-state">
+                <div class="icon">📄</div>
+                <p>Configuración de documentos comerciales.</p>
+            </div>
+        </div>
+
+        <div *ngIf="activeTab === 'controles'" class="tab-pane">
+            <h3>Controles</h3>
+            <p>Límites de tolerancia, validaciones de fechas y controles de integridad operativa.</p>
+            <div class="empty-content-state">
+                <div class="icon">🛡️</div>
+                <p>Parámetros de seguridad y control.</p>
+            </div>
+        </div>
+
+        <div *ngIf="activeTab === 'referencia'" class="tab-pane">
+            <h3>Comprobantes de Referencia</h3>
+            <p>Mapeo de comprobantes de origen y destino para trazabilidad de operaciones.</p>
+            <div class="empty-content-state">
+                <div class="icon">🔗</div>
+                <p>Relaciones de documentos.</p>
+            </div>
+        </div>
+
+        <div *ngIf="activeTab === 'clasificacion'" class="tab-pane">
+            <h3>Clasificacion de Comprobantes</h3>
+            <p>Agrupaciones secundarias para reportes de gestión y estadísticas de compra.</p>
+            <div class="empty-content-state">
+                <div class="icon">🏷️</div>
+                <p>Categorización avanzada de gastos.</p>
+            </div>
+        </div>
+    </div>
+</div>

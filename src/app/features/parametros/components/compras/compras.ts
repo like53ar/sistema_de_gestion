@@ -1,20 +1,27 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-parametros-compras',
   standalone: true,
-  template: `
-    <div class="empty-state">
-      <h3>Configuración de Compras</h3>
-      <p>Esta sección se ha trasladado al módulo de Compras / Archivos.</p>
-    </div>
-  `,
-  styles: [`
-    .empty-state {
-      padding: 40px;
-      text-align: center;
-      color: #a89880;
-    }
-  `]
+  imports: [CommonModule],
+  templateUrl: './compras.html',
+  styleUrl: './compras.scss'
 })
-export class ParametrosCompras {}
+export class ParametrosCompras {
+  activeTab: string = 'principal';
+
+  tabs = [
+    { id: 'principal', label: 'Principal' },
+    { id: 'impuestos', label: 'Impuestos' },
+    { id: 'retenciones', label: 'Retenciones' },
+    { id: 'comprobantes', label: 'Comprobantes' },
+    { id: 'controles', label: 'Controles' },
+    { id: 'referencia', label: 'Comprobantes de Referencia' },
+    { id: 'clasificacion', label: 'Clasificacion de Comprobantes' }
+  ];
+
+  selectTab(id: string) {
+    this.activeTab = id;
+  }
+}
