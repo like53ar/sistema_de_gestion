@@ -1101,6 +1101,98 @@
                             </div>
                         </div>
 
+                        <!-- SUBRAMA: CLASIFICACIÓN -->
+                        <div class="tab-content clas-tab" *ngIf="activeView === 'prov-clasificacion'">
+
+                            <!-- Cabecera: Familia / Grupo / Individuo -->
+                            <div class="prov-section-title">Clasificación del Proveedor</div>
+
+                            <div class="form-row-multi">
+                                <div class="form-group" style="width:200px">
+                                    <label>Familia</label>
+                                    <input type="text" class="zen-input bg-gray"
+                                           [(ngModel)]="clasificacionData.familia"
+                                           readonly placeholder="Auto desde árbol">
+                                </div>
+                                <div class="form-group" style="width:200px">
+                                    <label>Grupo</label>
+                                    <input type="text" class="zen-input bg-gray"
+                                           [(ngModel)]="clasificacionData.grupo"
+                                           readonly placeholder="Auto desde árbol">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Individuo</label>
+                                    <input type="text" class="zen-input bg-gray"
+                                           [(ngModel)]="clasificacionData.individuo"
+                                           readonly placeholder="Seleccioná un nodo hoja">
+                                </div>
+                            </div>
+
+                            <!-- Barra de controles -->
+                            <div class="clas-toolbar">
+                                <button class="btn-art-filter" (click)="colapsarArbol()">
+                                    ▶ Colapsar todo
+                                </button>
+                                <button class="btn-art-filter" (click)="expandirArbol()">
+                                    ▼ Expandir todo
+                                </button>
+                                <!-- Búsqueda en tiempo real -->
+                                <div class="clas-search">
+                                    <span class="clas-search-icon">🔍</span>
+                                    <input type="text" class="zen-input clas-search-input"
+                                           [(ngModel)]="clasKeyword"
+                                           (input)="onClasSearch()"
+                                           placeholder="Buscar en árbol…">
+                                </div>
+                            </div>
+
+                            <!-- Árbol dinámico -->
+                            <div class="clas-tree-wrap">
+                                <ng-container *ngTemplateOutlet="clasTreeTpl; context:{ nodes: clasTreeFiltrado }">
+                                </ng-container>
+                            </div>
+
+                        </div>
+
+                        <!-- Template recursivo del árbol de clasificación -->
+                        <ng-template #clasTreeTpl let-nodes="nodes">
+                            <ul class="clas-tree">
+                                <li *ngFor="let node of nodes" class="clas-node">
+                                    <div class="clas-node-row"
+                                         [class.highlighted]="clasKeyword && node.label.toLowerCase().includes(clasKeyword.toLowerCase())">
+                                        <!-- Toggle expand -->
+                                        <span class="clas-toggle"
+                                              *ngIf="node.children?.length"
+                                              (click)="node.expanded = !node.expanded">
+                                            {{ node.expanded ? '▼' : '▶' }}
+                                        </span>
+                                        <span class="clas-leaf-pad" *ngIf="!node.children?.length"></span>
+                                        <!-- Checkbox -->
+                                        <label class="clas-check-label"
+                                               (click)="onClasNodeClick(node)">
+                                            <span class="clas-checkbox"
+                                                  [class.checked]="node.checked"
+                                                  [class.indeterminate]="node.indeterminate">
+                                                <span *ngIf="node.checked">✓</span>
+                                                <span *ngIf="node.indeterminate && !node.checked">—</span>
+                                            </span>
+                                            <span class="clas-label">{{ node.label }}</span>
+                                        </label>
+                                    </div>
+                                    <!-- Hijos -->
+                                    <div *ngIf="node.expanded && node.children?.length">
+                                        <ng-container *ngTemplateOutlet="clasTreeTpl; context:{ nodes: node.children }">
+                                        </ng-container>
+                                    </div>
+                                </li>
+                            </ul>
+                        </ng-template>
+
+                        <!-- Barra inferior Continuar para Clasificación -->
+                        <div class="bottom-action-bar" *ngIf="activeView === 'prov-clasificacion'">
+                            <button class="btn-continuar" (click)="continuarClasificacion()">Continuar ▶</button>
+                        </div>
+
                         <!-- Resto de subramas: vacías por ahora -->
                         <div class="tab-content"
                              *ngIf="activeView !== 'prov-principal'
@@ -1108,7 +1200,8 @@
                                  && activeView !== 'prov-resoluciones'
                                  && activeView !== 'prov-comprobantes'
                                  && activeView !== 'prov-pagos'
-                                 && activeView !== 'prov-articulos'">
+                                 && activeView !== 'prov-articulos'
+                                 && activeView !== 'prov-clasificacion'">
                             <div class="empty-state">
                                 <div class="icon">📋</div>
                                 <h3>{{ activeView.replace('prov-', '') | titlecase }}</h3>

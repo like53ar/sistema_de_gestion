@@ -99,6 +99,17 @@ export interface PagosData {
   // Pagos masivos
   habilitadoPagosMasivos: boolean;
 }
+
+// ── Árbol de Clasificación ─────────────────────────────────────────────────────
+export interface ClasNodo {
+  id: string;
+  label: string;
+  checked: boolean;
+  indeterminate: boolean;
+  expanded?: boolean;
+  children?: ClasNodo[];
+}
+
 interface MenuItem {
   id: string;
   label: string;
@@ -524,6 +535,157 @@ export class ParametrosCompras implements OnInit {
     this.aplicarFiltroArticulos();
   }
 
+  // ── Clasificación ──────────────────────────────────────────────────────────────
+  clasificacionData = { familia: '', grupo: '', individuo: '' };
+  clasKeyword = '';
+  clasTreeFiltrado: ClasNodo[] = [];
+
+  /** Árbol maestro de clasificación */
+  readonly clasTree: ClasNodo[] = [
+    {
+      id: 'todos', label: 'Todos', checked: false, indeterminate: false,
+      expanded: true,
+      children: [
+        {
+          id: 'locales', label: 'Locales', checked: false, indeterminate: false,
+          expanded: false,
+          children: [
+            { id: 'loc-mp', label: 'Materia Prima', checked: false, indeterminate: false, expanded: false,
+              children: [
+                { id: 'loc-mp-ferrosos',  label: 'Ferrosos',    checked: false, indeterminate: false },
+                { id: 'loc-mp-nferrosos', label: 'No Ferrosos', checked: false, indeterminate: false },
+                { id: 'loc-mp-plasticos', label: 'Plásticos',   checked: false, indeterminate: false },
+              ]
+            },
+            { id: 'loc-pt', label: 'Productos Terminados', checked: false, indeterminate: false, expanded: false,
+              children: [
+                { id: 'loc-pt-elec',  label: 'Electrónica',    checked: false, indeterminate: false },
+                { id: 'loc-pt-indus', label: 'Industrial',      checked: false, indeterminate: false },
+              ]
+            },
+            { id: 'loc-serv', label: 'Servicios', checked: false, indeterminate: false }
+          ]
+        },
+        {
+          id: 'exterior', label: 'Exterior', checked: false, indeterminate: false,
+          expanded: false,
+          children: [
+            { id: 'ext-imp', label: 'Importaciones', checked: false, indeterminate: false, expanded: false,
+              children: [
+                { id: 'ext-imp-asia',   label: 'Asia',   checked: false, indeterminate: false },
+                { id: 'ext-imp-europe', label: 'Europa', checked: false, indeterminate: false },
+                { id: 'ext-imp-latam',  label: 'LATAM',  checked: false, indeterminate: false },
+              ]
+            },
+            { id: 'ext-exp', label: 'Exportaciones', checked: false, indeterminate: false }
+          ]
+        }
+      ]
+    }
+  ];
+
+  private initClasTree() {
+    this.clasTreeFiltrado = this.clasTree;
+  }
+
+  /** Búsqueda en tiempo real — filtra mostrando nodos que coinciden y sus ancestros */
+  onClasSearch() {
+    if (!this.clasKeyword.trim()) {
+      this.clasTreeFiltrado = this.clasTree;
+      return;
+    }
+    const kw = this.clasKeyword.toLowerCase();
+    const filterNodes = (nodes: ClasNodo[]): ClasNodo[] =>
+      nodes.reduce<ClasNodo[]>((acc, n) => {
+        const childMatches = n.children ? filterNodes(n.children) : [];
+        if (n.label.toLowerCase().includes(kw) || childMatches.length) {
+          acc.push({ ...n, expanded: true, children: childMatches.length ? childMatches : n.children });
+        }
+        return acc;
+      }, []);
+    this.clasTreeFiltrado = filterNodes(this.clasTree);
+  }
+
+  /** Expande todos los nodos del árbol maestro */
+  expandirArbol() {
+    const expandAll = (nodes: ClasNodo[]) =>
+      nodes.forEach(n => { n.expanded = true; if (n.children) expandAll(n.children); });
+    expandAll(this.clasTree);
+    this.onClasSearch();
+  }
+
+  /** Colapsa todos los nodos del árbol maestro */
+  colapsarArbol() {
+    const collapseAll = (nodes: ClasNodo[]) =>
+      nodes.forEach(n => { n.expanded = false; if (n.children) collapseAll(n.children); });
+    collapseAll(this.clasTree);
+    this.onClasSearch();
+  }
+
+  /** Clic en nodo: cascade check + sincroniza cabecera Familia/Grupo/Individuo */
+  onClasNodeClick(node: ClasNodo) {
+    const newVal = !node.checked;
+    this.setCheckedRecursive(node, newVal);
+    this.updateParentStates(this.clasTree);
+    this.syncClasificacionHeader();
+  }
+
+  private setCheckedRecursive(node: ClasNodo, val: boolean) {
+    node.checked = val;
+    node.indeterminate = false;
+    if (node.children) node.children.forEach(c => this.setCheckedRecursive(c, val));
+  }
+
+  private updateParentStates(nodes: ClasNodo[]): boolean[] {
+    return nodes.map(n => {
+      if (!n.children?.length) return n.checked;
+      const childStates = this.updateParentStates(n.children);
+      const allChecked  = childStates.every(s => s);
+      const noneChecked = childStates.every(s => !s);
+      n.checked       = allChecked;
+      n.indeterminate = !allChecked && !noneChecked;
+      return n.checked;
+    });
+  }
+
+  /**
+   * Busca el primer nodo hoja seleccionado y reconstruye el path
+   * Familia = nivel 2, Grupo = nivel 3, Individuo = nivel 4 (hoja)
+   */
+  private syncClasificacionHeader() {
+    const findFirstLeaf = (nodes: ClasNodo[], depth = 0, path: string[] = [])
+      : { path: string[] } | null => {
+      for (const n of nodes) {
+        const newPath = [...path, n.label];
+        if (n.checked && !n.children?.length) return { path: newPath };
+        if (n.children) {
+          const found = findFirstLeaf(n.children, depth + 1, newPath);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+    const result = findFirstLeaf(this.clasTree[0]?.children ?? []);
+    if (result) {
+      this.clasificacionData.familia  = result.path[0] ?? '';
+      this.clasificacionData.grupo    = result.path[1] ?? '';
+      this.clasificacionData.individuo = result.path[2] ?? result.path[1] ?? '';
+    } else {
+      this.clasificacionData = { familia: '', grupo: '', individuo: '' };
+    }
+  }
+
+  guardarClasificacion() {
+    const key = 'prov_clasificacion_' + this.currentProveedor.numeroProveedor;
+    localStorage.setItem(key, JSON.stringify(this.clasificacionData));
+    alert('✅ Clasificación guardada correctamente.');
+  }
+
+  continuarClasificacion() {
+    this.guardarClasificacion();
+    this.activeView = 'prov-sucursales';
+  }
+
   menuItems: MenuItem[] = [
     {
       id: 'archivos',
@@ -635,7 +797,10 @@ export class ParametrosCompras implements OnInit {
     this.formData = this.service.getParametros();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.clasTreeFiltrado = this.clasTree;
+    this.aplicarFiltroArticulos();
+  }
 
   // ── Acciones subrama Principal ─────────────────────────────────────
 
