@@ -24,6 +24,20 @@ export interface ImpuestosData {
   fechaVigenciaCoeficientes: string;
   // Jurisdicciones CM
   jurisdicciones: JurisdiccionRow[];
+  // RG 3685 / 4597 - Libro IVA Digital
+  codigoTipoOperacionAfip: string;
+  codigoComprobanteAfip: string;
+  generaInformacion: boolean;
+  // Clasificación SIAp
+  codigoClasificacionSiap: string;
+  // RG 3572 - Sujetos Vinculados
+  empresaVinculada: boolean;
+  codigoTipoOpVinculada: string;
+  // RG 1361 / RG 3665 - Controladores Fiscales
+  emiteControladorFiscal: boolean;
+  tipoComprobanteControlador: string;
+  cai: string;
+  fechaVencimientoTalonario: string;
 }
 interface MenuItem {
   id: string;
@@ -63,7 +77,21 @@ export class ParametrosCompras implements OnInit {
     regimenIIBB: 'local',
     nroIngresosBrutos: '',
     fechaVigenciaCoeficientes: '',
-    jurisdicciones: []
+    jurisdicciones: [],
+    // RG 3685 / 4597
+    codigoTipoOperacionAfip: '',
+    codigoComprobanteAfip: '',
+    generaInformacion: true,
+    // SIAp
+    codigoClasificacionSiap: '',
+    // RG 3572
+    empresaVinculada: false,
+    codigoTipoOpVinculada: '',
+    // RG 1361 / 3665
+    emiteControladorFiscal: false,
+    tipoComprobanteControlador: '',
+    cai: '',
+    fechaVencimientoTalonario: ''
   };
 
   readonly categoriaIvaOpciones = [

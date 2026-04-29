@@ -601,3 +601,54 @@
         &::after { display: block; }
     }
 }
+
+/* ── Checkbox ZEN genérico ────────────────────────────────────────────────────── */
+.zen-checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: var(--zen-text-primary, #e8ddd0);
+    font-size: 0.88rem;
+    font-weight: 500;
+    user-select: none;
+
+    .zen-checkbox {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .zen-checkbox-custom {
+        width: 17px;
+        height: 17px;
+        border: 1.5px solid rgba(200,168,130,0.45);
+        border-radius: 3px;
+        background: rgba(255,255,255,0.04);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: border-color 0.15s, background 0.15s;
+
+        &::after {
+            content: '✓';
+            color: var(--zen-accent-primary, #c8a882);
+            font-size: 11px;
+            font-weight: 700;
+            display: none;
+        }
+    }
+
+    .zen-checkbox:checked ~ .zen-checkbox-custom,
+    input[type="checkbox"]:checked + .zen-checkbox-custom {
+        background: rgba(200,168,130,0.14);
+        border-color: var(--zen-accent-primary, #c8a882);
+        &::after { display: block; }
+    }
+
+    &:hover .zen-checkbox-custom {
+        border-color: var(--zen-accent-primary, #c8a882);
+    }
+}
