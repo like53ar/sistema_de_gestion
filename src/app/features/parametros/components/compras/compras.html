@@ -921,13 +921,194 @@
                             <button class="btn-continuar" (click)="continuarPagos()">Continuar ▶</button>
                         </div>
 
+                        <!-- SUBRAMA: ARTÍCULOS/CONCEPTOS -->
+                        <div class="tab-content art-tab-content" *ngIf="activeView === 'prov-articulos'">
+
+                            <!-- Tabs internas: Artículos | Conceptos -->
+                            <div class="art-tabs">
+                                <button class="art-tab" [class.active]="articulosTab === 'articulos'"
+                                        (click)="articulosTab = 'articulos'">Artículos</button>
+                                <button class="art-tab" [class.active]="articulosTab === 'conceptos'"
+                                        (click)="articulosTab = 'conceptos'">Conceptos</button>
+
+                                <!-- Toolbar derecha -->
+                                <div class="art-toolbar">
+                                    <button class="btn-art-filter"
+                                            [class.active]="artFiltroVisible"
+                                            (click)="artFiltroVisible = !artFiltroVisible"
+                                            title="Filtros avanzados">⚙ Filtros</button>
+                                    <button class="btn-art-nuevo" (click)="abrirModalArticulo()">
+                                        ＋ Nuevo
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Panel de filtros avanzados -->
+                            <div class="art-filter-panel" *ngIf="artFiltroVisible">
+                                <div class="art-filter-row">
+                                    <div class="form-group" style="width:140px">
+                                        <label>Cód. desde</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="artFiltro.codDesde"
+                                               placeholder="P-001">
+                                    </div>
+                                    <div class="form-group" style="width:140px">
+                                        <label>Cód. hasta</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="artFiltro.codHasta"
+                                               placeholder="P-999">
+                                    </div>
+                                    <div class="form-group" style="flex:1">
+                                        <label>Descripción / Sinónimo</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="artFiltro.keyword"
+                                               placeholder="Buscar...">
+                                    </div>
+                                    <div class="form-group" style="width:130px">
+                                        <label>Unidad de medida</label>
+                                        <select class="zen-input zen-select" [(ngModel)]="artFiltro.unidad">
+                                            <option value="">Todas</option>
+                                            <option *ngFor="let u of unidadesMedida" [value]="u.codigo">
+                                                {{ u.codigo }} — {{ u.descripcion }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" style="padding-top:22px">
+                                        <button class="btn-art-nuevo" (click)="aplicarFiltroArticulos()">
+                                            Buscar
+                                        </button>
+                                        <button class="btn-art-filter" (click)="limpiarFiltroArticulos()"
+                                                style="margin-left:6px">
+                                            Limpiar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tabla de artículos -->
+                            <div class="art-table-wrap">
+                                <table class="art-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="sortable" (click)="sortArticulos('codigo')">
+                                                Código
+                                                <span class="sort-arrow">
+                                                    {{ artSort.col === 'codigo' ? (artSort.asc ? '▲' : '▼') : '⇅' }}
+                                                </span>
+                                            </th>
+                                            <th class="sortable" (click)="sortArticulos('descripcion')">
+                                                Descripción
+                                                <span class="sort-arrow">
+                                                    {{ artSort.col === 'descripcion' ? (artSort.asc ? '▲' : '▼') : '⇅' }}
+                                                </span>
+                                            </th>
+                                            <th>Sinónimo</th>
+                                            <th style="width:90px">Cód. Unidad</th>
+                                            <th>Desc. Unidad</th>
+                                            <th style="width:100px">Sin. Medida</th>
+                                            <th style="width:40px"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let row of articulosFiltrados; let i = index"
+                                            class="art-row">
+                                            <td class="cell-codigo">{{ row.codigo }}</td>
+                                            <td>{{ row.descripcion }}</td>
+                                            <td class="cell-muted">{{ row.sinonimo }}</td>
+                                            <td class="cell-codigo">{{ row.codUnidad }}</td>
+                                            <td class="cell-muted">{{ row.descUnidad }}</td>
+                                            <td class="cell-muted">{{ row.sinUnidad }}</td>
+                                            <td>
+                                                <button class="btn-art-del"
+                                                        (click)="eliminarArticulo(i)"
+                                                        title="Eliminar">✕</button>
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="articulosFiltrados.length === 0">
+                                            <td colspan="7" class="art-empty">
+                                                Sin artículos — usá «＋ Nuevo» para agregar
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="art-count">
+                                {{ articulosFiltrados.length }} registro(s) — {{ articulosTab === 'articulos' ? 'Artículos' : 'Conceptos' }}
+                            </div>
+
+                        </div>
+
+                        <!-- Modal: Alta de Artículo -->
+                        <div class="art-modal-overlay" *ngIf="artModalVisible" (click)="cerrarModalArticulo()"></div>
+                        <div class="art-modal" *ngIf="artModalVisible">
+                            <div class="art-modal-header">
+                                <span>{{ articulosTab === 'articulos' ? 'Nuevo Artículo' : 'Nuevo Concepto' }}</span>
+                                <button class="art-modal-close" (click)="cerrarModalArticulo()">✕</button>
+                            </div>
+                            <div class="art-modal-body">
+                                <div class="form-row-multi">
+                                    <div class="form-group" style="width:140px">
+                                        <label>Código (SKU) *</label>
+                                        <input type="text" class="zen-input"
+                                               [(ngModel)]="artNuevo.codigo"
+                                               [class.input-error]="artCodigoError"
+                                               placeholder="P-001"
+                                               maxlength="20"
+                                               (input)="artCodigoError = false">
+                                        <span class="field-error" *ngIf="artCodigoError">
+                                            Código ya existe
+                                        </span>
+                                    </div>
+                                    <div class="form-group flex-1">
+                                        <label>Descripción *</label>
+                                        <input type="text" class="zen-input"
+                                               [(ngModel)]="artNuevo.descripcion"
+                                               placeholder="Nombre comercial del artículo">
+                                    </div>
+                                </div>
+                                <div class="form-row-multi" style="margin-top:10px">
+                                    <div class="form-group flex-1">
+                                        <label>Sinónimo</label>
+                                        <input type="text" class="zen-input"
+                                               [(ngModel)]="artNuevo.sinonimo"
+                                               placeholder="Código proveedor / nombre alternativo">
+                                    </div>
+                                </div>
+                                <div class="form-row-multi" style="margin-top:10px">
+                                    <div class="form-group" style="width:140px">
+                                        <label>Cód. Unidad de Medida</label>
+                                        <select class="zen-input zen-select"
+                                                [(ngModel)]="artNuevo.codUnidad"
+                                                (change)="onUnidadChange()">
+                                            <option value="">— —</option>
+                                            <option *ngFor="let u of unidadesMedida"
+                                                    [value]="u.codigo">{{ u.codigo }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group flex-1">
+                                        <label>Descripción de unidad</label>
+                                        <input type="text" class="zen-input bg-gray"
+                                               [(ngModel)]="artNuevo.descUnidad" readonly>
+                                    </div>
+                                    <div class="form-group" style="width:130px">
+                                        <label>Sinónimo de medida</label>
+                                        <input type="text" class="zen-input bg-gray"
+                                               [(ngModel)]="artNuevo.sinUnidad" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="art-modal-footer">
+                                <button class="btn-art-filter" (click)="cerrarModalArticulo()">Cancelar</button>
+                                <button class="btn-art-nuevo" (click)="guardarArticulo()">Guardar</button>
+                            </div>
+                        </div>
+
                         <!-- Resto de subramas: vacías por ahora -->
                         <div class="tab-content"
                              *ngIf="activeView !== 'prov-principal'
                                  && activeView !== 'prov-impuestos'
                                  && activeView !== 'prov-resoluciones'
                                  && activeView !== 'prov-comprobantes'
-                                 && activeView !== 'prov-pagos'">
+                                 && activeView !== 'prov-pagos'
+                                 && activeView !== 'prov-articulos'">
                             <div class="empty-state">
                                 <div class="icon">📋</div>
                                 <h3>{{ activeView.replace('prov-', '') | titlecase }}</h3>

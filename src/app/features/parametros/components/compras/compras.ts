@@ -387,6 +387,143 @@ export class ParametrosCompras implements OnInit {
     this.activeView = 'prov-articulos';
   }
 
+  // ── Artículos / Conceptos ─────────────────────────────────────────────────────
+  articulosTab: 'articulos' | 'conceptos' = 'articulos';
+  artFiltroVisible = false;
+  artModalVisible  = false;
+  artCodigoError   = false;
+
+  artFiltro = { codDesde: '', codHasta: '', keyword: '', unidad: '' };
+  artSort   = { col: 'codigo', asc: true };
+
+  /** Catálogo de unidades de medida */
+  readonly unidadesMedida = [
+    { codigo: 'UN',  descripcion: 'Unidades',      sinonimo: 'u.'   },
+    { codigo: 'KG',  descripcion: 'Kilogramos',     sinonimo: 'kg.'  },
+    { codigo: 'GR',  descripcion: 'Gramos',         sinonimo: 'g.'   },
+    { codigo: 'MT',  descripcion: 'Metros',         sinonimo: 'm.'   },
+    { codigo: 'CM',  descripcion: 'Centímetros',    sinonimo: 'cm.'  },
+    { codigo: 'MM',  descripcion: 'Milímetros',     sinonimo: 'mm.'  },
+    { codigo: 'MT2', descripcion: 'Metros cuadrados', sinonimo: 'm²' },
+    { codigo: 'MT3', descripcion: 'Metros cúbicos',   sinonimo: 'm³' },
+    { codigo: 'LT',  descripcion: 'Litros',         sinonimo: 'lt.'  },
+    { codigo: 'HS',  descripcion: 'Horas',          sinonimo: 'hs.'  },
+    { codigo: 'JG',  descripcion: 'Juego',          sinonimo: 'jgo.' },
+    { codigo: 'CJ',  descripcion: 'Caja',           sinonimo: 'cj.'  },
+  ];
+
+  /** Artículos del proveedor */
+  articulosData: { codigo: string; descripcion: string; sinonimo: string;
+                   codUnidad: string; descUnidad: string; sinUnidad: string }[] = [
+    { codigo: 'P-001', descripcion: 'Hierro Ángulo 1"', sinonimo: 'Ángulo 25mm',
+      codUnidad: 'MT', descUnidad: 'Metros', sinUnidad: 'm.' },
+    { codigo: 'P-002', descripcion: 'Tornillo Autoperforante 14x3/4',
+      sinonimo: 'Tornillo AP 3/4',
+      codUnidad: 'UN', descUnidad: 'Unidades', sinUnidad: 'u.' },
+  ];
+
+  conceptosData: typeof this.articulosData = [];
+
+  /** Vista filtrada/ordenada */
+  articulosFiltrados: typeof this.articulosData = [];
+
+  ngOnInit_articulos() { this.aplicarFiltroArticulos(); }
+
+  get listaActual() {
+    return this.articulosTab === 'articulos' ? this.articulosData : this.conceptosData;
+  }
+
+  /** Ordena la tabla */
+  sortArticulos(col: 'codigo' | 'descripcion') {
+    if (this.artSort.col === col) {
+      this.artSort.asc = !this.artSort.asc;
+    } else {
+      this.artSort.col = col;
+      this.artSort.asc = true;
+    }
+    this.aplicarFiltroArticulos();
+  }
+
+  /** Aplica filtros y refresca articulosFiltrados */
+  aplicarFiltroArticulos() {
+    const kw   = this.artFiltro.keyword.toLowerCase();
+    const desde = this.artFiltro.codDesde.toLowerCase();
+    const hasta = this.artFiltro.codHasta.toLowerCase();
+    const un   = this.artFiltro.unidad;
+
+    let rows = this.listaActual.filter(r => {
+      if (desde && r.codigo.toLowerCase() < desde) return false;
+      if (hasta && r.codigo.toLowerCase() > hasta) return false;
+      if (kw && !r.descripcion.toLowerCase().includes(kw)
+             && !r.sinonimo.toLowerCase().includes(kw)) return false;
+      if (un && r.codUnidad !== un) return false;
+      return true;
+    });
+
+    const col = this.artSort.col as 'codigo' | 'descripcion';
+    rows = rows.sort((a, b) =>
+      this.artSort.asc
+        ? a[col].localeCompare(b[col])
+        : b[col].localeCompare(a[col])
+    );
+
+    this.articulosFiltrados = rows;
+  }
+
+  limpiarFiltroArticulos() {
+    this.artFiltro = { codDesde: '', codHasta: '', keyword: '', unidad: '' };
+    this.aplicarFiltroArticulos();
+  }
+
+  /** Nuevo artículo — formulario vacío */
+  artNuevo = { codigo: '', descripcion: '', sinonimo: '',
+               codUnidad: '', descUnidad: '', sinUnidad: '' };
+
+  abrirModalArticulo() {
+    this.artNuevo = { codigo: '', descripcion: '', sinonimo: '',
+                      codUnidad: '', descUnidad: '', sinUnidad: '' };
+    this.artCodigoError = false;
+    this.artModalVisible = true;
+  }
+
+  cerrarModalArticulo() { this.artModalVisible = false; }
+
+  /** Autocompleta descripción y sinónimo al seleccionar unidad */
+  onUnidadChange() {
+    const u = this.unidadesMedida.find(x => x.codigo === this.artNuevo.codUnidad);
+    this.artNuevo.descUnidad = u?.descripcion ?? '';
+    this.artNuevo.sinUnidad  = u?.sinonimo    ?? '';
+  }
+
+  /** Guarda el nuevo artículo con validación de código duplicado */
+  guardarArticulo() {
+    const cod = this.artNuevo.codigo.trim().toUpperCase();
+    if (!cod || !this.artNuevo.descripcion.trim()) return;
+
+    const lista = this.listaActual;
+    if (lista.some(r => r.codigo.toUpperCase() === cod)) {
+      this.artCodigoError = true;
+      return;
+    }
+
+    lista.push({ ...this.artNuevo, codigo: cod });
+    this.cerrarModalArticulo();
+    this.aplicarFiltroArticulos();
+
+    // Persistencia
+    const key = `prov_articulos_${this.articulosTab}_${this.currentProveedor.numeroProveedor}`;
+    localStorage.setItem(key, JSON.stringify(lista));
+  }
+
+  /** Elimina artículo por índice (solo si sin movimientos — verificación local) */
+  eliminarArticulo(idx: number) {
+    if (!confirm('¿Eliminar este artículo del proveedor?')) return;
+    this.listaActual.splice(
+      this.listaActual.indexOf(this.articulosFiltrados[idx]), 1
+    );
+    this.aplicarFiltroArticulos();
+  }
+
   menuItems: MenuItem[] = [
     {
       id: 'archivos',
