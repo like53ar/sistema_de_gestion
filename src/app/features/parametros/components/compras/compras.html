@@ -755,12 +755,179 @@
                             <button class="btn-continuar" (click)="continuarComprobantes()">Continuar ▶</button>
                         </div>
 
+                        <!-- SUBRAMA: PAGOS -->
+                        <div class="tab-content" *ngIf="activeView === 'prov-pagos'">
+
+                            <!-- Sección 1: Medios de Pago y Cuentas -->
+                            <div class="prov-section-title">Medios de Pago y Cuentas</div>
+
+                            <div class="form-row-multi">
+                                <div class="form-group" style="width:200px">
+                                    <label>Medio de pago habitual</label>
+                                    <select class="zen-input zen-select"
+                                            [(ngModel)]="pagosData.codigoMedioPago"
+                                            (change)="onMedioPagoChange()">
+                                        <option value="">— Seleccionar —</option>
+                                        <option value="EFE">Efectivo</option>
+                                        <option value="TRF">Transferencia bancaria</option>
+                                        <option value="CHQ">Cheque propio</option>
+                                        <option value="ECH">Echeq (cheque electrónico)</option>
+                                        <option value="DEB">Débito automático</option>
+                                        <option value="TAR">Tarjeta de crédito/débito</option>
+                                        <option value="OTR">Otros</option>
+                                    </select>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Descripción del medio de pago</label>
+                                    <input type="text" class="zen-input bg-gray"
+                                           [(ngModel)]="pagosData.descripcionMedioPago" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-row-multi" style="margin-top:10px">
+                                <div class="form-group" style="width:200px">
+                                    <label>Cuenta a debitar (Plan de Cuentas)</label>
+                                    <input type="text" class="zen-input"
+                                           [(ngModel)]="pagosData.codigoCuentaDebitar"
+                                           placeholder="Ej: 1.1.01.001"
+                                           maxlength="20">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Descripción de la cuenta</label>
+                                    <input type="text" class="zen-input bg-gray"
+                                           [(ngModel)]="pagosData.descripcionCuenta" readonly
+                                           placeholder="Se completará desde el plan de cuentas">
+                                </div>
+                            </div>
+
+                            <!-- Sección 2: Gestión de Cheques -->
+                            <div class="prov-section-title" style="margin-top:20px">Gestión de Cheques</div>
+
+                            <div class="form-row-multi" style="align-items:center">
+                                <div class="form-group" style="padding-top:4px">
+                                    <label class="zen-checkbox-label">
+                                        <input type="checkbox" class="zen-checkbox"
+                                               [(ngModel)]="pagosData.emiteCheques">
+                                        <span class="zen-checkbox-custom"></span>
+                                        Emite cheques
+                                    </label>
+                                </div>
+                                <div class="form-group" style="width:160px">
+                                    <label>Días de diferimiento</label>
+                                    <input type="number" class="zen-input"
+                                           [(ngModel)]="pagosData.diasCheque"
+                                           [disabled]="!pagosData.emiteCheques"
+                                           [class.input-disabled]="!pagosData.emiteCheques"
+                                           min="0" max="365" placeholder="0">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Orden para impresión de cheques</label>
+                                    <input type="text" class="zen-input"
+                                           [(ngModel)]="pagosData.ordenImpresionCheque"
+                                           [disabled]="!pagosData.emiteCheques"
+                                           [class.input-disabled]="!pagosData.emiteCheques"
+                                           placeholder="Ej: Razón Social S.A. / No a la orden">
+                                </div>
+                            </div>
+
+                            <!-- Sección 3: Datos Bancarios (CBU) -->
+                            <div class="prov-section-title" style="margin-top:20px">Datos Bancarios (CBU)</div>
+
+                            <div class="cbu-grid">
+                                <!-- CBU 1 -->
+                                <div class="cbu-row">
+                                    <span class="cbu-label">CBU 1</span>
+                                    <div class="cbu-input-wrap">
+                                        <input type="text" class="zen-input cbu-input"
+                                               [(ngModel)]="pagosData.cbu1"
+                                               (blur)="validarCbu(1)"
+                                               placeholder="22 dígitos"
+                                               maxlength="22">
+                                        <span class="cbu-status"
+                                              [class.valid]="pagosData.cbu1Valid === true"
+                                              [class.invalid]="pagosData.cbu1Valid === false">
+                                            {{ pagosData.cbu1Valid === true ? '✔' : pagosData.cbu1Valid === false ? '✘' : '' }}
+                                        </span>
+                                    </div>
+                                    <input type="text" class="zen-input cbu-desc"
+                                           [(ngModel)]="pagosData.cbu1Desc"
+                                           placeholder="Descripción (ej: CC Banco Galicia)">
+                                </div>
+                                <!-- CBU 2 -->
+                                <div class="cbu-row">
+                                    <span class="cbu-label">CBU 2</span>
+                                    <div class="cbu-input-wrap">
+                                        <input type="text" class="zen-input cbu-input"
+                                               [(ngModel)]="pagosData.cbu2"
+                                               (blur)="validarCbu(2)"
+                                               placeholder="22 dígitos"
+                                               maxlength="22">
+                                        <span class="cbu-status"
+                                              [class.valid]="pagosData.cbu2Valid === true"
+                                              [class.invalid]="pagosData.cbu2Valid === false">
+                                            {{ pagosData.cbu2Valid === true ? '✔' : pagosData.cbu2Valid === false ? '✘' : '' }}
+                                        </span>
+                                    </div>
+                                    <input type="text" class="zen-input cbu-desc"
+                                           [(ngModel)]="pagosData.cbu2Desc"
+                                           placeholder="Descripción (ej: CA BBVA)">
+                                </div>
+                                <!-- CBU 3 -->
+                                <div class="cbu-row">
+                                    <span class="cbu-label">CBU 3</span>
+                                    <div class="cbu-input-wrap">
+                                        <input type="text" class="zen-input cbu-input"
+                                               [(ngModel)]="pagosData.cbu3"
+                                               (blur)="validarCbu(3)"
+                                               placeholder="22 dígitos"
+                                               maxlength="22">
+                                        <span class="cbu-status"
+                                              [class.valid]="pagosData.cbu3Valid === true"
+                                              [class.invalid]="pagosData.cbu3Valid === false">
+                                            {{ pagosData.cbu3Valid === true ? '✔' : pagosData.cbu3Valid === false ? '✘' : '' }}
+                                        </span>
+                                    </div>
+                                    <input type="text" class="zen-input cbu-desc"
+                                           [(ngModel)]="pagosData.cbu3Desc"
+                                           placeholder="Descripción (ej: CC Santander)">
+                                </div>
+                            </div>
+
+                            <div class="citi-note" style="margin-top:10px">
+                                <span class="citi-note-icon">ℹ️</span>
+                                El CBU debe tener exactamente <strong>22 dígitos</strong>.
+                                Se valida el dígito verificador del bloque 1 (7 dígitos) y del bloque 2 (13 dígitos)
+                                según el algoritmo oficial del BCRA.
+                            </div>
+
+                            <!-- Sección 4: Pagos Masivos -->
+                            <div class="prov-section-title" style="margin-top:20px">Pagos Masivos</div>
+
+                            <div class="form-row-multi">
+                                <div class="form-group">
+                                    <label class="zen-checkbox-label">
+                                        <input type="checkbox" class="zen-checkbox"
+                                               [(ngModel)]="pagosData.habilitadoPagosMasivos">
+                                        <span class="zen-checkbox-custom"></span>
+                                        Habilitado para pagos masivos (Interbanking / banca electrónica)
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Barra inferior Continuar para Pagos -->
+                        <div class="bottom-action-bar" *ngIf="activeView === 'prov-pagos'">
+                            <button class="btn-continuar" (click)="continuarPagos()">Continuar ▶</button>
+                        </div>
+
                         <!-- Resto de subramas: vacías por ahora -->
                         <div class="tab-content"
                              *ngIf="activeView !== 'prov-principal'
                                  && activeView !== 'prov-impuestos'
                                  && activeView !== 'prov-resoluciones'
-                                 && activeView !== 'prov-comprobantes'">
+                                 && activeView !== 'prov-comprobantes'
+                                 && activeView !== 'prov-pagos'">
                             <div class="empty-state">
                                 <div class="icon">📋</div>
                                 <h3>{{ activeView.replace('prov-', '') | titlecase }}</h3>

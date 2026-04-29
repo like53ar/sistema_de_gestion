@@ -72,6 +72,33 @@ export interface ComprobantesData {
   tipoComprobanteFactura: string;
   permiteSinRemito: boolean;
 }
+
+// ── Modelo Pagos ──────────────────────────────────────────────────────────────
+export interface PagosData {
+  // Medios de pago
+  codigoMedioPago: string;
+  descripcionMedioPago: string;
+  codigoCuentaDebitar: string;
+  descripcionCuenta: string;
+  // Cheques
+  emiteCheques: boolean;
+  diasCheque: number;
+  ordenImpresionCheque: string;
+  // CBU 1
+  cbu1: string;
+  cbu1Desc: string;
+  cbu1Valid: boolean | null;
+  // CBU 2
+  cbu2: string;
+  cbu2Desc: string;
+  cbu2Valid: boolean | null;
+  // CBU 3
+  cbu3: string;
+  cbu3Desc: string;
+  cbu3Valid: boolean | null;
+  // Pagos masivos
+  habilitadoPagosMasivos: boolean;
+}
 interface MenuItem {
   id: string;
   label: string;
@@ -287,6 +314,77 @@ export class ParametrosCompras implements OnInit {
   continuarComprobantes() {
     this.guardarComprobantes();
     this.activeView = 'prov-pagos';
+  }
+
+  // ── Pagos ────────────────────────────────────────────────────────────
+  pagosData: PagosData = {
+    codigoMedioPago: '',
+    descripcionMedioPago: '',
+    codigoCuentaDebitar: '',
+    descripcionCuenta: '',
+    emiteCheques: false,
+    diasCheque: 0,
+    ordenImpresionCheque: '',
+    cbu1: '', cbu1Desc: '', cbu1Valid: null,
+    cbu2: '', cbu2Desc: '', cbu2Valid: null,
+    cbu3: '', cbu3Desc: '', cbu3Valid: null,
+    habilitadoPagosMasivos: false
+  };
+
+  private readonly medioPagoMap: Record<string, string> = {
+    'EFE': 'Efectivo',
+    'TRF': 'Transferencia bancaria',
+    'CHQ': 'Cheque propio',
+    'ECH': 'Echeq (cheque electrónico)',
+    'DEB': 'Débito automático',
+    'TAR': 'Tarjeta de crédito/débito',
+    'OTR': 'Otros'
+  };
+
+  onMedioPagoChange() {
+    this.pagosData.descripcionMedioPago =
+      this.medioPagoMap[this.pagosData.codigoMedioPago] ?? '';
+  }
+
+  /**
+   * Valida el CBU según algoritmo BCRA:
+   * Bloque 1: 7 dígitos (banco/sucursal) con dígito verificador en pos 7.
+   * Bloque 2: 13 dígitos (cuenta) con dígito verificador en pos 13 (22 total).
+   * Ponderadores: [3,1,7,9,3,1,7] para bloque 1 y [3,1,7,9,3,1,7,9,3,1,7,9,3] para bloque 2.
+   */
+  private checkCbuBlock(digits: string, pesos: number[]): boolean {
+    let suma = 0;
+    for (let i = 0; i < pesos.length; i++) suma += parseInt(digits[i], 10) * pesos[i];
+    const dv = (10 - (suma % 10)) % 10;
+    return dv === parseInt(digits[pesos.length], 10);
+  }
+
+  validarCbu(n: 1 | 2 | 3) {
+    const raw = (n === 1 ? this.pagosData.cbu1 : n === 2 ? this.pagosData.cbu2 : this.pagosData.cbu3)
+                  .replace(/\D/g, '');
+    if (!raw || raw.length === 0) {
+      if (n === 1) this.pagosData.cbu1Valid = null;
+      else if (n === 2) this.pagosData.cbu2Valid = null;
+      else this.pagosData.cbu3Valid = null;
+      return;
+    }
+    const ok = raw.length === 22
+      && this.checkCbuBlock(raw.substring(0, 8),  [3,1,7,9,3,1,7])
+      && this.checkCbuBlock(raw.substring(8),      [3,1,7,9,3,1,7,9,3,1,7,9,3]);
+    if (n === 1) { this.pagosData.cbu1 = raw; this.pagosData.cbu1Valid = ok; }
+    else if (n === 2) { this.pagosData.cbu2 = raw; this.pagosData.cbu2Valid = ok; }
+    else { this.pagosData.cbu3 = raw; this.pagosData.cbu3Valid = ok; }
+  }
+
+  guardarPagos() {
+    const key = 'prov_pagos_' + this.currentProveedor.numeroProveedor;
+    localStorage.setItem(key, JSON.stringify(this.pagosData));
+    alert('✅ Datos de Pagos guardados correctamente.');
+  }
+
+  continuarPagos() {
+    this.guardarPagos();
+    this.activeView = 'prov-articulos';
   }
 
   menuItems: MenuItem[] = [
