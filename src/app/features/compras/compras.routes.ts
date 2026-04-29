@@ -31,6 +31,11 @@ export const COMPRAS_ROUTES: Routes = [
                 path: 'seguimiento-pagos',
                 loadComponent: () => import('./seguimiento-pagos/seguimiento-pagos').then(m => m.SeguimientoPagos),
                 data: { breadcrumb: 'Seguimiento de Pagos' }
+            },
+            {
+                path: 'archivos',
+                loadComponent: () => import('./components/archivos/archivos').then(m => m.Archivos),
+                data: { breadcrumb: 'Archivos de Compras' }
             }
         ]
     }
