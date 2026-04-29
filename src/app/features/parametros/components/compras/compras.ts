@@ -81,6 +81,26 @@ export class ParametrosCompras {
       leyendaRetencion2: '',
       leyendaRetencion3: '',
       leyendaRetencion4: ''
+    },
+    retenciones: {
+      calculaIva: true,
+      calculaGanancias: true,
+      calculaOtras: false,
+      calculaIibb: true,
+      editaTipoRetencion: 'si',
+      editaCodigos: 'si',
+      editaImportes: true,
+      distribuyePagoCuenta: false,
+      alicuotaIvaPagoCuenta: 21.00,
+      calculaOcasionales: true,
+      // Datos Empresa
+      empresaRazonSocial: 'SABIA S.A.',
+      empresaCuit: '30-70725866-3',
+      empresaIibb: '30-70725866-3',
+      empresaDomicilio: '',
+      empresaLocalidad: '',
+      empresaFirmante: '',
+      empresaCargo: ''
     }
   };
 

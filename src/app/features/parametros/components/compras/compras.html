@@ -365,11 +365,117 @@
                     </div>
 
                     <div *ngIf="activeTab === 'retenciones'" class="tab-pane">
-                        <h3>Retenciones</h3>
-                        <p>Parámetros para el cálculo automático de retenciones de Ganancias, IVA e IIBB.</p>
-                        <div class="empty-content-state">
-                            <div class="icon">📝</div>
-                            <p>Definición de regímenes de retención.</p>
+                        <div class="pane-header">
+                            <h3>Retenciones</h3>
+                            <span class="badge">Regímenes</span>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <!-- Sección: Configuración de Retenciones -->
+                            <div class="form-section">
+                                <div class="section-title">Configuración de Retenciones</div>
+                                <div class="checkbox-group">
+                                    <label class="zen-checkbox-label">
+                                        <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.retenciones.calculaIva">
+                                        <span class="zen-checkbox-custom"></span>
+                                        Retención de IVA
+                                    </label>
+                                    <label class="zen-checkbox-label mt-10">
+                                        <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.retenciones.calculaGanancias">
+                                        <span class="zen-checkbox-custom"></span>
+                                        Retención de Ganancias
+                                    </label>
+                                    <label class="zen-checkbox-label mt-10">
+                                        <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.retenciones.calculaIibb">
+                                        <span class="zen-checkbox-custom"></span>
+                                        Retención de Ingresos Brutos
+                                    </label>
+                                    <label class="zen-checkbox-label mt-10">
+                                        <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.retenciones.calculaOtras">
+                                        <span class="zen-checkbox-custom"></span>
+                                        Calcula otras retenciones
+                                    </label>
+                                </div>
+                                <div class="form-group mt-15">
+                                    <label>Edita tipo de retención (CPR/RET)</label>
+                                    <select class="zen-input" [(ngModel)]="config.retenciones.editaTipoRetencion">
+                                        <option value="si">Si permite editar</option>
+                                        <option value="no">No permite editar</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Sección: Permisos -->
+                            <div class="form-section">
+                                <div class="section-title">Permisos del Operador</div>
+                                <div class="form-group">
+                                    <label>Códigos de retención</label>
+                                    <select class="zen-input" [(ngModel)]="config.retenciones.editaCodigos">
+                                        <option value="si">Permite modificar códigos</option>
+                                        <option value="no">No permite modificar</option>
+                                    </select>
+                                </div>
+                                <div class="checkbox-group">
+                                    <label class="zen-checkbox-label">
+                                        <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.retenciones.editaImportes">
+                                        <span class="zen-checkbox-custom"></span>
+                                        Edita importes calculados
+                                    </label>
+                                    <label class="zen-checkbox-label mt-10">
+                                        <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.retenciones.distribuyePagoCuenta">
+                                        <span class="zen-checkbox-custom"></span>
+                                        Distribuye pago a cuenta
+                                    </label>
+                                    <label class="zen-checkbox-label mt-10">
+                                        <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.retenciones.calculaOcasionales">
+                                        <span class="zen-checkbox-custom"></span>
+                                        Calcula a proveedores ocasionales
+                                    </label>
+                                </div>
+                                <div class="form-group mt-15">
+                                    <label>Alícuota IVA para pago a cuenta (%)</label>
+                                    <input type="number" class="zen-input" [(ngModel)]="config.retenciones.alicuotaIvaPagoCuenta" step="0.0001">
+                                </div>
+                            </div>
+
+                            <!-- Datos Identificatorios Empresa -->
+                            <div class="form-section full-width">
+                                <div class="section-title">Datos Identificatorios de la Empresa (Certificados)</div>
+                                <div class="form-row-multi">
+                                    <div class="form-group flex-2">
+                                        <label>Razón Social</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.retenciones.empresaRazonSocial">
+                                    </div>
+                                    <div class="form-group flex-1">
+                                        <label>CUIT</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.retenciones.empresaCuit">
+                                    </div>
+                                    <div class="form-group flex-1">
+                                        <label>Nro. Ingresos Brutos</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.retenciones.empresaIibb">
+                                    </div>
+                                </div>
+                                <div class="form-row-multi mt-10">
+                                    <div class="form-group flex-2">
+                                        <label>Domicilio</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.retenciones.empresaDomicilio">
+                                    </div>
+                                    <div class="form-group flex-1">
+                                        <label>Localidad</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.retenciones.empresaLocalidad">
+                                    </div>
+                                </div>
+                                <div class="form-row-multi mt-10">
+                                    <div class="form-group flex-2">
+                                        <label>Nombre del Firmante</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.retenciones.empresaFirmante">
+                                    </div>
+                                    <div class="form-group flex-1">
+                                        <label>Cargo</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.retenciones.empresaCargo">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
