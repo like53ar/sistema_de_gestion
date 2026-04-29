@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ParametrosComprasService, ParametrosComprasData } from '../../../../core/services/parametros-compras.service';
+import { ProveedoresService, ProveedorData } from '../../../../core/services/proveedores.service';
 interface MenuItem {
   id: string;
   label: string;
@@ -21,6 +22,19 @@ export class ParametrosCompras implements OnInit {
   formData: ParametrosComprasData;
   activeView: string = 'dashboard';
 
+  // Proveedor activo en la subrama Principal
+  currentProveedor: ProveedorData = {
+    numeroProveedor: '',
+    domicilio: '', localidad: '', codigoPostal: '',
+    codigoProvincia: '01', descripcionProvincia: 'Buenos Aires',
+    telefono1: '', telefono2: '', movil: '',
+    correoElectronico: '', paginaWeb: '',
+    nombre: '', domicilioComercial: '',
+    codigoRubro: '', descripcionRubro: '', actividad: '',
+    fechaAlta: '', fechaInhabilitacion: ''
+  };
+  proveedorLoaded = false;
+
   menuItems: MenuItem[] = [
     {
       id: 'archivos',
@@ -32,7 +46,23 @@ export class ParametrosCompras implements OnInit {
           label: 'Actualizaciones', 
           expanded: true,
           children: [
-            { id: 'proveedores', label: 'Proveedores' },
+            { 
+              id: 'proveedores', 
+              label: 'Proveedores',
+              expanded: true,
+              children: [
+                { id: 'prov-principal', label: 'Principal' },
+                { id: 'prov-impuestos', label: 'Impuestos' },
+                { id: 'prov-resoluciones', label: 'Resoluciones' },
+                { id: 'prov-comprobantes', label: 'Comprobantes' },
+                { id: 'prov-pagos', label: 'Pagos' },
+                { id: 'prov-articulos', label: 'Artículos/Conceptos' },
+                { id: 'prov-contactos', label: 'Contactos' },
+                { id: 'prov-clasificacion', label: 'Clasificación' },
+                { id: 'prov-sucursales', label: 'Sucursales' },
+                { id: 'prov-observaciones', label: 'Observaciones' }
+              ]
+            },
             { id: 'clasificador-proveedores', label: 'Clasificador de Proveedores', children: [] },
             { id: 'rubros-comerciales', label: 'Rubros comerciales' },
             { id: 'compradores', label: 'Compradores' },
@@ -112,12 +142,42 @@ export class ParametrosCompras implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private service: ParametrosComprasService
+    private service: ParametrosComprasService,
+    private proveedoresService: ProveedoresService
   ) {
     this.formData = this.service.getParametros();
   }
 
   ngOnInit() {}
+
+  // ── Acciones subrama Principal ─────────────────────────────────────
+
+  /** Carga un proveedor nuevo con número autonumérico */
+  nuevoProveedor() {
+    this.currentProveedor = this.proveedoresService.createEmpty();
+  }
+
+  /** Guarda el proveedor en la base de datos (Aceptar) */
+  guardarProveedor() {
+    if (!this.currentProveedor) return;
+    this.proveedoresService.save(this.currentProveedor);
+    alert('✅ Proveedor ' + this.currentProveedor.numeroProveedor + ' guardado correctamente.');
+  }
+
+  /** Avanza al siguiente paso / subrama sin cerrar (Continuar) */
+  continuarProveedor() {
+    if (!this.currentProveedor) return;
+    this.proveedoresService.save(this.currentProveedor);
+    // Navega automáticamente a la siguiente subrama: Impuestos
+    this.activeView = 'prov-impuestos';
+  }
+
+  /** Cancela y limpia el formulario (mantiene el número pero borra los datos) */
+  cancelarProveedor() {
+    this.proveedorLoaded = false;
+    this.currentProveedor = this.proveedoresService.createEmpty();
+    this.proveedorLoaded = true;
+  }
 
   toggleExpand(item: MenuItem) {
     item.expanded = !item.expanded;
@@ -136,9 +196,36 @@ export class ParametrosCompras implements OnInit {
   selectItem(item: MenuItem) {
     if (item.children && item.children.length > 0) {
       this.toggleExpand(item);
-    } else {
-      this.activeView = item.id;
-      console.log('Selected view:', item.id);
+      if (item.id === 'proveedores' || item.id === 'actualizaciones') {
+          return;
+      }
     }
+    // Al entrar a prov-principal: asegurar proveedor cargado ANTES de cambiar la vista
+    if (item.id === 'prov-principal') {
+      if (!this.proveedorLoaded) {
+        try {
+          this.currentProveedor = this.proveedoresService.createEmpty();
+          this.proveedorLoaded = true;
+          console.log('✅ Proveedor inicializado:', this.currentProveedor.numeroProveedor);
+        } catch (e) {
+          console.error('❌ Error al crear proveedor:', e);
+          // Fallback: crear objeto manual sin incrementar contador
+          this.currentProveedor = {
+            numeroProveedor: '00001',
+            domicilio: '', localidad: '', codigoPostal: '',
+            codigoProvincia: '01', descripcionProvincia: 'Buenos Aires',
+            telefono1: '', telefono2: '', movil: '',
+            correoElectronico: '', paginaWeb: '',
+            nombre: '', domicilioComercial: '',
+            codigoRubro: '', descripcionRubro: '', actividad: '',
+            fechaAlta: new Date().toLocaleDateString('es-AR'),
+            fechaInhabilitacion: ''
+          };
+          this.proveedorLoaded = true;
+        }
+      }
+    }
+    this.activeView = item.id;
+    console.log('Selected view:', item.id, '| loaded:', this.proveedorLoaded);
   }
 }
