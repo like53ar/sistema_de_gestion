@@ -546,7 +546,6 @@ export class ParametrosCompras implements OnInit {
                 { id: 'prov-comprobantes', label: 'Comprobantes' },
                 { id: 'prov-pagos',        label: 'Pagos' },
                 { id: 'prov-articulos',    label: 'Artículos/Conceptos' },
-                { id: 'prov-contactos',    label: 'Contactos' },
                 { id: 'prov-clasificacion',label: 'Clasificación' },
                 { id: 'prov-sucursales',   label: 'Sucursales' }
               ]
