@@ -686,3 +686,38 @@
     .citi-note-icon { font-size: 1rem; flex-shrink: 0; }
     strong { color: rgba(200, 220, 255, 0.95); }
 }
+
+/* ── Input con prefijo/sufijo ($, %) ─────────────────────────────────────────── */
+.input-prefix,
+.input-suffix {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    background: rgba(200,168,130,0.08);
+    border: 1px solid rgba(200,168,130,0.22);
+    color: var(--zen-accent-primary, #c8a882);
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    border-radius: 3px 0 0 3px;
+    height: 34px;
+    box-sizing: border-box;
+}
+
+.input-suffix {
+    border-radius: 0 3px 3px 0;
+    border-left: none;
+}
+
+.zen-input.with-prefix {
+    border-radius: 0 3px 3px 0;
+    border-left: none;
+}
+
+/* Stacking vertical de checkboxes dentro de form-row-multi */
+.checks-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+}

@@ -47,6 +47,31 @@ export interface ResolucionesData {
   clasificacionHabitual: string;
   descripcionClasificacion: string;
 }
+
+// ── Modelo Comprobantes ─────────────────────────────────────────────────────────
+export interface ComprobantesData {
+  // Créditos y Moneda
+  cupoCredito: number;
+  moneda: string;
+  clausulaMonedaExtranjera: boolean;
+  incluyeEnIvaCompras: boolean;
+  // Comprobantes
+  tipoNumeracion: string;
+  letraHabitual: string;
+  monedaHabitual: string;
+  codigoCondicionCompra: string;
+  descripcionCondicion: string;
+  porcentajeBonificacion: number;
+  // Lista de Precios
+  listaIncluyeIva: boolean;
+  listaIncluyeImpuestosInternos: boolean;
+  // Logística
+  controlRemito: string;
+  controlFacturaRemito: string;
+  tipoComprobanteRemito: string;
+  tipoComprobanteFactura: string;
+  permiteSinRemito: boolean;
+}
 interface MenuItem {
   id: string;
   label: string;
@@ -212,6 +237,56 @@ export class ParametrosCompras implements OnInit {
   continuarResoluciones() {
     this.guardarResoluciones();
     this.activeView = 'prov-comprobantes';
+  }
+
+  // ── Comprobantes ───────────────────────────────────────────────────────
+  comprobantesData: ComprobantesData = {
+    cupoCredito: 0,
+    moneda: 'ARS',
+    clausulaMonedaExtranjera: false,
+    incluyeEnIvaCompras: true,
+    tipoNumeracion: 'manual',
+    letraHabitual: '',
+    monedaHabitual: 'corriente',
+    codigoCondicionCompra: '',
+    descripcionCondicion: '',
+    porcentajeBonificacion: 0,
+    listaIncluyeIva: false,
+    listaIncluyeImpuestosInternos: false,
+    controlRemito: 'flexible',
+    controlFacturaRemito: 'flexible',
+    tipoComprobanteRemito: '',
+    tipoComprobanteFactura: '',
+    permiteSinRemito: false
+  };
+
+  private readonly condicionCompraMap: Record<string, string> = {
+    'CON':      'Contado',
+    'CC':       'Cuenta Corriente',
+    '30D':      '30 días',
+    '60D':      '60 días',
+    '90D':      '90 días',
+    '60_90':    '60/90 días',
+    '30_60_90': '30/60/90 días'
+  };
+
+  /** Autocompleta descripción de condición de compra */
+  onCondicionCompraChange() {
+    this.comprobantesData.descripcionCondicion =
+      this.condicionCompraMap[this.comprobantesData.codigoCondicionCompra] ?? '';
+  }
+
+  /** Guarda comprobantes en localStorage */
+  guardarComprobantes() {
+    const key = 'prov_comprobantes_' + this.currentProveedor.numeroProveedor;
+    localStorage.setItem(key, JSON.stringify(this.comprobantesData));
+    alert('✅ Datos de Comprobantes guardados correctamente.');
+  }
+
+  /** Continuar desde Comprobantes → Pagos */
+  continuarComprobantes() {
+    this.guardarComprobantes();
+    this.activeView = 'prov-pagos';
   }
 
   menuItems: MenuItem[] = [
