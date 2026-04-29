@@ -14,5 +14,8 @@
     <div class="user-actions" *ngIf="authService.currentUser$ | async as user">
         <span class="user-name" [appTooltip]="user.roles.join(', ')">{{ user.name }}</span>
         <button class="zen-btn secondary small" (click)="logout()" appTooltip="Cerrar sesión">Salir</button>
+        <button class="btn-cierre-sistema" (click)="cerrarSistema()" appTooltip="Apagar el servidor y cerrar el sistema">
+            ⏻ Cierre del Sistema
+        </button>
     </div>
 </nav>

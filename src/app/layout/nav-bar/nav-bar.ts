@@ -27,4 +27,44 @@ export class NavBar {
   logout() {
     this.authService.logout();
   }
+
+  /** Apaga el servidor Node.js limpiamente vía /api/shutdown */
+  cerrarSistema() {
+    const confirmar = window.confirm(
+      '⚠️  ¿Confirma el cierre del sistema?\n\nEsto detendrá el servidor y cerrará la aplicación.'
+    );
+    if (!confirmar) return;
+
+    fetch('/api/shutdown', { method: 'POST' })
+      .then(() => {
+        // Mostrar pantalla de cierre en el browser
+        document.body.innerHTML = `
+          <div style="
+            display:flex; flex-direction:column; align-items:center; justify-content:center;
+            height:100vh; background:#0d1117; color:#c8a882; font-family:'Segoe UI',sans-serif;
+            gap:16px;
+          ">
+            <div style="font-size:3rem">⏻</div>
+            <h2 style="margin:0;font-size:1.4rem;font-weight:600">Sistema cerrado correctamente</h2>
+            <p style="margin:0;color:#8b949e;font-size:0.95rem">
+              El servidor fue detenido. Puede cerrar esta pestaña.
+            </p>
+          </div>`;
+      })
+      .catch(() => {
+        // Si ya no hay servidor, igual mostramos el mensaje
+        document.body.innerHTML = `
+          <div style="
+            display:flex; flex-direction:column; align-items:center; justify-content:center;
+            height:100vh; background:#0d1117; color:#c8a882; font-family:'Segoe UI',sans-serif;
+            gap:16px;
+          ">
+            <div style="font-size:3rem">⏻</div>
+            <h2 style="margin:0;font-size:1.4rem;font-weight:600">Sistema cerrado correctamente</h2>
+            <p style="margin:0;color:#8b949e;font-size:0.95rem">
+              El servidor fue detenido. Puede cerrar esta pestaña.
+            </p>
+          </div>`;
+      });
+  }
 }
