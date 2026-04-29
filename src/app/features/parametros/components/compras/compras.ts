@@ -67,6 +67,20 @@ export class ParametrosCompras {
     precios: {
         depuraSolicitudes: false,
         mesesConservacion: 0
+    },
+    impuestos: {
+      fletesIva: '1',
+      fletesIvaDesc: 'IVA TASA GENERAL',
+      fletesPercepcion: '40',
+      fletesPercepcionDesc: 'IMP INT',
+      defectoLiquidaIva: true,
+      defectoLiquidaImpInternos: false,
+      defectoCalculaPercepIva: true,
+      defectoCalculaPercepImpInternos: false,
+      leyendaRetencion1: '',
+      leyendaRetencion2: '',
+      leyendaRetencion3: '',
+      leyendaRetencion4: ''
     }
   };
 

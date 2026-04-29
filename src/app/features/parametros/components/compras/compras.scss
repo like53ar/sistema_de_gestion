@@ -244,6 +244,10 @@
         transform: translateY(-2px);
     }
 
+    &.full-width {
+        grid-column: 1 / -1;
+    }
+
     .section-title {
         color: var(--zen-accent);
         font-size: 0.85rem;

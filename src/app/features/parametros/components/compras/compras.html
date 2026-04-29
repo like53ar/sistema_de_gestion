@@ -281,11 +281,86 @@
                     </div>
 
                     <div *ngIf="activeTab === 'impuestos'" class="tab-pane">
-                        <h3>Impuestos</h3>
-                        <p>Configuración de alícuotas habituales y tratamiento impositivo general para el módulo.</p>
-                        <div class="empty-content-state">
-                            <div class="icon">💰</div>
-                            <p>Configuración impositiva pendiente.</p>
+                        <div class="pane-header">
+                            <h3>Impuestos</h3>
+                            <span class="badge">Fiscal</span>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <!-- Sección: Fletes e intereses -->
+                            <div class="form-section">
+                                <div class="section-title">Fletes e Intereses</div>
+                                <div class="form-row-multi">
+                                    <div class="form-group flex-1">
+                                        <label>Cód. IVA</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.impuestos.fletesIva">
+                                    </div>
+                                    <div class="form-group flex-2">
+                                        <label>Descripción</label>
+                                        <input type="text" class="zen-input bg-gray" readonly [(ngModel)]="config.impuestos.fletesIvaDesc">
+                                    </div>
+                                </div>
+                                <div class="form-row-multi mt-10">
+                                    <div class="form-group flex-1">
+                                        <label>Cód. Percepción</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.impuestos.fletesPercepcion">
+                                    </div>
+                                    <div class="form-group flex-2">
+                                        <label>Descripción</label>
+                                        <input type="text" class="zen-input bg-gray" readonly [(ngModel)]="config.impuestos.fletesPercepcionDesc">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Valores por defecto -->
+                            <div class="form-section">
+                                <div class="section-title">Comportamiento Automático (Alta)</div>
+                                <div class="checkbox-group">
+                                    <label class="zen-checkbox-label">
+                                        <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.impuestos.defectoLiquidaIva">
+                                        <span class="zen-checkbox-custom"></span>
+                                        Liquida IVA por defecto
+                                    </label>
+                                    <label class="zen-checkbox-label mt-10">
+                                        <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.impuestos.defectoLiquidaImpInternos">
+                                        <span class="zen-checkbox-custom"></span>
+                                        Liquida impuestos internos
+                                    </label>
+                                    <label class="zen-checkbox-label mt-10">
+                                        <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.impuestos.defectoCalculaPercepIva">
+                                        <span class="zen-checkbox-custom"></span>
+                                        Calcula percepciones de IVA
+                                    </label>
+                                    <label class="zen-checkbox-label mt-10">
+                                        <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.impuestos.defectoCalculaPercepImpInternos">
+                                        <span class="zen-checkbox-custom"></span>
+                                        Calcula percepciones de Imp. Int.
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Títulos leyendas -->
+                            <div class="form-section full-width">
+                                <div class="section-title">Títulos para Leyendas en Comprobantes de Retenciones</div>
+                                <div class="form-row-multi grid-2">
+                                    <div class="form-group">
+                                        <label>Leyenda 1</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.impuestos.leyendaRetencion1" placeholder="Ej: Resolución General N° XXX">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Leyenda 2</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.impuestos.leyendaRetencion2">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Leyenda 3</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.impuestos.leyendaRetencion3">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Leyenda 4</label>
+                                        <input type="text" class="zen-input" [(ngModel)]="config.impuestos.leyendaRetencion4">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
