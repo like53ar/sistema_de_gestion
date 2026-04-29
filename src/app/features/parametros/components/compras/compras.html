@@ -219,8 +219,146 @@
                             <button class="btn-continuar" (click)="continuarProveedor()">Continuar ▶</button>
                         </div>
 
+                        <!-- SUBRAMA: IMPUESTOS -->
+                        <div class="tab-content" *ngIf="activeView === 'prov-impuestos'">
+
+                            <!-- Sección: IVA -->
+                            <div class="prov-section-title">Impuesto al Valor Agregado (IVA)</div>
+
+                            <div class="form-row-multi">
+                                <div class="form-group" style="width:160px">
+                                    <label>Código categoría IVA</label>
+                                    <div class="input-group">
+                                        <select class="zen-input zen-select"
+                                                [(ngModel)]="impuestosData.codigoCategoriaIva"
+                                                (change)="onCategoriaIvaChange()">
+                                            <option *ngFor="let op of categoriaIvaOpciones"
+                                                    [value]="op.codigo">{{ op.codigo }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group flex-2">
+                                    <label>Descripción</label>
+                                    <input type="text"
+                                           class="zen-input bg-gray"
+                                           [(ngModel)]="impuestosData.descripcionCategoriaIva"
+                                           readonly>
+                                </div>
+                            </div>
+
+                            <!-- Sección: IIBB -->
+                            <div class="prov-section-title" style="margin-top:20px">Ingresos Brutos (IIBB)</div>
+
+                            <div class="form-row-multi">
+                                <div class="form-group flex-2">
+                                    <label>Régimen de ingresos brutos</label>
+                                    <select class="zen-input zen-select"
+                                            [(ngModel)]="impuestosData.regimenIIBB">
+                                        <option *ngFor="let op of regimenIIBBOpciones"
+                                                [value]="op.valor">{{ op.label }}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Nro. de ingresos brutos</label>
+                                    <input type="text"
+                                           class="zen-input"
+                                           [(ngModel)]="impuestosData.nroIngresosBrutos"
+                                           placeholder="Ej: 30-12345678-9">
+                                </div>
+                            </div>
+
+                            <div class="form-row-multi" style="margin-top:10px">
+                                <div class="form-group" style="width:200px">
+                                    <label>Fecha de vigencia coeficientes (CM05)</label>
+                                    <div class="input-group">
+                                        <input type="text"
+                                               class="zen-input"
+                                               [(ngModel)]="impuestosData.fechaVigenciaCoeficientes"
+                                               placeholder="dd/mm/aaaa">
+                                        <button class="btn-app icon-btn">📅</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sección: Jurisdicciones Convenio Multilateral -->
+                            <div class="prov-section-title" style="margin-top:20px">
+                                Jurisdicciones para Convenio Multilateral
+                            </div>
+
+                            <div class="jurisdicciones-toolbar">
+                                <button class="btn-grid-add" (click)="agregarJurisdiccion()">
+                                    ＋ Agregar fila
+                                </button>
+                            </div>
+
+                            <div class="jurisdicciones-grid-wrap">
+                                <table class="jurisdicciones-grid">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:90px">Cód. Prov.</th>
+                                            <th>Descripción provincia</th>
+                                            <th style="width:130px">Clasif. SIFERE</th>
+                                            <th style="width:60px;text-align:center">Sede</th>
+                                            <th style="width:110px">Coef. unificado</th>
+                                            <th style="width:40px"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let row of impuestosData.jurisdicciones; let i = index"
+                                            [class.sede-row]="row.sede">
+                                            <td>
+                                                <input type="text" class="zen-input grid-input"
+                                                       [(ngModel)]="row.codigoProvincia"
+                                                       maxlength="3" placeholder="901">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="zen-input grid-input"
+                                                       [(ngModel)]="row.descripcionProvincia"
+                                                       placeholder="Buenos Aires">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="zen-input grid-input"
+                                                       [(ngModel)]="row.clasificacionSifere"
+                                                       placeholder="—">
+                                            </td>
+                                            <td style="text-align:center">
+                                                <label class="sede-toggle">
+                                                    <input type="checkbox"
+                                                           [checked]="row.sede"
+                                                           (change)="onSedeChange(i)">
+                                                    <span class="sede-checkmark"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="zen-input grid-input text-right"
+                                                       [(ngModel)]="row.coeficienteUnificado"
+                                                       placeholder="0,0000">
+                                            </td>
+                                            <td>
+                                                <button class="btn-grid-del"
+                                                        (click)="eliminarJurisdiccion(i)"
+                                                        title="Eliminar fila">✕</button>
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="impuestosData.jurisdicciones.length === 0">
+                                            <td colspan="6" class="grid-empty">
+                                                Sin jurisdicciones cargadas — hacé clic en «＋ Agregar fila»
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                        <!-- Barra inferior Continuar para Impuestos -->
+                        <div class="bottom-action-bar" *ngIf="activeView === 'prov-impuestos'">
+                            <button class="btn-continuar" (click)="continuarImpuestos()">Continuar ▶</button>
+                        </div>
+
                         <!-- Resto de subramas: vacías por ahora -->
-                        <div class="tab-content" *ngIf="activeView !== 'prov-principal'">
+                        <div class="tab-content"
+                             *ngIf="activeView !== 'prov-principal' && activeView !== 'prov-impuestos'">
                             <div class="empty-state">
                                 <div class="icon">📋</div>
                                 <h3>{{ activeView.replace('prov-', '') | titlecase }}</h3>

@@ -4,6 +4,27 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ParametrosComprasService, ParametrosComprasData } from '../../../../core/services/parametros-compras.service';
 import { ProveedoresService, ProveedorData } from '../../../../core/services/proveedores.service';
+
+// ── Modelos Impuestos ─────────────────────────────────────────────────────────
+export interface JurisdiccionRow {
+  codigoProvincia: string;
+  descripcionProvincia: string;
+  clasificacionSifere: string;
+  sede: boolean;
+  coeficienteUnificado: string;
+}
+
+export interface ImpuestosData {
+  // IVA
+  codigoCategoriaIva: string;
+  descripcionCategoriaIva: string;
+  // IIBB
+  regimenIIBB: string;
+  nroIngresosBrutos: string;
+  fechaVigenciaCoeficientes: string;
+  // Jurisdicciones CM
+  jurisdicciones: JurisdiccionRow[];
+}
 interface MenuItem {
   id: string;
   label: string;
@@ -34,6 +55,76 @@ export class ParametrosCompras implements OnInit {
     fechaAlta: '', fechaInhabilitacion: ''
   };
   proveedorLoaded = false;
+
+  // ── Datos subrama Impuestos ───────────────────────────────────────────────
+  impuestosData: ImpuestosData = {
+    codigoCategoriaIva: 'RI',
+    descripcionCategoriaIva: 'Responsable Inscripto',
+    regimenIIBB: 'local',
+    nroIngresosBrutos: '',
+    fechaVigenciaCoeficientes: '',
+    jurisdicciones: []
+  };
+
+  readonly categoriaIvaOpciones = [
+    { codigo: 'RI', descripcion: 'Responsable Inscripto' },
+    { codigo: 'EX', descripcion: 'Exento' },
+    { codigo: 'CF', descripcion: 'Consumidor Final' },
+    { codigo: 'MT', descripcion: 'Monotributo' },
+    { codigo: 'NR', descripcion: 'No Responsable' },
+    { codigo: 'PE', descripcion: 'Proveedor del Exterior' }
+  ];
+
+  readonly regimenIIBBOpciones = [
+    { valor: 'local',         label: 'Local' },
+    { valor: 'cm',            label: 'Convenio Multilateral' },
+    { valor: 'no_liquida',    label: 'No liquida' },
+    { valor: 'simplificado',  label: 'Régimen Simplificado' }
+  ];
+
+  /** Actualiza la descripción de IVA al cambiar el código */
+  onCategoriaIvaChange() {
+    const found = this.categoriaIvaOpciones.find(
+      o => o.codigo === this.impuestosData.codigoCategoriaIva
+    );
+    this.impuestosData.descripcionCategoriaIva = found ? found.descripcion : '';
+  }
+
+  /** Agrega una fila vacía a la grilla de jurisdicciones */
+  agregarJurisdiccion() {
+    this.impuestosData.jurisdicciones.push({
+      codigoProvincia: '',
+      descripcionProvincia: '',
+      clasificacionSifere: '',
+      sede: false,
+      coeficienteUnificado: '0,0000'
+    });
+  }
+
+  /** Elimina una fila de la grilla */
+  eliminarJurisdiccion(index: number) {
+    this.impuestosData.jurisdicciones.splice(index, 1);
+  }
+
+  /** Solo una fila puede ser Sede = true */
+  onSedeChange(index: number) {
+    this.impuestosData.jurisdicciones.forEach((j, i) => {
+      j.sede = i === index;
+    });
+  }
+
+  /** Guarda impuestos en localStorage adjunto al proveedor actual */
+  guardarImpuestos() {
+    const key = 'prov_impuestos_' + this.currentProveedor.numeroProveedor;
+    localStorage.setItem(key, JSON.stringify(this.impuestosData));
+    alert('✅ Datos de Impuestos guardados correctamente.');
+  }
+
+  /** Continuar desde Impuestos → Resoluciones */
+  continuarImpuestos() {
+    this.guardarImpuestos();
+    this.activeView = 'prov-resoluciones';
+  }
 
   menuItems: MenuItem[] = [
     {
