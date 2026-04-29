@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-parametros-compras',
@@ -10,6 +11,8 @@ import { CommonModule } from '@angular/common';
 })
 export class ParametrosCompras {
   activeTab: string = 'principal';
+
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   tabs = [
     { id: 'principal', label: 'Principal' },
@@ -23,5 +26,15 @@ export class ParametrosCompras {
 
   selectTab(id: string) {
     this.activeTab = id;
+  }
+
+  close() {
+    this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
+  save() {
+    // Lógica de guardado futuro
+    alert('✅ Cambios guardados correctamente.');
+    this.close();
   }
 }
