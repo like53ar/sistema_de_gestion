@@ -540,16 +540,15 @@ export class ParametrosCompras implements OnInit {
               label: 'Proveedores',
               expanded: true,
               children: [
-                { id: 'prov-principal', label: 'Principal' },
-                { id: 'prov-impuestos', label: 'Impuestos' },
+                { id: 'prov-principal',    label: 'Principal' },
+                { id: 'prov-impuestos',    label: 'Impuestos' },
                 { id: 'prov-resoluciones', label: 'Resoluciones' },
                 { id: 'prov-comprobantes', label: 'Comprobantes' },
-                { id: 'prov-pagos', label: 'Pagos' },
-                { id: 'prov-articulos', label: 'Artículos/Conceptos' },
-                { id: 'prov-contactos', label: 'Contactos' },
-                { id: 'prov-clasificacion', label: 'Clasificación' },
-                { id: 'prov-sucursales', label: 'Sucursales' },
-                { id: 'prov-observaciones', label: 'Observaciones' }
+                { id: 'prov-pagos',        label: 'Pagos' },
+                { id: 'prov-articulos',    label: 'Artículos/Conceptos' },
+                { id: 'prov-contactos',    label: 'Contactos' },
+                { id: 'prov-clasificacion',label: 'Clasificación' },
+                { id: 'prov-sucursales',   label: 'Sucursales' }
               ]
             },
             { id: 'clasificador-proveedores', label: 'Clasificador de Proveedores', children: [] },
