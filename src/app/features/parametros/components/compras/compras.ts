@@ -724,7 +724,6 @@ export class ParametrosCompras implements OnInit {
       tree: this.clasificacionTree
     }));
     alert('✅ Datos de Clasificación guardados correctamente.');
-    this.activeView = 'prov-sucursales';
   }
 
   menuItems: MenuItem[] = [
@@ -749,8 +748,7 @@ export class ParametrosCompras implements OnInit {
                 { id: 'prov-comprobantes', label: 'Comprobantes' },
                 { id: 'prov-pagos',        label: 'Pagos' },
                 { id: 'prov-articulos',    label: 'Artículos/Conceptos' },
-                { id: 'prov-clasificacion',label: 'Clasificación' },
-                { id: 'prov-sucursales',   label: 'Sucursales' }
+                { id: 'prov-clasificacion',label: 'Clasificación' }
               ]
             },
             { id: 'clasificador-proveedores', label: 'Clasificador de Proveedores', children: [] },
