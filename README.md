@@ -19,10 +19,13 @@ El sistema está organizado en módulos funcionales independientes que cubren la
   - *Principal*: Configuración exhaustiva de Comprobantes (Fechas límite de ingreso/reversión, reglas de control futuras, cotización, auditorías automáticas de lote) y opciones integradas de hardware para Cheques (uso de lectora y búsquedas algorítmicas o manuales).
   - *Administración de Tarjetas*: Modelado integral para cupones manuales/automatizados, conectividad de dispositivos (lector de banda/NFC), liquidaciones secuenciales con bases de retención configurables de IIBB, y opciones para manejo avanzado de Terminales POS y control de lotes.
   - *Clasificación de Comprobantes*: Motor global que fuerza al usuario a tipificar Cobros, Pagos, Depósitos y Rechazos mediante jerarquías preestablecidas, garantizando un orden estructurado para análisis financiero.
-- **📑 Contabilidad**: Registro de plan de cuentas jerárquico, asientos contables, libro mayor, balances y estados de resultados. Los **Parámetros de Contabilidad** están regidos por un sistema de cuadros modales avanzados:
-  - *Principal*: Gestiona automatizaciones fundamentales divididas en 4 grandes grupos: Cuentas (Asignación automática basada en jerarquía principal "PLANCTAS"), Asientos (Control de días hábiles, agrupación en asientos resumen, edición de apropiaciones sin anular el asiento original y apertura a nivel auxiliar), Cierre de Ejercicio (Pasaje automático a cuentas de resultado y control de consistencia de asientos pendientes), y Leyendas aduaneras/reportes impresos para los libros diarios.
-  - *Cuentas para procesos automáticos* (En Desarrollo).
-  - *Tipo de Asientos para procesos automáticos* (En Desarrollo).
+- **📑 Contabilidad**: 
+  - **Plan de Cuentas Jerárquico**: Implementación de un árbol jerárquico multicapa nativo y completo (Activo, Pasivo, Patrimonio Neto, Resultados), procesado dinámicamente sobre una **Grilla de Datos estilo ZEN**. Cuenta con indicadores visuales de propiedades (*Imputable*, *Ajusta por Inflación*, *Centro de Costo*) y opciones integradas de Expansión/Contracción y Exportación.
+  - **Registro de Asientos**: Interfaz optimizada con **Sub-menú Flotante (Popup Contextual)**, diseñado para no ensuciar la pantalla y mantener el enfoque en la operación. Incluye secciones en construcción para Asientos manuales, extracontables, masivos y de reasignación.
+  - **Parámetros de Contabilidad**: Regidos por un sistema de cuadros modales avanzados (*Zen Tabs*):
+    - *Principal*: Gestiona automatizaciones fundamentales: Cuentas (Criterio de asignación jerárquica), Asientos (Control de días hábiles, resúmenes, edición de apropiaciones auxiliares), Cierre de Ejercicio (Pasaje automático) y Reportes.
+    - *Cuentas para procesos automáticos* (Estructura preparada).
+    - *Tipo de Asientos para procesos automáticos* (Estructura preparada).
 - **📦 Inventario**: Gestión integral de artículos, control de stock min/max y tracking de movimientos. (Módulo en Construcción).
 - **👥 Sueldos**: Administración de recursos humanos, control de legajos y liquidación de haberes. (Módulo en Construcción).
 
