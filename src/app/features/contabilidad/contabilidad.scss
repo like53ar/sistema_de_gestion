@@ -1,3 +1,23 @@
+.contabilidad-layout {
+    display: flex;
+    gap: 20px;
+    height: calc(100vh - 100px); /* Adjust based on global header */
+    width: 100%;
+}
+
+.contabilidad-sidebar {
+    width: 300px;
+    flex-shrink: 0;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.contabilidad-content {
+    flex: 1;
+    overflow-y: auto;
+    height: 100%;
+}
+
 /* Submenu Styles */
 .submenu-section {
     margin-top: 24px;
