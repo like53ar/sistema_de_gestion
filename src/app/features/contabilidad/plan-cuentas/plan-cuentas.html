@@ -10,8 +10,9 @@
         </div>
 
         <div class="modal-content" style="background-color: transparent;">
-            <div class="header-actions">
-                <div class="utilidades">
+            <div class="header-actions" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <button class="zen-btn secondary" (click)="closeWindow.emit()">⬅ Volver</button>
+                <div class="utilidades" style="display: flex; gap: 8px;">
                     <button class="zen-btn secondary" (click)="expandAll()">🌳 Expandir Todo</button>
                     <button class="zen-btn secondary" (click)="collapseAll()">🌳 Contraer Todo</button>
                     <button class="zen-btn secondary" (click)="exportPlan()">⚙️ Exportar CSV</button>
