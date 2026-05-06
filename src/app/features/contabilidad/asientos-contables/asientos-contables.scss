@@ -1,0 +1,19 @@
+.lateral-menu {
+    background-color: rgba(255, 255, 255, 0.01);
+    
+    li {
+        color: #8892b0;
+        
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+            color: #ccd6f6;
+        }
+
+        &.active {
+            color: var(--accent);
+            border-left-color: var(--accent) !important;
+            background-color: rgba(100, 255, 218, 0.05);
+            font-weight: 500;
+        }
+    }
+}
