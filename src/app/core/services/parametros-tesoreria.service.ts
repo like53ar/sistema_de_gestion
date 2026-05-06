@@ -30,6 +30,18 @@ export interface ParametrosTesoreriaData {
   terminalPOS: string;
   numeracionLotePOS: string;
   numeracionCuponPOS: string;
+
+  // Clasificación de Comprobantes
+  utilizaClasificacion: boolean;
+  leyendaClasificacion: string;
+  codigoClasificacion: string;
+  descripcionClasificacion: string;
+  
+  clasificaCobros: boolean;
+  clasificaPagos: boolean;
+  clasificaDepositos: boolean;
+  clasificaOtrosMovimientos: boolean;
+  clasificaRechazosCheques: boolean;
 }
 
 @Injectable({
@@ -68,7 +80,19 @@ export class ParametrosTesoreriaService {
     // Tarjetas - POS
     terminalPOS: 'edita',
     numeracionLotePOS: 'edita',
-    numeracionCuponPOS: 'edita'
+    numeracionCuponPOS: 'edita',
+
+    // Clasificación de Comprobantes
+    utilizaClasificacion: false,
+    leyendaClasificacion: 'Centro de costos',
+    codigoClasificacion: '03',
+    descripcionClasificacion: 'Tesorería',
+    
+    clasificaCobros: false,
+    clasificaPagos: false,
+    clasificaDepositos: false,
+    clasificaOtrosMovimientos: false,
+    clasificaRechazosCheques: false
   };
 
   getParametros(): ParametrosTesoreriaData {

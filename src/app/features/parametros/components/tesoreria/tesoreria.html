@@ -233,7 +233,73 @@
 
                 <!-- Tab: Clasificación de Comprobantes -->
                 <div *ngIf="activeTab === 'clasificacion'" class="tab-pane fade-in">
-                    <!-- Aquí irá el contenido de Clasificación -->
+                    <div class="form-grid">
+                        
+                        <!-- Sección: Configuración General -->
+                        <div class="form-section">
+                            <div class="section-title">Configuración General</div>
+
+                            <div class="checkbox-group">
+                                <label class="zen-checkbox-label" title="Habilita o deshabilita de forma global la funcionalidad de categorizar los movimientos.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.utilizaClasificacion">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Utiliza clasificación</span>
+                                </label>
+                            </div>
+
+                            <div class="form-group mt-15">
+                                <label title="Define el nombre o etiqueta que el usuario verá en la interfaz al momento de imputar un movimiento.">Leyenda para clasificación:</label>
+                                <input type="text" class="zen-input" [(ngModel)]="config.leyendaClasificacion" [disabled]="!config.utilizaClasificacion">
+                            </div>
+
+                            <div class="form-group mt-15">
+                                <label title="Vincula la operación con un registro preexistente en la base de datos de tipos de clasificación.">Código de clasificación de comprobantes:</label>
+                                <div class="form-row-multi">
+                                    <input type="text" class="zen-input flex-1" [(ngModel)]="config.codigoClasificacion" [disabled]="!config.utilizaClasificacion">
+                                    <input type="text" class="zen-input flex-2 bg-dark" [(ngModel)]="config.descripcionClasificacion" readonly title="Muestra el nombre asociado al código elegido.">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sección: Tipos de Operaciones listadas -->
+                        <div class="form-section">
+                            <div class="section-title">Tipos de Operaciones Listadas</div>
+                            <p class="section-description" style="color: #8b92a5; font-size: 0.85rem; margin-bottom: 10px;">Seleccione qué tipos de operación específica requieren ser clasificados.</p>
+
+                            <div class="checkbox-group">
+                                <label class="zen-checkbox-label" title="Ingresos de dinero de clientes o deudores.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.clasificaCobros" [disabled]="!config.utilizaClasificacion">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Cobros</span>
+                                </label>
+                                
+                                <label class="zen-checkbox-label mt-10" title="Salidas de dinero para proveedores o acreedores.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.clasificaPagos" [disabled]="!config.utilizaClasificacion">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Pagos</span>
+                                </label>
+                                
+                                <label class="zen-checkbox-label mt-10" title="Movimientos de efectivo o cheques hacia cuentas bancarias.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.clasificaDepositos" [disabled]="!config.utilizaClasificacion">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Depósitos</span>
+                                </label>
+
+                                <label class="zen-checkbox-label mt-10" title="Ajustes bancarios, transferencias entre cuentas propias o movimientos internos.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.clasificaOtrosMovimientos" [disabled]="!config.utilizaClasificacion">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Otros movimientos de bancos y carteras</span>
+                                </label>
+
+                                <label class="zen-checkbox-label mt-10" title="Registro y clasificación de cheques emitidos por la empresa que no pudieron ser cobrados.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.clasificaRechazosCheques" [disabled]="!config.utilizaClasificacion">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Rechazos de cheques propios</span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
 
                 <!-- Tab: Parámetros por clase de Comprobantes -->
