@@ -1,0 +1,133 @@
+<div class="zen-modal-overlay fade-in" (click)="closeModal()">
+    <div class="zen-modal-container" (click)="$event.stopPropagation()">
+        
+        <div class="modal-header">
+            <div class="header-title">
+                <span class="icon">📊</span>
+                <h2>Parámetros de Contabilidad</h2>
+            </div>
+            <button class="btn-close" (click)="closeModal()">×</button>
+        </div>
+
+        <div class="modal-content">
+            <!-- Tabs Navigation -->
+            <div class="zen-tabs">
+                <div *ngFor="let tab of tabs" 
+                     class="tab-link" 
+                     [class.active]="activeTab === tab.id"
+                     (click)="selectTab(tab.id)">
+                    {{ tab.label }}
+                </div>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-body">
+                
+                <!-- Tab: Principal -->
+                <div *ngIf="activeTab === 'principal'" class="tab-pane fade-in">
+                    <div class="form-grid">
+                        
+                        <!-- Sección: Cuentas Contables -->
+                        <div class="form-section">
+                            <div class="section-title">Cuentas Contables</div>
+                            
+                            <div class="form-group">
+                                <label title="Define el criterio de creación automática de cuentas. Al seleccionar 'Asigna en jerarquía principal', el sistema vincula las nuevas cuentas directamente a la estructura raíz definida en el plan.">Asignación de cuentas en el alta:</label>
+                                <select class="zen-input" [(ngModel)]="config.asignacionCuentasAlta">
+                                    <option value="jerarquia_principal">Asigna en jerarquía principal</option>
+                                    <option value="manual">Manual</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group mt-15">
+                                <label title="Identificador técnico del árbol de cuentas. Es el molde estructural que determina niveles, capítulos y cuentas de movimiento.">Código de jerarquía principal:</label>
+                                <div class="form-row-multi">
+                                    <input type="text" class="zen-input flex-1" [(ngModel)]="config.codigoJerarquiaPrincipal">
+                                    <input type="text" class="zen-input flex-2 bg-dark" [(ngModel)]="config.descripcionJerarquia" readonly title="Nombre descriptivo de la jerarquía seleccionada para facilitar su identificación.">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sección: Asientos -->
+                        <div class="form-section">
+                            <div class="section-title">Asientos</div>
+                            
+                            <div class="checkbox-group">
+                                <label class="zen-checkbox-label" title="Validación de seguridad que impide registrar movimientos en fechas correspondientes a fines de semana o feriados configurados.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.controlaDiasHabiles">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Controla días hábiles en la carga de asientos</span>
+                                </label>
+                                
+                                <label class="zen-checkbox-label mt-10" title="Permite agrupar múltiples transacciones de un mismo tipo en un solo asiento contable para simplificar el libro diario.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.utilizaAsientosResumen">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Utiliza asientos resumen</span>
+                                </label>
+
+                                <label class="zen-checkbox-label mt-10" title="Habilita la posibilidad de modificar los centros de costo o dimensiones analíticas sin necesidad de anular y recrear el asiento completo.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.editaApropiacionesRegistrados">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Edita apropiaciones de asientos registrados</span>
+                                </label>
+
+                                <label class="zen-checkbox-label mt-10" title="Expande la vista del asiento para mostrar subcuentas o auxiliares específicos asociados a la cuenta principal.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.visualizaAuxiliaresDetalle">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Visualiza todos los auxiliares en el detalle de la cuenta del asiento</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Sección: Cierre y apertura -->
+                        <div class="form-section">
+                            <div class="section-title">Cierre y apertura</div>
+                            
+                            <div class="checkbox-group">
+                                <label class="zen-checkbox-label" title="Automatiza la transferencia del saldo de las cuentas de resultado hacia las cuentas de patrimonio neto al finalizar el ejercicio.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.generaAsientoPasajeResultados">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Genera asiento de pasaje a resultados acumulados</span>
+                                </label>
+                                
+                                <label class="zen-checkbox-label mt-10" title="Verifica que todos los asientos resumen o movimientos pendientes estén correctamente procesados antes de permitir el cierre definitivo del periodo.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.controlaResumenCierre">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Controla resumen en cierre</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Sección: Reportes -->
+                        <div class="form-section">
+                            <div class="section-title">Reportes</div>
+                            
+                            <div class="form-group">
+                                <label title="Campo de texto libre para definir un encabezado o pie de página personalizado que aparecerá en los libros contables o balances impresos.">Leyenda de impresión:</label>
+                                <input type="text" class="zen-input" [(ngModel)]="config.leyendaImpresion">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Tab: Cuentas para procesos automáticos -->
+                <div *ngIf="activeTab === 'cuentas'" class="tab-pane fade-in">
+                    <!-- Contenido vacío a la espera de instrucciones -->
+                </div>
+
+                <!-- Tab: Tipo de Asientos para procesos automáticos -->
+                <div *ngIf="activeTab === 'asientos'" class="tab-pane fade-in">
+                    <!-- Contenido vacío a la espera de instrucciones -->
+                </div>
+
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-zen-secondary" (click)="closeModal()">Cancelar</button>
+            <button class="btn-zen-primary" (click)="save()">Guardar Cambios</button>
+        </div>
+
+    </div>
+</div>
