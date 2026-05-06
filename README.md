@@ -15,10 +15,10 @@ El sistema está organizado en módulos funcionales independientes que cubren la
 - **⚙️ Parámetros Generales**: Padrón centralizado de datos maestros del sistema, incluyendo tablas oficiales de **Provincias**, **Países**, **Bancos**, **Monedas**, **Códigos de IVA**, **Tipos de Comprobantes** y **Tipos de Documento**. Además, incorpora validaciones dinámicas con formato inteligente para códigos alfanuméricos. Junto con esto, cuenta con la sección de **Parámetros de Módulos** (*Ventas, Compras, Tesorería, Contabilidad, Sueldos y Stock*). El módulo de **Compras** ha sido refactorizado integralmente hacia un sistema de **Ventana Emergente (Pop-up XL)** con navegación por solapas horizontales, permitiendo una configuración granular de impuestos, retenciones y controles sin perder el contexto de trabajo.
 - **📈 Ventas**: Gestión completa de facturación, clientes (con ID automático), informes exportables, productos, vendedores, listas de precios y zonas de distribución. Destaca por su configuración ultra-granular mediante pestañas y validaciones en tiempo real.
 - **🛒 Compras**: Control de órdenes de compra, registro de facturas y recepción de mercadería. **Gestión Avanzada de Proveedores** con un árbol de configuración multidimensional. El submódulo de **Archivos (Configuración)** ahora utiliza una interfaz de **Modales Premium (ZEN Design)** con sub-solapas para Comprobantes (Generales, Solicitudes, Órdenes, Pagos, Ajustes), validación algorítmica de CBU (BCRA), gestión de regímenes de retención (IVA/Ganancias/IIBB) y auditoría de cambios mediante un sistema centralizado de **Logs**.
-- **💰 Tesorería**: Administración de arqueo de caja, bancos, cobros y pagos, conciliaciones bancarias, flujo proyectado y movimientos en efectivo. Implementa navegación por árbol jerárquico para una gestión multinivel eficiente.
-- **📑 Contabilidad**: Registro de plan de cuentas jerárquico, asientos contables, libro mayor, balances y estados de resultados, organizados por periodos.
-- **📦 Inventario**: Gestión integral de artículos, control de stock min/max, tracking de movimientos, ajustes por merma/sobrante, valorización y alertas de reposición.
-- **👥 Sueldos**: Administración de recursos humanos con control de legajos, cálculo y liquidación de haberes, seguimiento de asistencias, obligaciones legales (Aportes/Retenciones) y su integración final al módulo contable.
+- **💰 Tesorería**: Administración de arqueo de caja, bancos, cobros y pagos, conciliaciones bancarias, flujo proyectado y movimientos en efectivo. Actualmente en proceso de **Rediseño Integral** hacia un sistema de solapas horizontales ZEN.
+- **📑 Contabilidad**: Registro de plan de cuentas jerárquico, asientos contables, libro mayor, balances y estados de resultados. (Módulo en Construcción).
+- **📦 Inventario**: Gestión integral de artículos, control de stock min/max y tracking de movimientos. (Módulo en Construcción).
+- **👥 Sueldos**: Administración de recursos humanos, control de legajos y liquidación de haberes. (Módulo en Construcción).
 
 ---
 
@@ -78,7 +78,7 @@ Para un inicio profesional y simplificado, el sistema cuenta con un motor de arr
 4. Usa el acceso directo apuntado a **`iniciar_silencioso.vbs`** en tu escritorio.
 
 > [!NOTE]
-> El arranque silencioso levanta un micro-servidor de producción en segundo plano matando cualquier otra instancia vieja e inicializa tu navegador velozmente hacia `http://localhost:4200` casi de inmediato y completamente sin consolas (modo "fantasma").
+> El arranque silencioso levanta un micro-servidor de producción en segundo plano matando cualquier otra instancia vieja e inicializa tu navegador velozmente hacia `http://localhost:4201` casi de inmediato y completamente sin consolas (modo "fantasma").
 
 ---
 
