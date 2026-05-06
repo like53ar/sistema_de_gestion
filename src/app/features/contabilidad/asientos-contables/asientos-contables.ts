@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-asientos-contables',
@@ -20,6 +21,14 @@ export class AsientosContables {
   ];
 
   activeTab = signal<string>('asientos_contables');
+
+  constructor(private route: ActivatedRoute) {
+    this.route.queryParams.subscribe(params => {
+      if (params['tab']) {
+        this.activeTab.set(params['tab']);
+      }
+    });
+  }
 
   selectTab(tabId: string) {
     this.activeTab.set(tabId);

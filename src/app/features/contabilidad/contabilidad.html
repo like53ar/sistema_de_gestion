@@ -1,6 +1,5 @@
-<div class="conta-layout-v3 fade-in">
-    <!-- Sidebar Menú -->
-    <div class="conta-sidebar-v3 card">
+<div class="container fade-in">
+    <div class="card" style="max-width: 600px; margin: 0 auto;">
         <h2>Módulo de Contabilidad</h2>
         <p style="color: var(--zen-text-secondary); margin-bottom: 20px;">Gestión de cuentas, asientos, mayores y reportes.</p>
 
@@ -8,7 +7,23 @@
             <h3>Gestión y Reportes</h3>
             <ul class="zen-list">
                 <li><a (click)="abrirPlanCuentas()" appTooltip="Estructura jerárquica de cuentas">Plan de cuentas jerárquico</a></li>
-                <li><a routerLink="asientos-contables" routerLinkActive="active" appTooltip="Registro de comprobantes y asientos">Registro de asientos contables</a></li>
+                
+                <li>
+                    <a (click)="toggleAsientosMenu()" appTooltip="Registro de comprobantes y asientos">Registro de asientos contables</a>
+                    
+                    <!-- Pequeño cuadro emergente (Popup) -->
+                    <div *ngIf="isAsientosMenuOpen" class="asientos-popup-menu fade-in" (click)="$event.stopPropagation()">
+                        <ul>
+                            <li><a routerLink="asientos-contables" [queryParams]="{tab: 'asientos_contables'}">Asientos contables</a></li>
+                            <li><a routerLink="asientos-contables" [queryParams]="{tab: 'asientos_extracontables'}">Asientos extracontables</a></li>
+                            <li><a routerLink="asientos-contables" [queryParams]="{tab: 'generacion_masiva'}">Generación masiva de asientos</a></li>
+                            <li><a routerLink="asientos-contables" [queryParams]="{tab: 'eliminacion_masiva'}">Eliminación masiva de asientos</a></li>
+                            <li><a routerLink="asientos-contables" [queryParams]="{tab: 'reasignacion'}">Reasignación de apropiaciones</a></li>
+                            <li><a routerLink="asientos-contables" [queryParams]="{tab: 'cambio_estado'}">Cambio de estado de asientos</a></li>
+                        </ul>
+                    </div>
+                </li>
+
                 <li><a routerLink="libro-mayor" routerLinkActive="active" appTooltip="Consulta del libro diario y mayor">Libro mayor</a></li>
                 <li><a routerLink="balance-general" routerLinkActive="active" appTooltip="Balance de sumas y saldos">Balance general</a></li>
                 <li><a routerLink="estado-resultados" routerLinkActive="active" appTooltip="Estado de resultados y reportes">Estado de resultados</a></li>
@@ -18,7 +33,7 @@
     </div>
 
     <!-- Área de Trabajo Principal -->
-    <div class="conta-content-v3">
+    <div style="margin-top: 20px;">
         <router-outlet></router-outlet>
     </div>
 </div>

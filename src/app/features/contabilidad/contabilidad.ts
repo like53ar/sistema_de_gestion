@@ -13,12 +13,18 @@ import { PlanCuentas } from './plan-cuentas/plan-cuentas';
 })
 export class Contabilidad {
   isPlanCuentasOpen = false;
+  isAsientosMenuOpen = false;
 
   abrirPlanCuentas() {
     this.isPlanCuentasOpen = true;
+    this.isAsientosMenuOpen = false;
   }
 
   cerrarPlanCuentas() {
     this.isPlanCuentasOpen = false;
+  }
+
+  toggleAsientosMenu() {
+    this.isAsientosMenuOpen = !this.isAsientosMenuOpen;
   }
 }
