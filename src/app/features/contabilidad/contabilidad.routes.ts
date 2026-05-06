@@ -6,7 +6,6 @@ export const CONTABILIDAD_ROUTES: Routes = [
         path: '',
         component: Contabilidad,
         children: [
-            { path: '', redirectTo: 'asientos-contables', pathMatch: 'full' },
             {
                 path: 'asientos-contables',
                 loadComponent: () => import('./asientos-contables/asientos-contables').then(m => m.AsientosContables),
