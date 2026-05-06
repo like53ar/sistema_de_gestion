@@ -18,8 +18,7 @@ export class ParametrosTesoreria implements OnInit {
   tabs = [
     { id: 'principal', label: 'Principal' },
     { id: 'tarjetas', label: 'Administración de Tarjetas' },
-    { id: 'clasificacion', label: 'Clasificación de Comprobantes' },
-    { id: 'clase_parametros', label: 'Parámetros por clase de Comprobantes' }
+    { id: 'clasificacion', label: 'Clasificación de Comprobantes' }
   ];
 
   constructor(
