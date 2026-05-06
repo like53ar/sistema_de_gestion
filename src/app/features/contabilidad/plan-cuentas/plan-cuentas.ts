@@ -83,10 +83,14 @@ export class PlanCuentas {
       id: '3', jerarquia: 1, codigo: '3', descripcion: 'Patrimonio Neto', imputable: false, ajustaInflacion: false, centroCosto: false, expanded: false, hijos: []
     },
     {
-      id: '4', jerarquia: 1, codigo: '4', descripcion: 'Resultados Positivos', imputable: false, ajustaInflacion: false, centroCosto: false, expanded: false, hijos: []
-    },
-    {
-      id: '5', jerarquia: 1, codigo: '5', descripcion: 'Resultados Negativos', imputable: false, ajustaInflacion: false, centroCosto: false, expanded: false, hijos: []
+      id: '4', jerarquia: 1, codigo: '4', descripcion: 'Resultados', imputable: false, ajustaInflacion: false, centroCosto: false, expanded: true, hijos: [
+        {
+          id: '4.1', jerarquia: 2, codigo: '4.1', descripcion: 'Resultados Positivos', imputable: false, ajustaInflacion: false, centroCosto: false, expanded: false, hijos: []
+        },
+        {
+          id: '4.2', jerarquia: 2, codigo: '4.2', descripcion: 'Resultados Negativos', imputable: false, ajustaInflacion: false, centroCosto: false, expanded: false, hijos: []
+        }
+      ]
     }
   ]);
 
