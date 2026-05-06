@@ -11,7 +11,7 @@ const path    = require('path');
 const fs      = require('fs');
 const process = require('process');
 
-const PORT      = 4200;
+const PORT      = 4201;
 const DIST_DIR  = path.join(__dirname, 'dist', 'sistema-de-gestion', 'browser');
 
 // ─── Tipos MIME básicos ────────────────────────────────────────────────────────

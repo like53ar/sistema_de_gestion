@@ -1,23 +1,252 @@
 <div class="zen-modal-overlay fade-in" (click)="closeModal()">
-    <div class="zen-modal-container sm" (click)="$event.stopPropagation()">
+    <div class="zen-modal-container" (click)="$event.stopPropagation()">
         
-        <div class="modal-header no-border">
+        <div class="modal-header">
+            <div class="header-title">
+                <span class="icon">💰</span>
+                <h2>Parámetros de Tesorería</h2>
+            </div>
             <button class="btn-close" (click)="closeModal()">×</button>
         </div>
 
-        <div class="modal-content centered-content">
-            <div class="construction-container">
-                <div class="construction-icon">🚧</div>
-                <h2>Módulo en Construcción</h2>
-                <p>Estamos trabajando en la definición de estos parámetros. Próximamente estarán disponibles con un diseño renovado.</p>
-                <div class="loading-dots">
-                    <span>.</span><span>.</span><span>.</span>
+        <div class="modal-content">
+            <!-- Tabs Navigation -->
+            <div class="zen-tabs">
+                <div *ngFor="let tab of tabs" 
+                     class="tab-link" 
+                     [class.active]="activeTab === tab.id"
+                     (click)="selectTab(tab.id)">
+                    {{ tab.label }}
                 </div>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-body">
+                
+                <!-- Tab: Principal -->
+                <div *ngIf="activeTab === 'principal'" class="tab-pane fade-in">
+                    <div class="form-grid">
+                        
+                        <!-- Sección: Comprobantes -->
+                        <div class="form-section">
+                            <div class="section-title">Comprobantes</div>
+                            
+                            <div class="form-group">
+                                <label>Fecha de cierre para el ingreso de comprobantes:</label>
+                                <input type="date" class="zen-input" [(ngModel)]="config.fechaCierreIngresoComprobantes">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Fecha de reversiones:</label>
+                                <select class="zen-input" [(ngModel)]="config.fechaReversiones">
+                                    <option value="misma_fecha">Misma fecha del comprobante</option>
+                                    <option value="fecha_actual">Fecha actual</option>
+                                    <option value="manual">Manual</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label title="Define la regla de validación cuando un usuario intenta ingresar una fecha posterior a la del día de hoy.">Control de fecha:</label>
+                                <select class="zen-input" [(ngModel)]="config.controlFecha">
+                                    <option value="confirma_futura">Confirma fecha futura</option>
+                                    <option value="bloquea_futura">Bloquear fecha futura</option>
+                                    <option value="no_controla">No controla</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label title="Controla cómo se comporta el tipo de cambio al registrar o editar un movimiento.">Cotización:</label>
+                                <select class="zen-input" [(ngModel)]="config.cotizacion">
+                                    <option value="actualiza_actual">Actualiza comprobante actual</option>
+                                    <option value="mantiene_original">Mantiene cotización original</option>
+                                </select>
+                            </div>
+
+                            <div class="checkbox-group mt-15">
+                                <label class="zen-checkbox-label" title="Habilita un campo alfanumérico opcional para etiquetar movimientos.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.ingresaCodigoOperacion">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Ingresa código de operación</span>
+                                </label>
+                                <label class="zen-checkbox-label mt-10" title="Habilita un campo alfanumérico opcional para vincular el comprobante.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.ingresaCodigoRelacion">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Ingresa código de relación</span>
+                                </label>
+                                <label class="zen-checkbox-label mt-10" title="Habilita un proceso automático de limpieza de los registros de log.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.depuraAuditoriaIngresosMasivos">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Depura auditoría de ingresos masivos de movimientos de Tesorería</span>
+                                </label>
+                            </div>
+
+                            <div class="form-group mt-15">
+                                <label title="Define el tiempo de vida (en meses) de los registros de auditoría.">Conserva auditoría de ingresos masivos de movimientos de Tesorería por (meses):</label>
+                                <input type="number" class="zen-input" [(ngModel)]="config.mesesConservaAuditoriaIngresosMasivos" [disabled]="!config.depuraAuditoriaIngresosMasivos">
+                            </div>
+                        </div>
+
+                        <!-- Sección: Cheques -->
+                        <div class="form-section">
+                            <div class="section-title">Cheques</div>
+                            
+                            <div class="form-group">
+                                <label title="Selector de configuración de hardware para banda magnética.">Utiliza lectora de cheques:</label>
+                                <select class="zen-input" [(ngModel)]="config.utilizaLectoraCheques">
+                                    <option [ngValue]="false">No utiliza lectora</option>
+                                    <option [ngValue]="true">Protocolo Estándar Genérico</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group mt-15">
+                                <label title="Define el criterio de indexación por defecto.">Busca cheques:</label>
+                                <select class="zen-input" [(ngModel)]="config.buscaCheques">
+                                    <option value="por_numero_interno">Por número interno</option>
+                                    <option value="por_numero_bancario">Por número bancario</option>
+                                    <option value="ambos">Ambos criterios</option>
+                                </select>
+                            </div>
+
+                            <div class="checkbox-group mt-15">
+                                <label class="zen-checkbox-label" title="Si se marca, permite que el usuario modifique el ID manual.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.editaNumeroInternoCheques">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Edita número interno de cheques</span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Tab: Administración de Tarjetas -->
+                <div *ngIf="activeTab === 'tarjetas'" class="tab-pane fade-in">
+                    <div class="form-grid">
+                        
+                        <!-- Sección: Administración de cupones -->
+                        <div class="form-section">
+                            <div class="section-title">Administración de cupones</div>
+                            
+                            <div class="form-group">
+                                <label title="Define si la generación de los cupones de tarjeta se realiza de forma manual por el usuario o mediante un proceso automatizado del sistema.">Modo de emisión de cupones:</label>
+                                <select class="zen-input" [(ngModel)]="config.modoEmisionCupones">
+                                    <option value="manual">Manual</option>
+                                    <option value="automatizado">Automatizado</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label title="Determina la situación inicial del cupón al ser registrado, lo que afecta su disponibilidad para futuras conciliaciones o depósitos.">Estado del cupón en su ingreso manual:</label>
+                                <select class="zen-input" [(ngModel)]="config.estadoCuponIngresoManual">
+                                    <option value="cartera">En Cartera</option>
+                                    <option value="depositado">Depositado</option>
+                                    <option value="conciliado">Conciliado</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label title="Indica si el sistema debe interactuar con un periférico físico para capturar los datos de la tarjeta de forma automática.">Utiliza lector de tarjetas:</label>
+                                <select class="zen-input" [(ngModel)]="config.utilizaLectorTarjetas">
+                                    <option value="no_utiliza">No utiliza</option>
+                                    <option value="lector_banda">Lector de banda magnética</option>
+                                    <option value="lector_chip">Lector de chip/NFC</option>
+                                </select>
+                            </div>
+
+                            <div class="checkbox-group mt-15">
+                                <label class="zen-checkbox-label" title="Habilita o bloquea la posibilidad de que el operador cambie el número de cuotas del plan de pago durante la carga del movimiento.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.permiteModificarCuotas">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Al ingresar un cupón permite modificar la cantidad de cuotas</span>
+                                </label>
+                                <label class="zen-checkbox-label mt-10" title="Activa la creación de documentos de respaldo en el sistema de forma desatendida cada vez que se opera con el módulo de cupones.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.generaComprobantesAutomaticosCupones">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Genera comprobantes automáticamente al realizar procesos de administración de cupones</span>
+                                </label>
+                            </div>
+
+                            <div class="form-group mt-15">
+                                <label title="Establece el comportamiento del sistema ante una anulación para mantener la integridad de la conciliación.">Al revertir movimientos generados por Conciliación de cupones:</label>
+                                <select class="zen-input" [(ngModel)]="config.reversionConciliacionCupones">
+                                    <option value="elimina_datos">Elimina datos del resumen</option>
+                                    <option value="mantiene_datos">Mantiene datos del resumen</option>
+                                    <option value="pregunta">Preguntar al usuario</option>
+                                </select>
+                            </div>
+
+                            <div class="checkbox-group mt-15">
+                                <label class="zen-checkbox-label" title="Define si el sistema debe asignar un número correlativo automático a cada proceso de conciliación o si el usuario debe ingresarlo manualmente.">
+                                    <input type="checkbox" class="zen-checkbox" [(ngModel)]="config.numeracionAutomaticaConciliacion">
+                                    <span class="zen-checkbox-custom"></span>
+                                    <span>Numeración automática de conciliación de cupones</span>
+                                </label>
+                            </div>
+
+                            <div class="form-group mt-15">
+                                <label title="Gestiona la secuencia numérica de las liquidaciones; permite configurar si el número es editable y visualizar el próximo valor a asignar.">Próximo número de liquidación / Número:</label>
+                                <input type="number" class="zen-input" [(ngModel)]="config.proximoNumeroLiquidacion">
+                            </div>
+
+                            <div class="form-group mt-15">
+                                <label title="Especifica sobre qué monto se aplicará el porcentaje de retención impositiva.">Base de cálculo de la retención de Ingresos Brutos:</label>
+                                <select class="zen-input" [(ngModel)]="config.baseCalculoRetencionIB">
+                                    <option value="neto_estimado">Neto estimado a cobrar</option>
+                                    <option value="total_bruto">Total bruto del cupón</option>
+                                    <option value="monto_fijo">Monto fijo configurado</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Sección: Datos para uso de POS de tarjetas no integrado / Carga manual -->
+                        <div class="form-section">
+                            <div class="section-title">Datos para uso de POS de tarjetas no integrado / Carga manual</div>
+                            
+                            <div class="form-group">
+                                <label title="Define el comportamiento del campo para identificar la terminal física donde se pasó la tarjeta.">Terminal POS:</label>
+                                <select class="zen-input" [(ngModel)]="config.terminalPOS">
+                                    <option value="edita">Edita (Permite ingreso manual)</option>
+                                    <option value="bloquea">Bloquea</option>
+                                    <option value="automatico">Automático por caja</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label title="Establece la gestión del número de lote proveniente del ticket del POS, permitiendo su edición para asegurar la trazabilidad.">Numeración del lote:</label>
+                                <select class="zen-input" [(ngModel)]="config.numeracionLotePOS">
+                                    <option value="edita">Edita</option>
+                                    <option value="automatico">Automático</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label title="Determina si el número específico de cupón impreso por el POS puede ser ingresado o modificado manualmente.">Numeración del cupón:</label>
+                                <select class="zen-input" [(ngModel)]="config.numeracionCuponPOS">
+                                    <option value="edita">Edita</option>
+                                    <option value="automatico">Automático</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Tab: Clasificación de Comprobantes -->
+                <div *ngIf="activeTab === 'clasificacion'" class="tab-pane fade-in">
+                    <!-- Aquí irá el contenido de Clasificación -->
+                </div>
+
+                <!-- Tab: Parámetros por clase de Comprobantes -->
+                <div *ngIf="activeTab === 'clase_parametros'" class="tab-pane fade-in">
+                    <!-- Aquí irá el contenido de Parámetros por Clase -->
+                </div>
+
             </div>
         </div>
 
-        <div class="modal-footer no-border">
-            <button class="btn-zen-secondary" (click)="closeModal()">Volver</button>
+        <div class="modal-footer">
+            <button class="btn-zen-secondary" (click)="closeModal()">Cancelar</button>
+            <button class="btn-zen-primary" (click)="save()">Guardar Cambios</button>
         </div>
 
     </div>
