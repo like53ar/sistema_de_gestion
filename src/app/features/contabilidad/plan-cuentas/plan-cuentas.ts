@@ -1,15 +1,16 @@
-import { Component, ChangeDetectionStrategy, signal, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, computed, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TooltipDirective } from '../../../shared/tooltip/tooltip.directive';
 
 export interface Cuenta {
   id: string;
-  codigo: string;
-  nombre: string;
-  tipo: 'Activo' | 'Pasivo' | 'Patrimonio' | 'Ingresos' | 'Egresos';
   jerarquia: number;
+  codigo: string;
+  descripcion: string;
   imputable: boolean;
+  ajustaInflacion: boolean;
+  centroCosto: boolean;
   expanded: boolean;
   hijos: Cuenta[];
 }
@@ -23,6 +24,8 @@ export interface Cuenta {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlanCuentas {
+  @Output() closeWindow = new EventEmitter<void>();
+
   // Estado local
   searchTerm = signal<string>('');
 
@@ -37,41 +40,53 @@ export class PlanCuentas {
   // Datos jerárquicos de ejemplo
   cuentasData = signal<Cuenta[]>([
     {
-      id: '1', codigo: '1', nombre: 'ACTIVO', tipo: 'Activo', jerarquia: 1, imputable: false, expanded: true, hijos: [
+      id: '1', jerarquia: 1, codigo: '1', descripcion: 'Activo', imputable: false, ajustaInflacion: false, centroCosto: false, expanded: true, hijos: [
         {
-          id: '1.1', codigo: '1.1', nombre: 'Activo Corriente', tipo: 'Activo', jerarquia: 2, imputable: false, expanded: true, hijos: [
+          id: '1.1', jerarquia: 2, codigo: '1.1', descripcion: 'Activo Corriente', imputable: false, ajustaInflacion: false, centroCosto: false, expanded: true, hijos: [
             {
-              id: '1.1.1', codigo: '1.1.1', nombre: 'Disponibilidades', tipo: 'Activo', jerarquia: 3, imputable: false, expanded: true, hijos: [
-                { id: '1.1.1.01', codigo: '1.1.1.01', nombre: 'Caja General', tipo: 'Activo', jerarquia: 4, imputable: true, expanded: false, hijos: [] },
-                { id: '1.1.1.02', codigo: '1.1.1.02', nombre: 'Fondo Fijo', tipo: 'Activo', jerarquia: 4, imputable: true, expanded: false, hijos: [] },
-                { id: '1.1.1.03', codigo: '1.1.1.03', nombre: 'Banco Nación Cta. Cte.', tipo: 'Activo', jerarquia: 4, imputable: true, expanded: false, hijos: [] }
+              id: '1.1.1', jerarquia: 3, codigo: '1.1.1', descripcion: 'Disponibilidades', imputable: false, ajustaInflacion: false, centroCosto: false, expanded: true, hijos: [
+                { id: '1.1.1.01', jerarquia: 4, codigo: '1.1.1.01', descripcion: 'Caja General', imputable: true, ajustaInflacion: false, centroCosto: true, expanded: false, hijos: [] },
+                { id: '1.1.1.02', jerarquia: 4, codigo: '1.1.1.02', descripcion: 'Fondo Fijo', imputable: true, ajustaInflacion: false, centroCosto: true, expanded: false, hijos: [] },
+                { id: '1.1.1.03', jerarquia: 4, codigo: '1.1.1.03', descripcion: 'Banco Nación Cta. Cte.', imputable: true, ajustaInflacion: false, centroCosto: true, expanded: false, hijos: [] }
               ]
             },
             {
-              id: '1.1.2', codigo: '1.1.2', nombre: 'Inversiones', tipo: 'Activo', jerarquia: 3, imputable: false, expanded: false, hijos: [
-                { id: '1.1.2.01', codigo: '1.1.2.01', nombre: 'Plazo Fijo Banco Nación', tipo: 'Activo', jerarquia: 4, imputable: true, expanded: false, hijos: [] }
+              id: '1.1.2', jerarquia: 3, codigo: '1.1.2', descripcion: 'Inversiones', imputable: false, ajustaInflacion: false, centroCosto: false, expanded: false, hijos: [
+                { id: '1.1.2.01', jerarquia: 4, codigo: '1.1.2.01', descripcion: 'Plazo Fijo Banco Nación', imputable: true, ajustaInflacion: true, centroCosto: true, expanded: false, hijos: [] }
+              ]
+            },
+            {
+              id: '1.1.3', jerarquia: 3, codigo: '1.1.3', descripcion: 'Bienes de Uso (Transferidos)', imputable: false, ajustaInflacion: false, centroCosto: false, expanded: false, hijos: [
+                { id: '1.1.3.01', jerarquia: 4, codigo: '1.1.3.01', descripcion: 'Bienes de Uso', imputable: true, ajustaInflacion: true, centroCosto: true, expanded: false, hijos: [] }
               ]
             }
           ]
         },
         {
-          id: '1.2', codigo: '1.2', nombre: 'Activo No Corriente', tipo: 'Activo', jerarquia: 2, imputable: false, expanded: false, hijos: [
-            { id: '1.2.1', codigo: '1.2.1', nombre: 'Bienes de Uso', tipo: 'Activo', jerarquia: 3, imputable: false, expanded: false, hijos: [] }
-          ]
+          id: '1.2', jerarquia: 2, codigo: '1.2', descripcion: 'Activo No Corriente', imputable: false, ajustaInflacion: false, centroCosto: false, expanded: false, hijos: []
         }
       ]
     },
     {
-      id: '2', codigo: '2', nombre: 'PASIVO', tipo: 'Pasivo', jerarquia: 1, imputable: false, expanded: false, hijos: []
+      id: '2', jerarquia: 1, codigo: '2', descripcion: 'Pasivo', imputable: false, ajustaInflacion: false, centroCosto: false, expanded: true, hijos: [
+        {
+          id: '2.1', jerarquia: 2, codigo: '2.1', descripcion: 'Pasivo Corriente', imputable: false, ajustaInflacion: false, centroCosto: false, expanded: true, hijos: [
+             { id: '2.1.1', jerarquia: 3, codigo: '2.1.1', descripcion: 'Proveedores', imputable: true, ajustaInflacion: false, centroCosto: true, expanded: false, hijos: [] }
+          ]
+        },
+        {
+          id: '2.2', jerarquia: 2, codigo: '2.2', descripcion: 'Pasivo No Corriente', imputable: false, ajustaInflacion: false, centroCosto: false, expanded: false, hijos: []
+        }
+      ]
     },
     {
-      id: '3', codigo: '3', nombre: 'PATRIMONIO NETO', tipo: 'Patrimonio', jerarquia: 1, imputable: false, expanded: false, hijos: []
+      id: '3', jerarquia: 1, codigo: '3', descripcion: 'Patrimonio Neto', imputable: false, ajustaInflacion: false, centroCosto: false, expanded: false, hijos: []
     },
     {
-      id: '4', codigo: '4', nombre: 'INGRESOS', tipo: 'Ingresos', jerarquia: 1, imputable: false, expanded: false, hijos: []
+      id: '4', jerarquia: 1, codigo: '4', descripcion: 'Resultados Positivos', imputable: false, ajustaInflacion: false, centroCosto: false, expanded: false, hijos: []
     },
     {
-      id: '5', codigo: '5', nombre: 'EGRESOS', tipo: 'Egresos', jerarquia: 1, imputable: false, expanded: false, hijos: []
+      id: '5', jerarquia: 1, codigo: '5', descripcion: 'Resultados Negativos', imputable: false, ajustaInflacion: false, centroCosto: false, expanded: false, hijos: []
     }
   ]);
 
@@ -105,7 +120,7 @@ export class PlanCuentas {
 
   private filterTree(nodes: Cuenta[], term: string): Cuenta[] {
     return nodes.filter(node => {
-      const matches = node.nombre.toLowerCase().includes(term) || node.codigo.includes(term);
+      const matches = node.descripcion.toLowerCase().includes(term) || node.codigo.includes(term);
       if (node.hijos && node.hijos.length > 0) {
         node.hijos = this.filterTree(node.hijos, term);
         // Si tiene hijos que coinciden, mantiene la carpeta abierta y visible
@@ -151,24 +166,23 @@ export class PlanCuentas {
     this.modalMode.set('create');
     this.selectedParentId.set(parentId);
 
-    // Determinar nivel y tipo según padre
+    // Determinar nivel según padre
     let newJerarquia = 1;
-    let newTipo: Cuenta['tipo'] = 'Activo';
 
     if (parentId) {
       const parent = this.findCuenta(this.cuentasData(), parentId);
       if (parent) {
         newJerarquia = parent.jerarquia + 1;
-        newTipo = parent.tipo;
       }
     }
 
     this.currentAccount.set({
       codigo: '',
-      nombre: '',
-      tipo: newTipo,
+      descripcion: '',
       jerarquia: newJerarquia,
       imputable: true,
+      ajustaInflacion: false,
+      centroCosto: false,
       expanded: false,
       hijos: []
     });
@@ -191,7 +205,7 @@ export class PlanCuentas {
   saveAccount() {
     const accountToSave = this.currentAccount() as Cuenta;
 
-    if (!accountToSave.codigo || !accountToSave.nombre) return;
+    if (!accountToSave.codigo || !accountToSave.descripcion) return;
 
     const data = [...this.cuentasData()];
 
@@ -204,7 +218,6 @@ export class PlanCuentas {
         const parent = this.findCuenta(data, parentId);
         if (parent) {
           accountToSave.jerarquia = parent.jerarquia + 1;
-          accountToSave.tipo = parent.tipo;
           if (!parent.hijos) parent.hijos = [];
           parent.hijos.push(accountToSave);
           parent.expanded = true;
@@ -218,9 +231,10 @@ export class PlanCuentas {
       const original = this.findCuenta(data, accountToSave.id);
       if (original) {
         original.codigo = accountToSave.codigo;
-        original.nombre = accountToSave.nombre;
-        original.tipo = accountToSave.tipo;
+        original.descripcion = accountToSave.descripcion;
         original.imputable = accountToSave.imputable;
+        original.ajustaInflacion = accountToSave.ajustaInflacion;
+        original.centroCosto = accountToSave.centroCosto;
         // No podemos cambiar el padre tan facilmente en este prototipo sin reorganizar el árbol, 
         // así que omitimos esa complejidad por ahora, o requeriría mover el nodo.
       }
@@ -279,13 +293,13 @@ export class PlanCuentas {
     // Stub para exportar a PDF o CSV
     const plan = this.flatCuentasPadre(); // o aplanado completo
     let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "Codigo,Nombre,Tipo,Imputable,Nivel\n";
+    csvContent += "Codigo,Descripcion,Imputable,AjustaInflacion,CentroCosto,Nivel\n";
 
     const all: Cuenta[] = [];
     this.flattenTree(this.cuentasData(), all, false);
 
     all.forEach(row => {
-      csvContent += `${row.codigo},${row.nombre},${row.tipo},${row.imputable ? 'Si' : 'No'},${row.jerarquia}\n`;
+      csvContent += `${row.codigo},${row.descripcion},${row.imputable ? 'Si' : 'No'},${row.ajustaInflacion ? 'Si' : 'No'},${row.centroCosto ? 'Si' : 'No'},${row.jerarquia}\n`;
     });
 
     const encodedUri = encodeURI(csvContent);

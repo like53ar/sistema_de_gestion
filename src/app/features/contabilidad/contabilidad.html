@@ -6,18 +6,17 @@
         <div class="submenu-section">
             <h3>Gestión y Reportes</h3>
             <ul class="zen-list">
-                <li><a routerLink="plan-cuentas" appTooltip="Estructura jerárquica de cuentas">Plan de cuentas
-                        jerárquico</a></li>
-                <li><a routerLink="asientos-contables" appTooltip="Registro de comprobantes y asientos">Registro de
-                        asientos contables</a></li>
+                <li><a (click)="abrirPlanCuentas()" appTooltip="Estructura jerárquica de cuentas">Plan de cuentas jerárquico</a></li>
+                <li><a routerLink="asientos-contables" appTooltip="Registro de comprobantes y asientos">Registro de asientos contables</a></li>
                 <li><a routerLink="libro-mayor" appTooltip="Consulta del libro diario y mayor">Libro mayor</a></li>
                 <li><a routerLink="balance-general" appTooltip="Balance de sumas y saldos">Balance general</a></li>
-                <li><a routerLink="estado-resultados" appTooltip="Estado de resultados y reportes">Estado de
-                        resultados</a></li>
-                <li><a routerLink="periodos-contables" appTooltip="Gestión del ejercicio económico">Períodos
-                        contables</a></li>
+                <li><a routerLink="estado-resultados" appTooltip="Estado de resultados y reportes">Estado de resultados</a></li>
+                <li><a routerLink="periodos-contables" appTooltip="Gestión del ejercicio económico">Períodos contables</a></li>
             </ul>
         </div>
     </div>
     <router-outlet></router-outlet>
 </div>
+
+<!-- Modal Overlay for Plan de Cuentas -->
+<app-plan-cuentas *ngIf="isPlanCuentasOpen" (closeModal)="cerrarPlanCuentas()"></app-plan-cuentas>

@@ -6,12 +6,7 @@ export const CONTABILIDAD_ROUTES: Routes = [
         path: '',
         component: Contabilidad,
         children: [
-            { path: '', redirectTo: 'plan-cuentas', pathMatch: 'full' },
-            {
-                path: 'plan-cuentas',
-                loadComponent: () => import('./plan-cuentas/plan-cuentas').then(m => m.PlanCuentas),
-                data: { breadcrumb: 'Plan de Cuentas' }
-            },
+            { path: '', redirectTo: 'asientos-contables', pathMatch: 'full' },
             {
                 path: 'asientos-contables',
                 loadComponent: () => import('./asientos-contables/asientos-contables').then(m => m.AsientosContables),
