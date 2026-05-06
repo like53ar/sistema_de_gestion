@@ -1,18 +1,18 @@
-.contabilidad-layout {
+.conta-layout-v3 {
     display: flex;
     gap: 20px;
     height: calc(100vh - 100px); /* Adjust based on global header */
     width: 100%;
 }
 
-.contabilidad-sidebar {
+.conta-sidebar-v3 {
     width: 300px;
     flex-shrink: 0;
     overflow-y: auto;
     height: 100%;
 }
 
-.contabilidad-content {
+.conta-content-v3 {
     flex: 1;
     overflow-y: auto;
     height: 100%;
